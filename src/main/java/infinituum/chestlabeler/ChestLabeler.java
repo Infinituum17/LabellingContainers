@@ -1,5 +1,6 @@
 package infinituum.chestlabeler;
 
+import infinituum.chestlabeler.commands.CommandRegistration;
 import net.fabricmc.api.ModInitializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,5 +15,7 @@ public class ChestLabeler implements ModInitializer {
 	@Override
 	public void onInitialize() {
 		LOGGER.info("Initializing...");
+
+		CommandRegistration.init();
 	}
 }
