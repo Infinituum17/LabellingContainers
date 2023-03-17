@@ -20,17 +20,10 @@
 		],
 		"client": [
 			"infinituum.chestlabeler.ChestLabelerClient"
-		],
-		"fabric-datagen": [
-			"infinituum.chestlabeler.ExampleModDataGenerator"
 		]
 	},
 	"mixins": [
-		"chestlabeler.mixins.json",
-		{
-			"config": "chestlabeler.client.mixins.json",
-			"environment": "client"
-		}
+		"chestlabeler.mixins.json"
 	],
 	"depends": {
 		"fabricloader": ">=0.14.17",
