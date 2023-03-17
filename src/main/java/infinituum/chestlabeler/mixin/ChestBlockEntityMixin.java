@@ -7,6 +7,8 @@ import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.block.entity.ChestBlockEntity;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.listener.ClientPlayPacketListener;
 import net.minecraft.network.packet.Packet;
@@ -21,8 +23,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @SuppressWarnings("")
 @Mixin(ChestBlockEntity.class)
-public class ChestBlockEntityMixin extends BlockEntity implements Labelable {
+public abstract class ChestBlockEntityMixin extends BlockEntity implements Labelable {
     private Text label = Text.literal("Chest");
+    private Item displayItem = Items.CHEST;
 
     public ChestBlockEntityMixin(BlockEntityType<?> type, BlockPos pos, BlockState state) {
         super(type, pos, state);
@@ -38,14 +41,14 @@ public class ChestBlockEntityMixin extends BlockEntity implements Labelable {
         return ((ChestBlockEntity)(Object)this).createNbt();
     }
 
-    @Nullable @Override
-    public Item getLabelDisplayItem() {
-        return null;
-    }
-
     @Override
-    public Text getLabel() {
-        return label;
+    public void setLabelDisplayItem(Item item) {
+        BlockState oldState = this.getCachedState();
+
+        displayItem = item;
+        ((ChestBlockEntity)(Object)this).markDirty();
+
+        if(world != null) world.updateListeners(this.pos, oldState, this.getCachedState(), Block.NOTIFY_LISTENERS);
     }
 
     @Override
@@ -58,13 +61,33 @@ public class ChestBlockEntityMixin extends BlockEntity implements Labelable {
         if(world != null) world.updateListeners(this.pos, oldState, this.getCachedState(), Block.NOTIFY_LISTENERS);
     }
 
+    @Nullable @Override
+    public Item getLabelDisplayItem() {
+        return displayItem;
+    }
+
+    @Override
+    public Text getLabel() {
+        return label;
+    }
+
     @Inject(method = "writeNbt", at = @At("TAIL"))
     public void writeNbtMixin(NbtCompound nbt, CallbackInfo ci) {
         nbt.putString("label", label.getString());
+        NbtCompound displayItemNbt = new NbtCompound();
+
+        new ItemStack(displayItem).writeNbt(displayItemNbt);
+
+        if(displayItem != null) {
+            nbt.put("displayItem", displayItemNbt);
+        }
     }
 
     @Inject(method = "readNbt", at = @At("TAIL"))
     public void readNbtMixin(NbtCompound nbt, CallbackInfo ci) {
         this.label = Text.of(nbt.getString("label"));
+        if(nbt.contains("displayItem")) {
+            this.displayItem = ItemStack.fromNbt(nbt.getCompound("displayItem")).getItem();
+        }
     }
 }
