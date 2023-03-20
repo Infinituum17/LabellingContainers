@@ -1,6 +1,6 @@
-package infinituum.chestlabeler.huds;
+package infinituum.chesttagger.huds;
 
-import infinituum.chestlabeler.utils.Labelable;
+import infinituum.chesttagger.utils.Taggable;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.client.MinecraftClient;
@@ -12,7 +12,7 @@ import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.BlockPos;
 
-public class LabelableHudOverlay implements HudRenderCallback {
+public class HudInfoDisplay implements HudRenderCallback {
     @Override
     public void onHudRender(MatrixStack matrixStack, float tickDelta) {
         MinecraftClient client = MinecraftClient.getInstance();
@@ -28,8 +28,8 @@ public class LabelableHudOverlay implements HudRenderCallback {
         BlockEntity blockEntity = client.world.getBlockEntity(blockPos);
         if(blockEntity == null) return;
 
-        if(blockEntity instanceof Labelable labelable) {
-            Item displayItem = (labelable.getLabelDisplayItem() != null) ? labelable.getLabelDisplayItem() : client.world.getBlockState(blockPos).getBlock().asItem();
+        if(blockEntity instanceof Taggable labelable) {
+            Item displayItem = (labelable.getDisplayItem() != null) ? labelable.getDisplayItem() : client.world.getBlockState(blockPos).getBlock().asItem();
 
             int width = client.getWindow().getScaledWidth();
             int height = client.getWindow().getScaledHeight();

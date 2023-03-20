@@ -1,13 +1,13 @@
-package infinituum.chestlabeler.commands;
+package infinituum.chesttagger.commands;
 
-import infinituum.chestlabeler.utils.Labelable;
+import infinituum.chesttagger.utils.Taggable;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.command.argument.ItemStackArgumentType;
 import net.minecraft.command.argument.MessageArgumentType;
 import net.minecraft.command.argument.Vec3ArgumentType;
 import net.minecraft.item.Item;
-import net.minecraft.text.Text;
+import net.minecraft.text.MutableText;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -22,13 +22,13 @@ public class CommandRegistration {
                             .then(literal("label")
                                     .then(argument("label", MessageArgumentType.message()).executes(context -> {
                                         BlockPos pos = Vec3ArgumentType.getPosArgument(context, "location").toAbsoluteBlockPos(context.getSource());
-                                        Text label = MessageArgumentType.getMessage(context, "label");
+                                        MutableText label = MessageArgumentType.getMessage(context, "label").copy();
 
                                         World world = context.getSource().getWorld();
 
                                         BlockEntity be = world.getBlockEntity(pos);
 
-                                        if (be instanceof Labelable labelable) {
+                                        if (be instanceof Taggable labelable) {
                                             labelable.setLabel(label);
                                         }
 
@@ -49,8 +49,8 @@ public class CommandRegistration {
 
                                         BlockEntity be = world.getBlockEntity(pos);
 
-                                        if (be instanceof Labelable labelable) {
-                                            labelable.setLabelDisplayItem(item);
+                                        if (be instanceof Taggable labelable) {
+                                            labelable.setDisplayItem(item);
                                         }
 
                                         return 1;

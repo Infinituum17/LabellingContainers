@@ -1,11 +1,13 @@
-package infinituum.chestlabeler.mixin;
+package infinituum.chesttagger.mixin;
 
-import infinituum.chestlabeler.utils.Labelable;
+import infinituum.chesttagger.utils.TaggableChest;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.ChestBlock;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.block.entity.ChestBlockEntity;
+import net.minecraft.block.enums.ChestType;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -13,8 +15,10 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.listener.ClientPlayPacketListener;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
+import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -23,8 +27,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @SuppressWarnings("")
 @Mixin(ChestBlockEntity.class)
-public abstract class ChestBlockEntityMixin extends BlockEntity implements Labelable {
-    private Text label = Text.literal("Chest");
+public abstract class ChestBlockEntityMixin extends BlockEntity implements TaggableChest {
+    private MutableText label = Text.literal("Chest");
     private Item displayItem = Items.CHEST;
 
     public ChestBlockEntityMixin(BlockEntityType<?> type, BlockPos pos, BlockState state) {
@@ -41,33 +45,79 @@ public abstract class ChestBlockEntityMixin extends BlockEntity implements Label
         return ((ChestBlockEntity)(Object)this).createNbt();
     }
 
+    private void notifyClients(BlockState oldState) {
+        ((ChestBlockEntity)(Object)this).markDirty();
+        if(world != null) world.updateListeners(this.pos, oldState, this.getCachedState(), Block.NOTIFY_LISTENERS);
+    }
+
     @Override
-    public void setLabelDisplayItem(Item item) {
+    public void setDisplayItem(Item item) {
+        setDisplayItem(item, true);
+    }
+
+    @Override
+    public void setDisplayItem(Item item, boolean searchDoubleChest) {
         BlockState oldState = this.getCachedState();
 
         displayItem = item;
-        ((ChestBlockEntity)(Object)this).markDirty();
+        if(searchDoubleChest) {
+            TaggableChest otherChest = getDoubleChest();
 
-        if(world != null) world.updateListeners(this.pos, oldState, this.getCachedState(), Block.NOTIFY_LISTENERS);
+            if (otherChest != null) {
+                otherChest.setDisplayItem(item, false);
+            }
+        }
+
+        notifyClients(oldState);
     }
 
     @Override
-    public void setLabel(Text newLabel) {
+    public void setLabel(MutableText newLabel) {
+        setLabel(newLabel, true);
+    }
+
+    @Override
+    public void setLabel(MutableText newLabel, boolean searchDoubleChest) {
         BlockState oldState = this.getCachedState();
 
         label = newLabel;
-        ((ChestBlockEntity)(Object)this).markDirty();
+        if(searchDoubleChest) {
+            TaggableChest otherChest = getDoubleChest();
 
-        if(world != null) world.updateListeners(this.pos, oldState, this.getCachedState(), Block.NOTIFY_LISTENERS);
+            if (otherChest != null) {
+                otherChest.setLabel(newLabel, false);
+            }
+        }
+
+        notifyClients(oldState);
+    }
+
+    private TaggableChest getDoubleChest() {
+        if(world == null) return null;
+
+        BlockState state = ((ChestBlockEntity)(Object)this).getCachedState();
+
+        ChestType chestType = state.get(ChestBlock.CHEST_TYPE);
+
+        if(chestType == ChestType.SINGLE) return null;
+
+        Direction facingDirection = state.get(ChestBlock.FACING);
+        BlockPos neighbourPosition = pos.offset(chestType == ChestType.LEFT ? facingDirection.rotateYClockwise() : facingDirection.rotateYCounterclockwise());
+
+        if(world.getBlockEntity(neighbourPosition) instanceof TaggableChest taggable) {
+            return taggable;
+        }
+
+        return null;
     }
 
     @Nullable @Override
-    public Item getLabelDisplayItem() {
+    public Item getDisplayItem() {
         return displayItem;
     }
 
     @Override
-    public Text getLabel() {
+    public MutableText getLabel() {
         return label;
     }
 
@@ -85,7 +135,7 @@ public abstract class ChestBlockEntityMixin extends BlockEntity implements Label
 
     @Inject(method = "readNbt", at = @At("TAIL"))
     public void readNbtMixin(NbtCompound nbt, CallbackInfo ci) {
-        this.label = Text.of(nbt.getString("label"));
+        this.label = Text.of(nbt.getString("label")).copy();
         if(nbt.contains("displayItem")) {
             this.displayItem = ItemStack.fromNbt(nbt.getCompound("displayItem")).getItem();
         }
