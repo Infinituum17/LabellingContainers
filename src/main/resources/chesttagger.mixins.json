@@ -3,7 +3,8 @@
 	"package": "infinituum.chesttagger.mixin",
 	"compatibilityLevel": "JAVA_17",
 	"mixins": [
-		"ChestBlockEntityMixin"
+		"ChestBlockEntityMixin",
+		"ChestBlockMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

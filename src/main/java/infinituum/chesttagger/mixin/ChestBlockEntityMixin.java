@@ -1,13 +1,12 @@
 package infinituum.chesttagger.mixin;
 
+import infinituum.chesttagger.utils.ChestHelper;
 import infinituum.chesttagger.utils.TaggableChest;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.ChestBlock;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.block.entity.ChestBlockEntity;
-import net.minecraft.block.enums.ChestType;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -18,14 +17,12 @@ import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-@SuppressWarnings("")
 @Mixin(ChestBlockEntity.class)
 public abstract class ChestBlockEntityMixin extends BlockEntity implements TaggableChest {
     private MutableText label = Text.literal("Chest");
@@ -61,7 +58,7 @@ public abstract class ChestBlockEntityMixin extends BlockEntity implements Tagga
 
         displayItem = item;
         if(searchDoubleChest) {
-            TaggableChest otherChest = getDoubleChest();
+            TaggableChest otherChest = (TaggableChest) ChestHelper.getConnectedChestBlockEntity(world, pos, ((ChestBlockEntity)(Object)this).getCachedState());
 
             if (otherChest != null) {
                 otherChest.setDisplayItem(item, false);
@@ -82,7 +79,7 @@ public abstract class ChestBlockEntityMixin extends BlockEntity implements Tagga
 
         label = newLabel;
         if(searchDoubleChest) {
-            TaggableChest otherChest = getDoubleChest();
+            TaggableChest otherChest = (TaggableChest) ChestHelper.getConnectedChestBlockEntity(world, pos, ((ChestBlockEntity)(Object)this).getCachedState());
 
             if (otherChest != null) {
                 otherChest.setLabel(newLabel, false);
@@ -92,24 +89,7 @@ public abstract class ChestBlockEntityMixin extends BlockEntity implements Tagga
         notifyClients(oldState);
     }
 
-    private TaggableChest getDoubleChest() {
-        if(world == null) return null;
 
-        BlockState state = ((ChestBlockEntity)(Object)this).getCachedState();
-
-        ChestType chestType = state.get(ChestBlock.CHEST_TYPE);
-
-        if(chestType == ChestType.SINGLE) return null;
-
-        Direction facingDirection = state.get(ChestBlock.FACING);
-        BlockPos neighbourPosition = pos.offset(chestType == ChestType.LEFT ? facingDirection.rotateYClockwise() : facingDirection.rotateYCounterclockwise());
-
-        if(world.getBlockEntity(neighbourPosition) instanceof TaggableChest taggable) {
-            return taggable;
-        }
-
-        return null;
-    }
 
     @Nullable @Override
     public Item getDisplayItem() {
