@@ -68,7 +68,7 @@ public class LabellingMachineScreenHandler extends ScreenHandler {
         switch (actionType) {
             case PICKUP, PICKUP_ALL -> {
                 if(!inPlayerInventory) {
-                    this.setStackInSlot(slotIndex, this.nextRevision(), (this.getCursorStack() != ItemStack.EMPTY) ? this.getCursorStack().copyWithCount(1) : ItemStack.EMPTY);
+                    this.setStackInSlot(slotIndex, this.nextRevision(), (this.getCursorStack() != ItemStack.EMPTY) ? new ItemStack(this.getCursorStack().getItem()) : ItemStack.EMPTY);
                 } else {
                     if(slot.hasStack() && slot.getStack().isOf(ItemRegistration.LABELLING_MACHINE)) {
                         return;
@@ -79,7 +79,7 @@ public class LabellingMachineScreenHandler extends ScreenHandler {
                 if(!inPlayerInventory) {
                     this.setStackInSlot(slotIndex, this.nextRevision(), ItemStack.EMPTY);
                 } else {
-                    if(slot.hasStack()) this.setStackInSlot(0, this.nextRevision(), slot.getStack().copyWithCount(1));
+                    if(slot.hasStack()) this.setStackInSlot(0, this.nextRevision(), new ItemStack(slot.getStack().getItem()));
                 }
             }
         }
