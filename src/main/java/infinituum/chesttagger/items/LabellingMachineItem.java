@@ -2,9 +2,6 @@ package infinituum.chesttagger.items;
 
 import infinituum.chesttagger.screens.LabellingMachineScreenFactory;
 import infinituum.chesttagger.utils.TaggableChest;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
@@ -43,11 +40,9 @@ public class LabellingMachineItem extends Item {
     public ActionResult useOnBlock(ItemUsageContext context) {
         BlockPos pos = context.getBlockPos();
         World world = context.getWorld();
-        BlockState state = world.getBlockState(pos);
-        Block block = state.getBlock();
         ItemStack itemStack = context.getStack();
 
-        if(block == Blocks.CHEST && world.getBlockEntity(pos) instanceof TaggableChest taggableChest) {
+        if(world.getBlockEntity(pos) instanceof TaggableChest taggableChest) {
             taggableChest.setLabel(Text.literal(getLabel(itemStack)));
             taggableChest.setDisplayItem(getDisplayItem(itemStack));
 
