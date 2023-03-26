@@ -25,8 +25,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(ChestBlockEntity.class)
 public abstract class ChestBlockEntityMixin extends BlockEntity implements TaggableChest {
-    private MutableText label = Text.literal("Chest");
-    private Item displayItem = Items.CHEST;
+    private MutableText label = Text.literal("");
+    private Item displayItem = Items.AIR;
 
     public ChestBlockEntityMixin(BlockEntityType<?> type, BlockPos pos, BlockState state) {
         super(type, pos, state);

@@ -1,4 +1,4 @@
-package infinituum.chesttagger.commands;
+package infinituum.chesttagger.registration;
 
 import infinituum.chesttagger.utils.Taggable;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
