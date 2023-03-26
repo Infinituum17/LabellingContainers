@@ -10,7 +10,6 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUsageContext;
-import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
@@ -22,6 +21,8 @@ import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+
+import static net.minecraft.item.Items.AIR;
 
 public class LabellingMachineItem extends Item {
     public LabellingMachineItem(Settings settings) {
@@ -70,12 +71,36 @@ public class LabellingMachineItem extends Item {
         String currentLabel = getLabel(stack);
         Item currentDisplayItem = getDisplayItem(stack);
 
-        tooltip.add(Text.translatable("item.chesttagger.labelling_machine.tooltip.label").formatted(Formatting.GRAY)
-                .append(Text.literal(currentLabel.equals("") ? "none" : "\"" + currentLabel + "\"")
-                        .formatted(currentLabel.equals("") ? Formatting.RED : Formatting.GREEN)));
-        tooltip.add(Text.translatable("item.chesttagger.labelling_machine.tooltip.display_item").formatted(Formatting.GRAY)
-                .append(Text.literal(currentDisplayItem.equals(Items.AIR) ? "none" : currentDisplayItem.toString())
-                        .formatted(currentDisplayItem.equals(Items.AIR) ? Formatting.RED : Formatting.GREEN)));
+        Text textBuffer;
+
+        if(currentLabel.equals("")) {
+            textBuffer = Text.translatable("item.chesttagger.labelling_machine.tooltip.label")
+                    .formatted(Formatting.GRAY)
+                    .append(Text.literal("None")
+                            .formatted(Formatting.DARK_RED));
+        } else {
+            textBuffer = Text.translatable("item.chesttagger.labelling_machine.tooltip.label")
+                    .formatted(Formatting.GRAY)
+                    .append(Text.literal("\"" + currentLabel + "\"")
+                            .formatted(Formatting.GOLD));
+        }
+
+        tooltip.add(textBuffer);
+
+        if(currentDisplayItem.equals(AIR)) {
+            textBuffer = Text.translatable("item.chesttagger.labelling_machine.tooltip.display_item")
+                    .formatted(Formatting.GRAY)
+                    .append(Text.literal("None")
+                            .formatted(Formatting.DARK_RED));
+        } else {
+            textBuffer = Text.translatable("item.chesttagger.labelling_machine.tooltip.display_item")
+                    .formatted(Formatting.GRAY)
+                    .append(currentDisplayItem.getName().copy()
+                            .formatted(Formatting.AQUA));
+        }
+
+        tooltip.add(textBuffer);
+
         super.appendTooltip(stack, world, tooltip, context);
     }
 }
