@@ -1,6 +1,6 @@
 package infinituum.chesttagger.registration;
 
-import infinituum.chesttagger.items.LabelMachineItem;
+import infinituum.chesttagger.items.LabellingMachineItem;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.item.ItemGroups;
@@ -12,7 +12,7 @@ import net.minecraft.util.Identifier;
 import static infinituum.chesttagger.ChestTagger.MODID;
 
 public class ItemRegistration {
-    public static LabelMachineItem LABELLING_MACHINE = new LabelMachineItem(new FabricItemSettings());
+    public static LabellingMachineItem LABELLING_MACHINE = new LabellingMachineItem(new FabricItemSettings());
 
     @SuppressWarnings("UnstableApiUsage")
     public static void init() {
