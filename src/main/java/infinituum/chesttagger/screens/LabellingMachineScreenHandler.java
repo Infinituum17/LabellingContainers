@@ -1,5 +1,6 @@
 package infinituum.chesttagger.screens;
 
+import infinituum.chesttagger.registration.ItemRegistration;
 import infinituum.chesttagger.registration.ScreenRegistration;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -68,6 +69,10 @@ public class LabellingMachineScreenHandler extends ScreenHandler {
             case PICKUP, PICKUP_ALL -> {
                 if(!inPlayerInventory) {
                     this.setStackInSlot(slotIndex, this.nextRevision(), (this.getCursorStack() != ItemStack.EMPTY) ? this.getCursorStack().copyWithCount(1) : ItemStack.EMPTY);
+                } else {
+                    if(slot.hasStack() && slot.getStack().isOf(ItemRegistration.LABELLING_MACHINE)) {
+                        return;
+                    }
                 }
             }
             case QUICK_MOVE -> {
