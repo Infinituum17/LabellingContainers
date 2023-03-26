@@ -20,6 +20,9 @@
 		],
 		"client": [
 			"infinituum.chesttagger.ChestTaggerClient"
+		],
+		"fabric-datagen": [
+			"infinituum.chesttagger.ChestTaggerDataGeneration"
 		]
 	},
 	"mixins": [

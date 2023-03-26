@@ -1,6 +1,6 @@
 {
   "item.chesttagger.labelling_machine": "Labelling Machine",
   "item.chesttagger.labelling_machine.gui_display_name": "Labelling Machine",
-  "item.chesttagger.labelling_machine.tooltip.label": "Label: ",
-  "item.chesttagger.labelling_machine.tooltip.display_item": "Item: "
+  "item.chesttagger.labelling_machine.tooltip.display_item": "Item: ",
+  "item.chesttagger.labelling_machine.tooltip.label": "Label: "
 }
