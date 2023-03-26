@@ -13,6 +13,16 @@
             "items": [
               "minecraft:copper_ingot"
             ]
+          },
+          {
+            "items": [
+              "minecraft:iron_ingot"
+            ]
+          },
+          {
+            "items": [
+              "minecraft:redstone"
+            ]
           }
         ]
       },

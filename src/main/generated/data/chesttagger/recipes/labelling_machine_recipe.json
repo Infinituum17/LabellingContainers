@@ -3,16 +3,22 @@
   "category": "equipment",
   "key": {
     "C": {
-      "tag": "c:copper_ingots"
+      "item": "minecraft:copper_ingot"
+    },
+    "I": {
+      "item": "minecraft:iron_ingot"
     },
     "P": {
       "item": "minecraft:paper"
+    },
+    "R": {
+      "item": "minecraft:redstone"
     }
   },
   "pattern": [
-    "PPP",
-    "PCP",
-    "PPP"
+    "CIC",
+    "RPR",
+    "CIC"
   ],
   "result": {
     "item": "chesttagger:labelling_machine"

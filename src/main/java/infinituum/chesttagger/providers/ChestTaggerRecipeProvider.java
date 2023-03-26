@@ -7,8 +7,6 @@ import net.minecraft.data.server.recipe.RecipeJsonProvider;
 import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder;
 import net.minecraft.item.Items;
 import net.minecraft.recipe.book.RecipeCategory;
-import net.minecraft.registry.RegistryKeys;
-import net.minecraft.registry.tag.TagKey;
 import net.minecraft.util.Identifier;
 
 import java.util.function.Consumer;
@@ -24,12 +22,14 @@ public class ChestTaggerRecipeProvider extends FabricRecipeProvider {
     @Override
     public void generate(Consumer<RecipeJsonProvider> exporter) {
         ShapedRecipeJsonBuilder.create(RecipeCategory.TOOLS, LABELLING_MACHINE)
-                .pattern("PPP")
-                .pattern("PCP")
-                .pattern("PPP")
-                .input('C', TagKey.of(RegistryKeys.ITEM, new Identifier("c", "copper_ingots")))
+                .pattern("CIC")
+                .pattern("RPR")
+                .pattern("CIC")
+                .input('R', Items.REDSTONE)
+                .input('C', Items.COPPER_INGOT)
                 .input('P', Items.PAPER)
-                .criterion("has_items", InventoryChangedCriterion.Conditions.items(Items.PAPER, Items.COPPER_INGOT))
+                .input('I', Items.IRON_INGOT)
+                .criterion("has_items", InventoryChangedCriterion.Conditions.items(Items.PAPER, Items.COPPER_INGOT, Items.IRON_INGOT, Items.REDSTONE))
                 .offerTo(exporter, new Identifier(output.getModId(), "labelling_machine_recipe"));
     }
 }
