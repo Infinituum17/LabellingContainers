@@ -18,8 +18,8 @@ public class ItemRegistration {
     public static void init() {
         Registry.register(Registries.ITEM, new Identifier(MODID, "labelling_machine"), LABELLING_MACHINE);
 
-        ItemGroupEvents.modifyEntriesEvent(ItemGroups.FUNCTIONAL).register(content -> content
-                .addAfter(Items.CHEST, LABELLING_MACHINE)
+        ItemGroupEvents.modifyEntriesEvent(ItemGroups.TOOLS).register(content -> content
+                .addAfter(Items.NAME_TAG, LABELLING_MACHINE)
         );
     }
 }
