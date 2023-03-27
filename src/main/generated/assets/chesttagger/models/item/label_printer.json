@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "chesttagger:item/labelling_machine"
+    "layer0": "chesttagger:item/label_printer"
   }
 }

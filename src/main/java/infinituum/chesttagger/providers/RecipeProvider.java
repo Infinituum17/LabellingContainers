@@ -11,17 +11,17 @@ import net.minecraft.util.Identifier;
 
 import java.util.function.Consumer;
 
-import static infinituum.chesttagger.registration.ItemRegistration.LABELLING_MACHINE;
+import static infinituum.chesttagger.registration.ItemRegistration.LABEL_PRINTER;
 
-public class ChestTaggerRecipeProvider extends FabricRecipeProvider {
+public class RecipeProvider extends FabricRecipeProvider {
 
-    public ChestTaggerRecipeProvider(FabricDataOutput output) {
+    public RecipeProvider(FabricDataOutput output) {
         super(output);
     }
 
     @Override
     public void generate(Consumer<RecipeJsonProvider> exporter) {
-        ShapedRecipeJsonBuilder.create(RecipeCategory.TOOLS, LABELLING_MACHINE)
+        ShapedRecipeJsonBuilder.create(RecipeCategory.TOOLS, LABEL_PRINTER)
                 .pattern("CIC")
                 .pattern("RPR")
                 .pattern("CIC")
@@ -30,6 +30,6 @@ public class ChestTaggerRecipeProvider extends FabricRecipeProvider {
                 .input('P', Items.PAPER)
                 .input('I', Items.IRON_INGOT)
                 .criterion("has_items", InventoryChangedCriterion.Conditions.items(Items.PAPER, Items.COPPER_INGOT, Items.IRON_INGOT, Items.REDSTONE))
-                .offerTo(exporter, new Identifier(output.getModId(), "labelling_machine_recipe"));
+                .offerTo(exporter, new Identifier(output.getModId(), "label_printer_recipe"));
     }
 }

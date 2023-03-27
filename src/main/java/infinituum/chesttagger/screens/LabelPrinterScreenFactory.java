@@ -6,14 +6,16 @@ import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.text.Text;
 
-public class LabellingMachineScreenFactory implements NamedScreenHandlerFactory {
+import static infinituum.chesttagger.registration.ItemRegistration.LABEL_PRINTER;
+
+public class LabelPrinterScreenFactory implements NamedScreenHandlerFactory {
     @Override
     public Text getDisplayName() {
-        return Text.translatable("item.chesttagger.labelling_machine.gui_display_name");
+        return Text.translatable(LABEL_PRINTER.getTranslationKey() + ".gui_display_name");
     }
 
     @Override
     public ScreenHandler createMenu(int syncId, PlayerInventory playerInventory, PlayerEntity player) {
-        return new LabellingMachineScreenHandler(syncId, playerInventory);
+        return new LabelPrinterScreenHandler(syncId, playerInventory);
     }
 }

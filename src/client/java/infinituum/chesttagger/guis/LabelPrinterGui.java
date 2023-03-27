@@ -2,7 +2,7 @@ package infinituum.chesttagger.guis;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import infinituum.chesttagger.network.Packets;
-import infinituum.chesttagger.screens.LabellingMachineScreenHandler;
+import infinituum.chesttagger.screens.LabelPrinterScreenHandler;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.minecraft.client.MinecraftClient;
@@ -17,12 +17,12 @@ import net.minecraft.network.PacketByteBuf;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
-public class LabellingMachineGui extends HandledScreen<LabellingMachineScreenHandler> {
-    private static final Identifier BACKGROUND = new Identifier("chesttagger", "textures/gui/labelling_machine_gui.png");
+public class LabelPrinterGui extends HandledScreen<LabelPrinterScreenHandler> {
+    private static final Identifier BACKGROUND = new Identifier("chesttagger", "textures/gui/label_printer_gui.png");
     private TextFieldWidget labelField;
     private final PlayerEntity player;
 
-    public LabellingMachineGui(LabellingMachineScreenHandler handler, PlayerInventory inventory, Text title) {
+    public LabelPrinterGui(LabelPrinterScreenHandler handler, PlayerInventory inventory, Text title) {
         super(handler, inventory, title);
         this.player = inventory.player;
     }
@@ -32,7 +32,7 @@ public class LabellingMachineGui extends HandledScreen<LabellingMachineScreenHan
         int paddingTop = 7;
         int x = width / 2 - paddingLeft;
         int y = (height / 2) - (backgroundHeight / 3) + paddingTop;
-        this.labelField = new TextFieldWidget(this.textRenderer, x, y, 96, 16, Text.translatable("placeholder.chesttagger"));
+        this.labelField = new TextFieldWidget(this.textRenderer, x, y, 96, 16, Text.literal(""));
 
         this.labelField.setFocusUnlocked(false);
         this.labelField.setEditableColor(-1);

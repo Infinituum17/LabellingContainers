@@ -30,7 +30,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "chesttagger:labelling_machine_recipe"
+        "recipe": "chesttagger:label_printer_recipe"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -43,7 +43,7 @@
   ],
   "rewards": {
     "recipes": [
-      "chesttagger:labelling_machine_recipe"
+      "chesttagger:label_printer_recipe"
     ]
   }
 }

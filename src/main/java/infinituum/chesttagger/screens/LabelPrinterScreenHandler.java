@@ -11,15 +11,15 @@ import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.slot.Slot;
 import net.minecraft.screen.slot.SlotActionType;
 
-public class LabellingMachineScreenHandler extends ScreenHandler {
+public class LabelPrinterScreenHandler extends ScreenHandler {
     private final Inventory inventory;
 
-    public LabellingMachineScreenHandler(int syncId, PlayerInventory playerInventory) {
+    public LabelPrinterScreenHandler(int syncId, PlayerInventory playerInventory) {
         this(syncId, playerInventory, new SimpleInventory(1));
     }
 
-    public LabellingMachineScreenHandler(int syncId, PlayerInventory playerInventory, Inventory inventory) {
-        super(ScreenRegistration.LABELLING_MACHINE_SCREEN_HANDLER, syncId);
+    public LabelPrinterScreenHandler(int syncId, PlayerInventory playerInventory, Inventory inventory) {
+        super(ScreenRegistration.LABEL_PRINTER_SCREEN_HANDLER, syncId);
 
         checkSize(inventory, 1);
 

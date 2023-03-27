@@ -6,10 +6,10 @@ import net.minecraft.data.client.BlockStateModelGenerator;
 import net.minecraft.data.client.ItemModelGenerator;
 import net.minecraft.data.client.Models;
 
-import static infinituum.chesttagger.registration.ItemRegistration.LABELLING_MACHINE;
+import static infinituum.chesttagger.registration.ItemRegistration.LABEL_PRINTER;
 
-public class ChestTaggerModelProvider extends FabricModelProvider {
-    public ChestTaggerModelProvider(FabricDataOutput output) {
+public class ModelProvider extends FabricModelProvider {
+    public ModelProvider(FabricDataOutput output) {
         super(output);
     }
 
@@ -18,6 +18,6 @@ public class ChestTaggerModelProvider extends FabricModelProvider {
 
     @Override
     public void generateItemModels(ItemModelGenerator itemModelGenerator) {
-        itemModelGenerator.register(LABELLING_MACHINE, Models.GENERATED);
+        itemModelGenerator.register(LABEL_PRINTER, Models.GENERATED);
     }
 }

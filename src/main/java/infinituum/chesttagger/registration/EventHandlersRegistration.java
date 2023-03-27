@@ -12,7 +12,7 @@ public class EventHandlersRegistration {
             ItemStack item = player.getMainHandStack();
 
             if(!item.isEmpty()) {
-                if(item.isOf(ItemRegistration.LABELLING_MACHINE)) {
+                if(item.isOf(ItemRegistration.LABEL_PRINTER)) {
                     NbtCompound nbt = new NbtCompound();
                     nbt.putString("text", label);
 

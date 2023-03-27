@@ -1,6 +1,6 @@
 package infinituum.chesttagger.items;
 
-import infinituum.chesttagger.screens.LabellingMachineScreenFactory;
+import infinituum.chesttagger.screens.LabelPrinterScreenFactory;
 import infinituum.chesttagger.utils.TaggableChest;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.player.PlayerEntity;
@@ -21,8 +21,8 @@ import java.util.List;
 
 import static net.minecraft.item.Items.AIR;
 
-public class LabellingMachineItem extends Item {
-    public LabellingMachineItem(Settings settings) {
+public class LabelPrinterItem extends Item {
+    public LabelPrinterItem(Settings settings) {
         super(settings);
     }
 
@@ -55,7 +55,7 @@ public class LabellingMachineItem extends Item {
     @Override
     public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
         if(!world.isClient()) {
-            user.openHandledScreen(new LabellingMachineScreenFactory());
+            user.openHandledScreen(new LabelPrinterScreenFactory());
         }
 
         return super.use(world, user, hand);
@@ -69,12 +69,12 @@ public class LabellingMachineItem extends Item {
         Text textBuffer;
 
         if(currentLabel.equals("")) {
-            textBuffer = Text.translatable("item.chesttagger.labelling_machine.tooltip.label")
+            textBuffer = Text.translatable(this.getTranslationKey() + ".tooltip.label")
                     .formatted(Formatting.GRAY)
                     .append(Text.literal("None")
                             .formatted(Formatting.DARK_RED));
         } else {
-            textBuffer = Text.translatable("item.chesttagger.labelling_machine.tooltip.label")
+            textBuffer = Text.translatable(this.getTranslationKey() + ".tooltip.label")
                     .formatted(Formatting.GRAY)
                     .append(Text.literal("\"" + currentLabel + "\"")
                             .formatted(Formatting.GOLD));
@@ -83,12 +83,12 @@ public class LabellingMachineItem extends Item {
         tooltip.add(textBuffer);
 
         if(currentDisplayItem.equals(AIR)) {
-            textBuffer = Text.translatable("item.chesttagger.labelling_machine.tooltip.display_item")
+            textBuffer = Text.translatable(this.getTranslationKey() + ".tooltip.display_item")
                     .formatted(Formatting.GRAY)
                     .append(Text.literal("None")
                             .formatted(Formatting.DARK_RED));
         } else {
-            textBuffer = Text.translatable("item.chesttagger.labelling_machine.tooltip.display_item")
+            textBuffer = Text.translatable(this.getTranslationKey() + ".tooltip.display_item")
                     .formatted(Formatting.GRAY)
                     .append(currentDisplayItem.getName().copy()
                             .formatted(Formatting.AQUA));

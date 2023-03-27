@@ -1,6 +1,6 @@
 package infinituum.chesttagger;
 
-import infinituum.chesttagger.guis.LabellingMachineGui;
+import infinituum.chesttagger.guis.LabelPrinterGui;
 import infinituum.chesttagger.huds.HudInfoDisplay;
 import infinituum.chesttagger.registration.ScreenRegistration;
 import net.fabricmc.api.ClientModInitializer;
@@ -12,6 +12,6 @@ public class ChestTaggerClient implements ClientModInitializer {
 	public void onInitializeClient() {
 		HudRenderCallback.EVENT.register(new HudInfoDisplay());
 
-		HandledScreens.register(ScreenRegistration.LABELLING_MACHINE_SCREEN_HANDLER, LabellingMachineGui::new);
+		HandledScreens.register(ScreenRegistration.LABEL_PRINTER_SCREEN_HANDLER, LabelPrinterGui::new);
 	}
 }
