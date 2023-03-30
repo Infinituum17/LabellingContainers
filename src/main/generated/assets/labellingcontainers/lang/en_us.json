@@ -1,0 +1,7 @@
+{
+  "item.labellingcontainers.label_printer": "Label Printer",
+  "item.labellingcontainers.label_printer.gui_display_name": "Label Printer",
+  "item.labellingcontainers.label_printer.tooltip.display_item": "Item: ",
+  "item.labellingcontainers.label_printer.tooltip.label": "Label: ",
+  "item.labellingcontainers.label_printer.tooltip.none": "None"
+}

@@ -1,7 +1,0 @@
-{
-  "item.chesttagger.label_printer": "Stampante di etichette",
-  "item.chesttagger.label_printer.gui_display_name": "Stampante di etichette",
-  "item.chesttagger.label_printer.tooltip.display_item": "Oggetto: ",
-  "item.chesttagger.label_printer.tooltip.label": "Titolo: ",
-  "item.chesttagger.label_printer.tooltip.none": "Nessuno"
-}

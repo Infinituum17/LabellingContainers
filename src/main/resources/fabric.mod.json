@@ -1,31 +1,31 @@
 {
 	"schemaVersion": 1,
-	"id": "chesttagger",
+	"id": "labellingcontainers",
 	"version": "${version}",
-	"name": "Chest Tagger",
-	"description": "This mod helps you organize the content of your chests by assigning them a name, and without using annoying signs",
+	"name": "Labelling Containers",
+	"description": "This mod helps you organize the content of your chests and other containers by assigning them a name, and without using annoying signs",
 	"authors": [
 		"Infinituum"
 	],
 	"contact": {
-		"sources": "https://github.com/Infinituum17/ChestTagger"
+		"sources": "https://github.com/Infinituum17/LabellingContainers"
 	},
 	"license": "CC0-1.0",
-	"icon": "assets/chesttagger/icon.png",
+	"icon": "assets/labellingcontainers/icon.png",
 	"environment": "*",
 	"entrypoints": {
 		"main": [
-			"infinituum.chesttagger.ChestTagger"
+			"infinituum.labellingcontainers.LabellingContainers"
 		],
 		"client": [
-			"infinituum.chesttagger.ChestTaggerClient"
+			"infinituum.labellingcontainers.LabellingContainersClient"
 		],
 		"fabric-datagen": [
-			"infinituum.chesttagger.ChestTaggerDataGeneration"
+			"infinituum.labellingcontainers.LabellingContainersDataGeneration"
 		]
 	},
 	"mixins": [
-		"chesttagger.mixins.json"
+		"labellingcontainers.mixins.json"
 	],
 	"depends": {
 		"fabricloader": ">=0.14.17",
