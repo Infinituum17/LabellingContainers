@@ -1,4 +1,4 @@
-# ChestTagger
+# Labelling Containers
 
 A fabric mod that makes easy labeling chests without the use of signs.
 
