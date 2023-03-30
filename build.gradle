@@ -1,6 +1,7 @@
 plugins {
 	id 'fabric-loom' version '1.1-SNAPSHOT'
 	id 'maven-publish'
+    id "com.modrinth.minotaur" version "2.+"
 }
 
 sourceCompatibility = JavaVersion.VERSION_17
@@ -38,6 +39,19 @@ loom {
  
             runDir "build/datagen"
         }
+    }
+}
+
+modrinth {
+    token = System.getenv("MODRINTH_TOKEN")
+    projectId = "labelling-containers"
+    versionNumber = "1.0.0"
+    versionType = "release"
+    uploadFile = remapJar
+    gameVersions = ["1.19.4"]
+    loaders = ["fabric"]
+    dependencies {
+        required.project "fabric-api"
     }
 }
 
