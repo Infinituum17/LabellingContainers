@@ -71,7 +71,7 @@ public class LabelPrinterItem extends Item {
         if(currentLabel.equals("")) {
             textBuffer = Text.translatable(this.getTranslationKey() + ".tooltip.label")
                     .formatted(Formatting.GRAY)
-                    .append(Text.literal("None")
+                    .append(Text.translatable(this.getTranslationKey() + ".tooltip.none")
                             .formatted(Formatting.DARK_RED));
         } else {
             textBuffer = Text.translatable(this.getTranslationKey() + ".tooltip.label")
@@ -85,7 +85,7 @@ public class LabelPrinterItem extends Item {
         if(currentDisplayItem.equals(AIR)) {
             textBuffer = Text.translatable(this.getTranslationKey() + ".tooltip.display_item")
                     .formatted(Formatting.GRAY)
-                    .append(Text.literal("None")
+                    .append(Text.translatable(this.getTranslationKey() + ".tooltip.none")
                             .formatted(Formatting.DARK_RED));
         } else {
             textBuffer = Text.translatable(this.getTranslationKey() + ".tooltip.display_item")
