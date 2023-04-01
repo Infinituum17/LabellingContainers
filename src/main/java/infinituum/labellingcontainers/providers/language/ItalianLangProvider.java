@@ -14,6 +14,6 @@ public class ItalianLangProvider extends FabricLanguageProvider {
         translationBuilder.add(LABEL_PRINTER.getTranslationKey() + ".gui_display_name", "Stampante di etichette");
         translationBuilder.add(LABEL_PRINTER.getTranslationKey() + ".tooltip.none", "Nessuno");
         translationBuilder.add(LABEL_PRINTER.getTranslationKey() + ".tooltip.label", "Titolo: ");
-        translationBuilder.add(LABEL_PRINTER.getTranslationKey() + ".tooltip.display_item", "Oggetto: ");
+        translationBuilder.add(LABEL_PRINTER.getTranslationKey() + ".tooltip.display_item", "Icona: ");
     }
 }

@@ -45,7 +45,7 @@ loom {
 modrinth {
     token = System.getenv("MODRINTH_TOKEN")
     projectId = "labelling-containers"
-    versionNumber = "1.0.0"
+    versionNumber = project.mod_version
     versionType = "release"
     uploadFile = remapJar
     gameVersions = ["1.19.4"]

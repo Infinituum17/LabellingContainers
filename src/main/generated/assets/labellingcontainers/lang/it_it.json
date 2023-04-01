@@ -1,7 +1,7 @@
 {
   "item.labellingcontainers.label_printer": "Stampante di etichette",
   "item.labellingcontainers.label_printer.gui_display_name": "Stampante di etichette",
-  "item.labellingcontainers.label_printer.tooltip.display_item": "Oggetto: ",
+  "item.labellingcontainers.label_printer.tooltip.display_item": "Icona: ",
   "item.labellingcontainers.label_printer.tooltip.label": "Titolo: ",
   "item.labellingcontainers.label_printer.tooltip.none": "Nessuno"
 }
