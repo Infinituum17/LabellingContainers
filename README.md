@@ -1,10 +1,10 @@
 # Labelling Containers
 
-A mod that makes easy labeling chests and containers without the use of signs.
+A mod that makes easy labeling chests, shulker boxes, barrels and other containers without the use of signs.
 
 ## How to use
 
-This mod adds a "Label printer" which is an item that can set a name and an icon to a container. To use it, simply right-click the item while holding it and it will open a menu where you can set your icon and label. Then when you're ready, shift-right-click a chest or compatible container to set it.
+This mod adds a "Label printer" which is an item that can set a name and an icon to a container. To use it, simply right-click the item while holding it, and it will open a menu where you can set your icon and label. Then, when you're ready, shift-right-click a chest or compatible container to set it.
 
 ## For developers
 

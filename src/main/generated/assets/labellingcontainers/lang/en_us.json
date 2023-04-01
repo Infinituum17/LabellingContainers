@@ -1,4 +1,5 @@
 {
+  "block.labelable": "Can be labeled",
   "item.labellingcontainers.label_printer": "Label Printer",
   "item.labellingcontainers.label_printer.gui_display_name": "Label Printer",
   "item.labellingcontainers.label_printer.tooltip.display_item": "Icon: ",

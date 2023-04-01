@@ -1,7 +1,7 @@
 package infinituum.labellingcontainers.items;
 
 import infinituum.labellingcontainers.screens.LabelPrinterScreenFactory;
-import infinituum.labellingcontainers.utils.TaggableChest;
+import infinituum.labellingcontainers.utils.Taggable;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
@@ -42,9 +42,9 @@ public class LabelPrinterItem extends Item {
         World world = context.getWorld();
         ItemStack itemStack = context.getStack();
 
-        if(world.getBlockEntity(pos) instanceof TaggableChest taggableChest) {
-            taggableChest.setLabel(Text.literal(getLabel(itemStack)));
-            taggableChest.setDisplayItem(getDisplayItem(itemStack));
+        if(world.getBlockEntity(pos) instanceof Taggable taggable) {
+            taggable.setLabel(Text.literal(getLabel(itemStack)));
+            taggable.setDisplayItem(getDisplayItem(itemStack));
 
             return ActionResult.SUCCESS;
         }
