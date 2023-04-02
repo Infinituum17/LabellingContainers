@@ -4,9 +4,13 @@ import infinituum.labellingcontainers.providers.language.EnglishLangProvider;
 import infinituum.labellingcontainers.providers.ModelProvider;
 import infinituum.labellingcontainers.providers.RecipeProvider;
 import infinituum.labellingcontainers.providers.language.ItalianLangProvider;
-import infinituum.labellingcontainers.providers.language.spanish.*;
+import infinituum.labellingcontainers.providers.language.SpanishLangProvider;
 import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
+import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
+
+import java.util.List;
+import java.util.function.Consumer;
 
 public class LabellingContainersDataGeneration implements DataGeneratorEntrypoint {
     @Override
@@ -24,12 +28,8 @@ public class LabellingContainersDataGeneration implements DataGeneratorEntrypoin
         pack.addProvider(ItalianLangProvider::new);
 
         // Spanish
-        pack.addProvider(SpanishLangProvider::new);
-        pack.addProvider(SpanishMxLangProvider::new);
-        pack.addProvider(SpanishArLangProvider::new);
-        pack.addProvider(SpanishUyLangProvider::new);
-        pack.addProvider(SpanishEcLangProvider::new);
-        pack.addProvider(SpanishClLangProvider::new);
-        pack.addProvider(SpanishVeLangProvider::new);
+        List<String> languageCodes = List.of("es_mx", "es_ve", "es_es", "es_ar", "es_ec", "es_cl", "es_uy");
+        Consumer<String> addProvider = (languageCode) -> pack.addProvider((FabricDataOutput dataOutput) -> new SpanishLangProvider(dataOutput, languageCode));
+        languageCodes.stream().forEach(addProvider);
     }
 }

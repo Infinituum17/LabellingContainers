@@ -1,4 +1,4 @@
-package infinituum.labellingcontainers.providers.language.spanish;
+package infinituum.labellingcontainers.providers.language;
 
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
@@ -6,7 +6,7 @@ import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
 import static infinituum.labellingcontainers.registration.ItemRegistration.LABEL_PRINTER;
 
 public class SpanishLangProvider extends FabricLanguageProvider {
-    public SpanishLangProvider(FabricDataOutput dataOutput) { super(dataOutput, "es_es"); }
+    public SpanishLangProvider(FabricDataOutput dataOutput,String languageCode) { super(dataOutput, languageCode); }
 
     @Override
     public void generateTranslations(TranslationBuilder translationBuilder) {
