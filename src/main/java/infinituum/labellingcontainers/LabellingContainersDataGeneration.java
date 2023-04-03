@@ -27,9 +27,9 @@ public class LabellingContainersDataGeneration implements DataGeneratorEntrypoin
         pack.addProvider(EnglishLangProvider::new);
         pack.addProvider(ItalianLangProvider::new);
 
-        // Spanish
+        // Spanish translation by Krb (https://github.com/Krb0)
         List<String> languageCodes = List.of("es_mx", "es_ve", "es_es", "es_ar", "es_ec", "es_cl", "es_uy");
         Consumer<String> addProvider = (languageCode) -> pack.addProvider((FabricDataOutput dataOutput) -> new SpanishLangProvider(dataOutput, languageCode));
-        languageCodes.stream().forEach(addProvider);
+        languageCodes.forEach(addProvider);
     }
 }
