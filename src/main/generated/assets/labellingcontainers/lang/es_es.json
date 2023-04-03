@@ -1,0 +1,8 @@
+{
+  "block.labelable": "Puede ser etiquetado",
+  "item.labellingcontainers.label_printer": "Etiquetador",
+  "item.labellingcontainers.label_printer.gui_display_name": "Etiquetador",
+  "item.labellingcontainers.label_printer.tooltip.display_item": "Icono: ",
+  "item.labellingcontainers.label_printer.tooltip.label": "Etiqueta: ",
+  "item.labellingcontainers.label_printer.tooltip.none": "Ninguno"
+}
