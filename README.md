@@ -1,6 +1,6 @@
 ![](https://img.shields.io/badge/modloader-fabric-brightgreen) ![](https://img.shields.io/badge/environment-client%20%2F%20server-yellow) ![](https://img.shields.io/badge/license-MIT-blue)
 
-<a href='https://ko-fi.com/infinituum' target='_blank'><img height=35 src='https://uploads-ssl.webflow.com/5c14e387dab576fe667689cf/61e11d430afb112ea33c3aa5_Button-1-p-500.png' alt='Buy Me a Coffee at ko-fi.com' />
+<a href='https://ko-fi.com/infinituum' target='_blank'><img height=35 src='https://uploads-ssl.webflow.com/5c14e387dab576fe667689cf/61e11d430afb112ea33c3aa5_Button-1-p-500.png' alt='Buy Me a Coffee at ko-fi.com' /></a>
 
 # Labelling Containers
 
