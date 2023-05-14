@@ -54,6 +54,11 @@ public class LabelPrinterScreenHandler extends ScreenHandler {
     }
 
     @Override
+    public ItemStack transferSlot(PlayerEntity player, int index) {
+        return ItemStack.EMPTY;
+    }
+
+    @Override
     public void onSlotClick(int slotIndex, int button, SlotActionType actionType, PlayerEntity player) {
         boolean inPlayerInventory = slotIndex >= this.inventory.size();
 
@@ -89,7 +94,7 @@ public class LabelPrinterScreenHandler extends ScreenHandler {
     }
 
     @Override
-    public void onClosed(PlayerEntity player) {
+    public void close(PlayerEntity player) {
         if(player.getMainHandStack() != null && player.getMainHandStack() != ItemStack.EMPTY) {
             ItemStack itemStack = this.inventory.getStack(0);
             NbtCompound nbt = new NbtCompound();
@@ -100,12 +105,7 @@ public class LabelPrinterScreenHandler extends ScreenHandler {
         }
 
 
-        super.onClosed(player);
-    }
-
-    @Override
-    public ItemStack quickMove(PlayerEntity player, int slot) {
-        return ItemStack.EMPTY;
+        super.close(player);
     }
 
     @Override

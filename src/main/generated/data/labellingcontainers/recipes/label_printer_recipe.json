@@ -1,6 +1,5 @@
 {
   "type": "minecraft:crafting_shaped",
-  "category": "equipment",
   "key": {
     "C": {
       "item": "minecraft:copper_ingot"
@@ -22,6 +21,5 @@
   ],
   "result": {
     "item": "labellingcontainers:label_printer"
-  },
-  "show_notification": true
+  }
 }
