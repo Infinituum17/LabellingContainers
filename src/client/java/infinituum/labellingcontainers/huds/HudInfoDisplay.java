@@ -41,7 +41,7 @@ public class HudInfoDisplay implements HudRenderCallback {
 
             matrixStack.push();
 
-            client.getItemRenderer().renderGuiItemIcon(matrixStack, new ItemStack(displayItem), x + leftPadding, y - 8);
+            client.getItemRenderer().renderGuiItemIcon(new ItemStack(displayItem), x + leftPadding, y - 8);
             DrawableHelper.drawTextWithShadow(matrixStack, client.textRenderer, labelable.getLabel(), x + leftPadding * 3, (y + 1) - fontHeight / 2, 0xFFFFFFFF);
 
             matrixStack.pop();
