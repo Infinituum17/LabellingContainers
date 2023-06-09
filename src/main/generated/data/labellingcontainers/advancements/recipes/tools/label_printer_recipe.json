@@ -45,5 +45,6 @@
     "recipes": [
       "labellingcontainers:label_printer_recipe"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

@@ -6,10 +6,10 @@ import infinituum.labellingcontainers.screens.LabelPrinterScreenHandler;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.client.render.GameRenderer;
-import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.nbt.NbtCompound;
@@ -93,25 +93,25 @@ public class LabelPrinterGui extends HandledScreen<LabelPrinterScreenHandler> {
     }
 
     @Override
-    protected void drawBackground(MatrixStack matrices, float delta, int mouseX, int mouseY) {
+    protected void drawBackground(DrawContext context, float delta, int mouseX, int mouseY) {
         RenderSystem.setShader(GameRenderer::getPositionTexProgram);
         RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
         RenderSystem.setShaderTexture(0, BACKGROUND);
         int x = (width - backgroundWidth) / 2;
         int y = (height - backgroundHeight) / 2;
-        drawTexture(matrices, x, y, 0, 0, backgroundWidth, backgroundHeight);
+        context.drawTexture(BACKGROUND, x, y, 0, 0, backgroundWidth, backgroundHeight);
     }
 
-    protected void renderForeground(MatrixStack matrices, int mouseX, int mouseY, float delta) {
-        this.labelField.render(matrices, mouseX, mouseY, delta);
+    protected void renderForeground(DrawContext context, int mouseX, int mouseY, float delta) {
+        this.labelField.render(context, mouseX, mouseY, delta);
     }
 
     @Override
-    public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
+    public void render(DrawContext context, int mouseX, int mouseY, float delta) {
         if(this.labelField == null) setup();
-        renderBackground(matrices);
-        super.render(matrices, mouseX, mouseY, delta);
-        renderForeground(matrices, mouseX, mouseY, delta);
-        drawMouseoverTooltip(matrices, mouseX, mouseY);
+        renderBackground(context);
+        super.render(context, mouseX, mouseY, delta);
+        renderForeground(context, mouseX, mouseY, delta);
+        drawMouseoverTooltip(context, mouseX, mouseY);
     }
 }

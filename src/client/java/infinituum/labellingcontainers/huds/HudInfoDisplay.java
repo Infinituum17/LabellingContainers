@@ -4,8 +4,7 @@ import infinituum.labellingcontainers.utils.Taggable;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.DrawableHelper;
-import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.hit.BlockHitResult;
@@ -14,7 +13,7 @@ import net.minecraft.util.math.BlockPos;
 
 public class HudInfoDisplay implements HudRenderCallback {
     @Override
-    public void onHudRender(MatrixStack matrixStack, float tickDelta) {
+    public void onHudRender(DrawContext context, float tickDelta) {
         MinecraftClient client = MinecraftClient.getInstance();
         if(client == null || client.currentScreen != null) return;
 
@@ -39,12 +38,8 @@ public class HudInfoDisplay implements HudRenderCallback {
             int y = height / 2;
             int leftPadding = 10;
 
-            matrixStack.push();
-
-            client.getItemRenderer().renderGuiItemIcon(matrixStack, new ItemStack(displayItem), x + leftPadding, y - 8);
-            DrawableHelper.drawTextWithShadow(matrixStack, client.textRenderer, labelable.getLabel(), x + leftPadding * 3, (y + 1) - fontHeight / 2, 0xFFFFFFFF);
-
-            matrixStack.pop();
+            context.drawItem(new ItemStack(displayItem), x + leftPadding, y - 8);
+            context.drawTextWithShadow(client.textRenderer, labelable.getLabel(), x + leftPadding * 3, (y + 1) - fontHeight / 2, 0xFFFFFFFF);
         }
     }
 }
