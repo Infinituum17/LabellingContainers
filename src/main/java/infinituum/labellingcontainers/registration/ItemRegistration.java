@@ -12,7 +12,7 @@ import net.minecraft.util.Identifier;
 import static infinituum.labellingcontainers.LabellingContainers.MODID;
 
 public class ItemRegistration {
-    public static LabelPrinterItem LABEL_PRINTER = new LabelPrinterItem(new FabricItemSettings());
+    public static LabelPrinterItem LABEL_PRINTER = new LabelPrinterItem(new FabricItemSettings().maxCount(1));
 
     @SuppressWarnings("UnstableApiUsage")
     public static void init() {
