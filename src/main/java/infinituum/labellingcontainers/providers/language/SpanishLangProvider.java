@@ -11,10 +11,16 @@ public class SpanishLangProvider extends FabricLanguageProvider {
     @Override
     public void generateTranslations(TranslationBuilder translationBuilder) {
         translationBuilder.add(LABEL_PRINTER, "Etiquetador");
-        translationBuilder.add(LABEL_PRINTER.getTranslationKey() + ".gui_display_name", "Etiquetador");
-        translationBuilder.add(LABEL_PRINTER.getTranslationKey() + ".tooltip.none", "Ninguno");
-        translationBuilder.add(LABEL_PRINTER.getTranslationKey() + ".tooltip.label", "Etiqueta: ");
-        translationBuilder.add(LABEL_PRINTER.getTranslationKey() + ".tooltip.display_item", "Icono: ");
+
+        String labelPrinterKey = LABEL_PRINTER.getTranslationKey();
+
+        translationBuilder.add(labelPrinterKey + ".gui_display_name", "Etiquetador");
+        translationBuilder.add(labelPrinterKey + ".tooltip.none", "Ninguno");
+        translationBuilder.add(labelPrinterKey + ".tooltip.label", "Etiqueta: ");
+        translationBuilder.add(labelPrinterKey + ".tooltip.display_item", "Icono: ");
+        translationBuilder.add(labelPrinterKey + ".tooltip.hidden", "(Presiona shift para más info)");
+        translationBuilder.add(labelPrinterKey + ".tooltip.description", "Utiliza papel para imprimir etiquetas nuevas");
+        translationBuilder.add(labelPrinterKey + ".paper.error", "¡No tienes suficiente papel!");
 
         translationBuilder.add("block.labelable", "Puede ser etiquetado");
     }
