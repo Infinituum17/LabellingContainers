@@ -8,16 +8,16 @@
     "I": {
       "item": "minecraft:iron_ingot"
     },
-    "P": {
-      "item": "minecraft:paper"
-    },
     "R": {
       "item": "minecraft:redstone"
+    },
+    "S": {
+      "item": "minecraft:ink_sac"
     }
   },
   "pattern": [
     "CIC",
-    "RPR",
+    "RSR",
     "CIC"
   ],
   "result": {
