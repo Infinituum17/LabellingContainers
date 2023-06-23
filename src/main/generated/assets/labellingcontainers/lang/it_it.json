@@ -2,7 +2,10 @@
   "block.labelable": "Può essere etichettato",
   "item.labellingcontainers.label_printer": "Stampante di etichette",
   "item.labellingcontainers.label_printer.gui_display_name": "Stampante di etichette",
+  "item.labellingcontainers.label_printer.paper.error": "Non hai abbastanza carta!",
+  "item.labellingcontainers.label_printer.tooltip.description": "Usa la carta per stampare nuove etichette",
   "item.labellingcontainers.label_printer.tooltip.display_item": "Icona: ",
+  "item.labellingcontainers.label_printer.tooltip.hidden": "(Premi shift per più informazioni)",
   "item.labellingcontainers.label_printer.tooltip.label": "Etichetta: ",
   "item.labellingcontainers.label_printer.tooltip.none": "Nessuno"
 }
