@@ -1,19 +1,30 @@
 package infinituum.labellingcontainers.items;
 
+import infinituum.labellingcontainers.registration.ItemRegistration;
 import infinituum.labellingcontainers.screens.LabelPrinterScreenFactory;
+import infinituum.labellingcontainers.utils.InventoryHelper;
 import infinituum.labellingcontainers.utils.Taggable;
+import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUsageContext;
+import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.particle.ParticleTypes;
+import net.minecraft.server.world.ServerWorld;
+import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvents;
+import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
@@ -38,13 +49,47 @@ public class LabelPrinterItem extends Item {
 
     @Override
     public ActionResult useOnBlock(ItemUsageContext context) {
+        PlayerEntity player = context.getPlayer();
+
+        if(player == null) return super.useOnBlock(context);
+
+        PlayerInventory inventory = player.getInventory();
         BlockPos pos = context.getBlockPos();
         World world = context.getWorld();
         ItemStack itemStack = context.getStack();
 
         if(world.getBlockEntity(pos) instanceof Taggable taggable) {
-            taggable.setLabel(Text.literal(getLabel(itemStack)));
-            taggable.setDisplayItem(getDisplayItem(itemStack));
+            if(!world.isClient()) {
+                MutableText label = Text.literal(getLabel(itemStack));
+                Item displayItem = getDisplayItem(itemStack);
+                Vec3d hitPos = context.getHitPos();
+
+                if(!inventory.contains(Items.PAPER.getDefaultStack()) && !player.isCreative()) {
+                    Text message = Text
+                            .translatable(ItemRegistration.LABEL_PRINTER.getTranslationKey() + ".paper.error")
+                            .formatted(Formatting.RED);
+                    player.sendMessage(message);
+
+                    ((ServerWorld) world).spawnParticles(ParticleTypes.SMOKE, hitPos.getX(), hitPos.getY(), hitPos.getZ(), 15, 0, 0, 0, 0.01);
+                    world.playSound(null, pos, SoundEvents.BLOCK_FIRE_EXTINGUISH, SoundCategory.BLOCKS, 0.75f, 2f);
+
+                    return ActionResult.FAIL;
+                }
+
+                if(taggable.getLabel().equals(label) && taggable.getDisplayItem().equals(displayItem)) {
+                    ((ServerWorld) world).spawnParticles(ParticleTypes.SMOKE, hitPos.getX(), hitPos.getY(), hitPos.getZ(), 15, 0, 0, 0, 0.01);
+                    world.playSound(null, pos, SoundEvents.BLOCK_FIRE_EXTINGUISH, SoundCategory.BLOCKS, 0.75f, 2f);
+                    return ActionResult.FAIL;
+                }
+
+                if(!player.isCreative())  InventoryHelper.removeOneItemFromInventory(inventory, Items.PAPER);
+
+                taggable.setLabel(label);
+                taggable.setDisplayItem(displayItem);
+
+                ((ServerWorld) world).spawnParticles(ParticleTypes.END_ROD, hitPos.getX(), hitPos.getY(), hitPos.getZ(), 15, 0, 0, 0, 0.01);
+                world.playSound(null, pos, SoundEvents.BLOCK_NOTE_BLOCK_HARP.value(), SoundCategory.BLOCKS, 0.75f, 2f);
+            }
 
             return ActionResult.SUCCESS;
         }
@@ -66,35 +111,38 @@ public class LabelPrinterItem extends Item {
         String currentLabel = getLabel(stack);
         Item currentDisplayItem = getDisplayItem(stack);
 
-        Text textBuffer;
+        MutableText descriptionText = Text.literal("ⓘ ").formatted(Formatting.BLUE);
+
+        if (world != null && world.isClient() && Screen.hasShiftDown()) {
+            descriptionText.append(Text.translatable(this.getTranslationKey() + ".tooltip.description").formatted(Formatting.GREEN));
+        } else {
+            descriptionText.append(Text.translatable(this.getTranslationKey() + ".tooltip.hidden").formatted(Formatting.GRAY));
+        }
+
+        tooltip.add(descriptionText);
+
+        MutableText labelText = Text.literal("● ").formatted(Formatting.GRAY);
+        labelText.append(Text.translatable(this.getTranslationKey() + ".tooltip.label").formatted(Formatting.GRAY));
 
         if(currentLabel.equals("")) {
-            textBuffer = Text.translatable(this.getTranslationKey() + ".tooltip.label")
-                    .formatted(Formatting.GRAY)
-                    .append(Text.translatable(this.getTranslationKey() + ".tooltip.none")
-                            .formatted(Formatting.DARK_RED));
+            labelText.append(Text.translatable(this.getTranslationKey() + ".tooltip.none").formatted(Formatting.DARK_RED));
         } else {
-            textBuffer = Text.translatable(this.getTranslationKey() + ".tooltip.label")
-                    .formatted(Formatting.GRAY)
-                    .append(Text.literal("\"" + currentLabel + "\"")
-                            .formatted(Formatting.GOLD));
+            labelText.append(Text.literal("\"" + currentLabel + "\"").formatted(Formatting.GOLD));
         }
 
-        tooltip.add(textBuffer);
+        tooltip.add(Text.literal(""));
+        tooltip.add(labelText);
+
+        MutableText displayItemText = Text.literal("● ").formatted(Formatting.GRAY);
+        displayItemText.append(Text.translatable(this.getTranslationKey() + ".tooltip.display_item").formatted(Formatting.GRAY));
 
         if(currentDisplayItem.equals(AIR)) {
-            textBuffer = Text.translatable(this.getTranslationKey() + ".tooltip.display_item")
-                    .formatted(Formatting.GRAY)
-                    .append(Text.translatable(this.getTranslationKey() + ".tooltip.none")
-                            .formatted(Formatting.DARK_RED));
+            displayItemText.append(Text.translatable(this.getTranslationKey() + ".tooltip.none").formatted(Formatting.DARK_RED));
         } else {
-            textBuffer = Text.translatable(this.getTranslationKey() + ".tooltip.display_item")
-                    .formatted(Formatting.GRAY)
-                    .append(currentDisplayItem.getName().copy()
-                            .formatted(Formatting.AQUA));
+            displayItemText.append(currentDisplayItem.getName().copy().formatted(Formatting.AQUA));
         }
 
-        tooltip.add(textBuffer);
+        tooltip.add(displayItemText);
 
         super.appendTooltip(stack, world, tooltip, context);
     }

@@ -1,5 +1,5 @@
 plugins {
-	id 'fabric-loom' version '1.1-SNAPSHOT'
+	id 'fabric-loom' version '1.2-SNAPSHOT'
 	id 'maven-publish'
     id "com.modrinth.minotaur" version "2.+"
 }
@@ -20,14 +20,6 @@ repositories {
 }
 
 loom {
-    splitEnvironmentSourceSets()
-
-    mods {
-        modid {
-            sourceSet sourceSets.main
-            sourceSet sourceSets.client
-        }
-    }
     runs {
         // This adds a new gradle task that runs the datagen API: "gradlew runDatagen"
         datagen {
