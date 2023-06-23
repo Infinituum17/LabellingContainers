@@ -23,13 +23,13 @@ public class RecipeProvider extends FabricRecipeProvider {
     public void generate(Consumer<RecipeJsonProvider> exporter) {
         ShapedRecipeJsonBuilder.create(RecipeCategory.TOOLS, LABEL_PRINTER)
                 .pattern("CIC")
-                .pattern("RPR")
+                .pattern("RSR")
                 .pattern("CIC")
                 .input('R', Items.REDSTONE)
                 .input('C', Items.COPPER_INGOT)
-                .input('P', Items.PAPER)
+                .input('S', Items.INK_SAC)
                 .input('I', Items.IRON_INGOT)
-                .criterion("has_items", InventoryChangedCriterion.Conditions.items(Items.PAPER, Items.COPPER_INGOT, Items.IRON_INGOT, Items.REDSTONE))
+                .criterion("has_items", InventoryChangedCriterion.Conditions.items(Items.INK_SAC, Items.COPPER_INGOT, Items.IRON_INGOT, Items.REDSTONE))
                 .offerTo(exporter, new Identifier(output.getModId(), "label_printer_recipe"));
     }
 }
