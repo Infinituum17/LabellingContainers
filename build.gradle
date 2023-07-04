@@ -1,7 +1,7 @@
 plugins {
 	id 'fabric-loom' version '1.2-SNAPSHOT'
 	id 'maven-publish'
-    id "com.modrinth.minotaur" version "2.+"
+    id "me.shedaniel.unified-publishing" version "0.1.+"
 }
 
 sourceCompatibility = JavaVersion.VERSION_17
@@ -17,6 +17,12 @@ repositories {
 	// Loom adds the essential maven repositories to download Minecraft and libraries from automatically.
 	// See https://docs.gradle.org/current/userguide/declaring_repositories.html
 	// for more information about repositories.
+    maven {
+        url "https://cursemaven.com"
+        content {
+            includeGroup "curse.maven"
+        }
+    }
 }
 
 loom {
@@ -34,16 +40,36 @@ loom {
     }
 }
 
-modrinth {
-    token = System.getenv("MODRINTH_TOKEN")
-    projectId = "labelling-containers"
-    versionNumber = project.mod_version
-    versionType = "release"
-    uploadFile = remapJar
-    gameVersions = [project.minecraft_version]
-    loaders = ["fabric"]
-    dependencies {
-        required.project "fabric-api"
+unifiedPublishing {
+    project {
+        displayName = "Labelling Containers ${project.minecraft_version} - ${project.mod_version}"
+        gameVersions = [project.minecraft_version]
+        gameLoaders = ["fabric"]
+
+        mainPublication tasks.remapJar
+
+        relations {
+            depends {
+                curseforge = "fabric-api"
+                modrinth = "fabric-api"
+            }
+        }
+
+        var curseforgeToken = System.getenv("CURSEFORGE_TOKEN")
+        if (curseforgeToken != null) {
+            curseforge {
+                token = curseforgeToken
+                id = "844270"
+            }
+        }
+
+        var modrinthToken = System.getenv("MODRINTH_TOKEN")
+        if (modrinthToken != null) {
+            modrinth {
+                token = modrinthToken
+                id = "b2T42hfY"
+            }
+        }
     }
 }
 
@@ -70,6 +96,7 @@ dependencies {
 	// These are included in the Fabric API production distribution and allow you to update your mod to the latest modules at a later more convenient time.
 
 	// modImplementation "net.fabricmc.fabric-api:fabric-api-deprecated:${project.fabric_version}"
+    modCompileOnly "curse.maven:ironchests-498794:4596521"
 }
 
 processResources {
@@ -95,6 +122,10 @@ jar {
 	from("LICENSE") {
 		rename { "${it}_${project.archivesBaseName}"}
 	}
+}
+
+remapJar {
+    version = "${project.mod_version}-mc${project.minecraft_version}"
 }
 
 // configure the maven publication

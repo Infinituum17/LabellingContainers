@@ -4,6 +4,7 @@ import net.minecraft.block.BarrelBlock;
 import net.minecraft.block.Block;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.item.ItemStack;
+import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.world.BlockView;
@@ -20,7 +21,9 @@ public class BarrelBlockMixin extends Block {
 
     @Override
     public void appendTooltip(ItemStack stack, @Nullable BlockView world, List<Text> tooltip, TooltipContext options) {
-        tooltip.add(Text.translatable("block.labelable").formatted(Formatting.ITALIC).formatted(Formatting.GRAY));
+        MutableText text = Text.literal("ⓘ ").formatted(Formatting.BLUE);
+        text.append(Text.translatable("block.labelable").formatted(Formatting.ITALIC).formatted(Formatting.GRAY));
+        tooltip.add(text);
 
         super.appendTooltip(stack, world, tooltip, options);
     }
