@@ -25,7 +25,8 @@
 		]
 	},
 	"mixins": [
-		"labellingcontainers.mixins.json"
+		"labellingcontainers.mixins.json",
+		"ironchests.mixins.json"
 	],
 	"depends": {
 		"fabricloader": ">=0.14.21",
