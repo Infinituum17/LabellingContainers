@@ -2,7 +2,7 @@
 
 <a href='https://ko-fi.com/infinituum' target='_blank'><img height=35 src='https://uploads-ssl.webflow.com/5c14e387dab576fe667689cf/61e11d430afb112ea33c3aa5_Button-1-p-500.png' alt='Buy Me a Coffee at ko-fi.com' /></a>
 
-# Labelling Containers (1.19.4)
+# Labelling Containers (1.20)
 
 A mod that makes easy labeling chests, shulker boxes, barrels and other containers without the use of signs.
 
