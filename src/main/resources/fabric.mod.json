@@ -25,12 +25,16 @@
 		]
 	},
 	"mixins": [
-		"labellingcontainers.mixins.json"
+		"labellingcontainers.mixins.json",
+		"external.mixins.json"
 	],
 	"depends": {
 		"fabricloader": ">=0.14.17",
 		"minecraft": "~1.19.3",
 		"java": ">=17",
 		"fabric-api": "*"
+	},
+	"suggests": {
+		"mythicmetals_decorations": "0.5.2"
 	}
 }
