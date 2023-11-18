@@ -53,6 +53,10 @@ unifiedPublishing {
                 curseforge = "fabric-api"
                 modrinth = "fabric-api"
             }
+            optional {
+                curseforge = "ironchests"
+                modrinth = "ironchests"
+            }
         }
 
         var curseforgeToken = System.getenv("CURSEFORGE_TOKEN")
