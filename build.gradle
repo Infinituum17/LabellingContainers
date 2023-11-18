@@ -53,6 +53,10 @@ unifiedPublishing {
                 curseforge = "fabric-api"
                 modrinth = "fabric-api"
             }
+            optional {
+                curseforge = "mythicmetals-decorations"
+                modrinth = "mythicmetals-decorations"
+            }
         }
 
         var curseforgeToken = System.getenv("CURSEFORGE_TOKEN")
