@@ -25,16 +25,12 @@
 		]
 	},
 	"mixins": [
-		"labellingcontainers.mixins.json",
-		"external.mixins.json"
+		"labellingcontainers.mixins.json"
 	],
 	"depends": {
 		"fabricloader": ">=0.14.21",
 		"minecraft": "~1.20.1",
 		"java": ">=17",
 		"fabric-api": "*"
-	},
-	"suggests": {
-		"ironchests": "5.0.2"
 	}
 }

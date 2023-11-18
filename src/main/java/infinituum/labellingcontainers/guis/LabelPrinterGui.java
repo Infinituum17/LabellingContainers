@@ -58,7 +58,6 @@ public class LabelPrinterGui extends HandledScreen<LabelPrinterScreenHandler> {
     protected void handledScreenTick() {
         super.handledScreenTick();
         if(this.labelField == null) setup();
-        this.labelField.tick();
     }
 
     @Override
@@ -109,7 +108,7 @@ public class LabelPrinterGui extends HandledScreen<LabelPrinterScreenHandler> {
     @Override
     public void render(DrawContext context, int mouseX, int mouseY, float delta) {
         if(this.labelField == null) setup();
-        renderBackground(context);
+        renderBackground(context, mouseX, mouseY, delta);
         super.render(context, mouseX, mouseY, delta);
         renderForeground(context, mouseX, mouseY, delta);
         drawMouseoverTooltip(context, mouseX, mouseY);
