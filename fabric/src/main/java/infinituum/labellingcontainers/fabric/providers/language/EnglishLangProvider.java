@@ -3,7 +3,7 @@ package infinituum.labellingcontainers.fabric.providers.language;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
 
-import static infinituum.labellingcontainers.ExampleMod.EXAMPLE_ITEM;
+import static infinituum.labellingcontainers.LabellingContainers.EXAMPLE_ITEM;
 
 // import static infinituum.labellingcontainers.registration.ItemRegistration.LABEL_PRINTER;
 

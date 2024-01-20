@@ -15,7 +15,7 @@
   "environment": "*",
   "entrypoints": {
     "main": [
-      "infinituum.labellingcontainers.fabric.ExampleModFabric"
+      "infinituum.labellingcontainers.fabric.LabellingContainersFabric"
     ],
     "fabric-datagen": [
       "infinituum.labellingcontainers.fabric.LabellingContainersDataGeneration"
