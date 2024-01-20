@@ -3,16 +3,16 @@ package infinituum.labellingcontainers.fabric.providers.language;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
 
-// import static infinituum.labellingcontainers.registration.ItemRegistration.LABEL_PRINTER;
+import static infinituum.labellingcontainers.registration.ItemRegistration.LABEL_PRINTER;
 
 public class SpanishLangProvider extends FabricLanguageProvider {
     public SpanishLangProvider(FabricDataOutput dataOutput,String languageCode) { super(dataOutput, languageCode); }
 
     @Override
-    public void generateTranslations(TranslationBuilder translationBuilder) {/*
-        translationBuilder.add(LABEL_PRINTER, "Etiquetador");
+    public void generateTranslations(TranslationBuilder translationBuilder) {
+        translationBuilder.add(LABEL_PRINTER.get(), "Etiquetador");
 
-        String labelPrinterKey = LABEL_PRINTER.getTranslationKey();
+        String labelPrinterKey = LABEL_PRINTER.get().getTranslationKey();
 
         translationBuilder.add(labelPrinterKey + ".gui_display_name", "Etiquetador");
         translationBuilder.add(labelPrinterKey + ".tooltip.none", "Ninguno");
@@ -23,5 +23,5 @@ public class SpanishLangProvider extends FabricLanguageProvider {
         translationBuilder.add(labelPrinterKey + ".paper.error", "¡No tienes suficiente papel!");
 
         translationBuilder.add("block.labelable", "Puede ser etiquetado");
-    */}
+    }
 }
