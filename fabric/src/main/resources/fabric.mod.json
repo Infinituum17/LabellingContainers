@@ -22,7 +22,7 @@
     ]
   },
   "mixins": [
-    "labellingcontainers.mixins.json",
+    "external.mixins.json",
     "labellingcontainers-common.mixins.json"
   ],
   "depends": {

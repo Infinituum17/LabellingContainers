@@ -74,7 +74,6 @@ public class LabelPrinterGui extends HandledScreen<LabelPrinterScreenHandler> {
 
     @Override
     public void close() {
-        // TODO: Fix data not sent to server / data not received
         PacketByteBuf buffer = new PacketByteBuf(Unpooled.buffer());
 
         buffer.writeString(this.labelField.getText());
