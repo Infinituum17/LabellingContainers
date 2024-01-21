@@ -34,6 +34,10 @@ dependencies {
 
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
     shadowCommon(project(path: ":common", configuration: "transformProductionForge")) { transitive = false }
+
+    // Iron Chests: Restocked
+    modImplementation "curse.maven:resourceful-lib-570073:4973823"
+    modImplementation "curse.maven:ironchests-498794:4638051"
 }
 
 processResources {

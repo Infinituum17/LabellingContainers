@@ -1,9 +1,12 @@
 {
   "required": false,
   "package": "infinituum.labellingcontainers.forge.mixin",
+  "plugin": "infinituum.labellingcontainers.forge.utils.ConditionalLoaderMixinPlugin",
   "compatibilityLevel": "JAVA_17",
   "minVersion": "0.8",
   "mixins": [
+    "GenericChestBlockEntityMixin",
+    "GenericChestBlockMixin"
   ],
   "injectors": {
     "defaultRequire": 1
