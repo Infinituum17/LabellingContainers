@@ -22,6 +22,6 @@ public class ItalianLangProvider extends FabricLanguageProvider {
         translationBuilder.add(labelPrinterKey + ".tooltip.description", "Usa la carta per stampare nuove etichette");
         translationBuilder.add(labelPrinterKey + ".paper.error", "Non hai abbastanza carta!");
 
-        translationBuilder.add("block.labelable", "Può essere etichettato");
+        translationBuilder.add("block.labelable", "Usa una Stampante di etichette per etichettare questo blocco");
     }
 }

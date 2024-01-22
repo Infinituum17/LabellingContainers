@@ -24,6 +24,6 @@ public class EnglishLangProvider extends FabricLanguageProvider {
         translationBuilder.add(labelPrinterKey + ".tooltip.description", "Uses paper to print new labels");
         translationBuilder.add(labelPrinterKey + ".paper.error", "You don't have enough paper!");
 
-        translationBuilder.add("block.labelable", "Can be labeled");
+        translationBuilder.add("block.labelable", "Use a Label Printer to label this block");
     }
 }
