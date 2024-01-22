@@ -1,7 +1,7 @@
 package infinituum.labellingcontainers.forge.utils;
 
 import com.google.common.collect.ImmutableMap;
-import net.minecraftforge.fml.ModList;
+import net.minecraftforge.fml.loading.LoadingModList;
 import org.objectweb.asm.tree.ClassNode;
 import org.spongepowered.asm.mixin.extensibility.IMixinConfigPlugin;
 import org.spongepowered.asm.mixin.extensibility.IMixinInfo;
@@ -9,19 +9,24 @@ import org.spongepowered.asm.mixin.extensibility.IMixinInfo;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.function.Supplier;
 
 public final class ConditionalLoaderMixinPlugin implements IMixinConfigPlugin {
-    private static final Map<String, Supplier<Boolean>> CONDITIONS = ImmutableMap.of(
-            "infinituum.labellingcontainers.forge.mixin.GenericChestBlockMixin", () -> ModList.get().isLoaded("ironchests"),
-            "infinituum.labellingcontainers.forge.mixin.GenericChestBlockEntityMixin", () -> ModList.get().isLoaded("ironchests"),
-            "infinituum.labellingcontainers.forge.mixin.AbstractIronChestBlockMixin", () -> ModList.get().isLoaded("ironchest"),
-            "infinituum.labellingcontainers.forge.mixin.AbstractIronChestBlockEntityMixin", () -> ModList.get().isLoaded("ironchest")
+    private static final Map<String, String> MIXIN_MODIDS = ImmutableMap.of(
+            "infinituum.labellingcontainers.forge.mixin.GenericChestBlockMixin", "ironchests",
+            "infinituum.labellingcontainers.forge.mixin.GenericChestBlockEntityMixin", "ironchests",
+            "infinituum.labellingcontainers.forge.mixin.AbstractIronChestBlockMixin", "ironchest",
+            "infinituum.labellingcontainers.forge.mixin.AbstractIronChestBlockEntityMixin", "ironchest"
     );
 
     @Override
     public boolean shouldApplyMixin(String targetClassName, String mixinClassName) {
-        return CONDITIONS.getOrDefault(mixinClassName, () -> true).get();
+        final String MODID = MIXIN_MODIDS.get(mixinClassName);
+
+        if (MODID == null) {
+            return true;
+        }
+
+        return LoadingModList.get().getModFileById(MODID) != null;
     }
 
     @Override
