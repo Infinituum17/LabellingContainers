@@ -35,17 +35,17 @@ public class BarrelBlockEntityMixin extends BlockEntity implements Taggable {
 
     @Override
     public Packet<ClientPlayPacketListener> toUpdatePacket() {
-        return BlockEntityUpdateS2CPacket.create(((BarrelBlockEntity) (Object) this));
+        return BlockEntityUpdateS2CPacket.create(this);
     }
 
     @Override
     public NbtCompound toInitialChunkDataNbt() {
-        return ((BarrelBlockEntity) (Object) this).createNbt();
+        return this.createNbt();
     }
 
     @Unique
     private void labellingcontainers$notifyClients(BlockState oldState) {
-        ((BarrelBlockEntity) (Object) this).markDirty();
+        this.markDirty();
         if (world != null) world.updateListeners(this.pos, oldState, this.getCachedState(), Block.NOTIFY_LISTENERS);
     }
 

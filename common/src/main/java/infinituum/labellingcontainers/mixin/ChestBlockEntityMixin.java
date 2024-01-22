@@ -37,17 +37,17 @@ public class ChestBlockEntityMixin extends BlockEntity implements TaggableChest 
 
     @Override
     public Packet<ClientPlayPacketListener> toUpdatePacket() {
-        return BlockEntityUpdateS2CPacket.create(((ChestBlockEntity) (Object) this));
+        return BlockEntityUpdateS2CPacket.create(this);
     }
 
     @Override
     public NbtCompound toInitialChunkDataNbt() {
-        return ((ChestBlockEntity) (Object) this).createNbt();
+        return this.createNbt();
     }
 
     @Unique
     private void labellingcontainers$notifyClients(BlockState oldState) {
-        ((ChestBlockEntity) (Object) this).markDirty();
+        this.markDirty();
         if (world != null) world.updateListeners(this.pos, oldState, this.getCachedState(), Block.NOTIFY_LISTENERS);
     }
 
@@ -57,7 +57,7 @@ public class ChestBlockEntityMixin extends BlockEntity implements TaggableChest 
 
         labellingcontainers$displayItem = item;
         if (searchDoubleChest) {
-            TaggableChest otherChest = (TaggableChest) ChestHelper.getConnectedChestBlockEntity(world, pos, ((ChestBlockEntity) (Object) this).getCachedState());
+            TaggableChest otherChest = (TaggableChest) ChestHelper.getConnectedChestBlockEntity(world, pos, this.getCachedState());
 
             if (otherChest != null) {
                 otherChest.labellingcontainers$setDisplayItem(item, false);
@@ -73,7 +73,7 @@ public class ChestBlockEntityMixin extends BlockEntity implements TaggableChest 
 
         labellingcontainers$label = newLabel;
         if (searchDoubleChest) {
-            TaggableChest otherChest = (TaggableChest) ChestHelper.getConnectedChestBlockEntity(world, pos, ((ChestBlockEntity) (Object) this).getCachedState());
+            TaggableChest otherChest = (TaggableChest) ChestHelper.getConnectedChestBlockEntity(world, pos, this.getCachedState());
 
             if (otherChest != null) {
                 otherChest.labellingcontainers$setLabel(newLabel, false);

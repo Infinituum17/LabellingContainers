@@ -38,7 +38,7 @@ public class MythicChestBlockEntityMixin extends BlockEntity implements Taggable
     @Nullable
     @Override
     public Packet<ClientPlayPacketListener> toUpdatePacket() {
-        return BlockEntityUpdateS2CPacket.create((MythicChestBlockEntity) (Object) this);
+        return BlockEntityUpdateS2CPacket.create(this);
     }
 
     @Override

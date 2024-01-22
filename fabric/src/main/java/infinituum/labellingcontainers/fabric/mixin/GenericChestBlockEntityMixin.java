@@ -35,17 +35,17 @@ public class GenericChestBlockEntityMixin extends BlockEntity implements Taggabl
 
     @Override
     public Packet<ClientPlayPacketListener> toUpdatePacket() {
-        return BlockEntityUpdateS2CPacket.create(((GenericChestBlockEntity) (Object) this));
+        return BlockEntityUpdateS2CPacket.create(this);
     }
 
     @Override
     public NbtCompound toInitialChunkDataNbt() {
-        return ((GenericChestBlockEntity) (Object) this).createNbt();
+        return this.createNbt();
     }
 
     @Unique
     private void labellingcontainers$notifyClients(BlockState oldState) {
-        ((GenericChestBlockEntity) (Object) this).markDirty();
+        this.markDirty();
         if (world != null) world.updateListeners(this.pos, oldState, this.getCachedState(), Block.NOTIFY_LISTENERS);
     }
 

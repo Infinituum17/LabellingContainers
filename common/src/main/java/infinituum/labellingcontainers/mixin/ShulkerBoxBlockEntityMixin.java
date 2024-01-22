@@ -35,17 +35,17 @@ public class ShulkerBoxBlockEntityMixin extends BlockEntity implements Taggable 
 
     @Override
     public Packet<ClientPlayPacketListener> toUpdatePacket() {
-        return BlockEntityUpdateS2CPacket.create(((ShulkerBoxBlockEntity) (Object) this));
+        return BlockEntityUpdateS2CPacket.create(this);
     }
 
     @Override
     public NbtCompound toInitialChunkDataNbt() {
-        return ((ShulkerBoxBlockEntity) (Object) this).createNbt();
+        return this.createNbt();
     }
 
     @Unique
     private void labellingcontainers$notifyClients(BlockState oldState) {
-        ((ShulkerBoxBlockEntity) (Object) this).markDirty();
+        this.markDirty();
         if (world != null) world.updateListeners(this.pos, oldState, this.getCachedState(), Block.NOTIFY_LISTENERS);
     }
 
