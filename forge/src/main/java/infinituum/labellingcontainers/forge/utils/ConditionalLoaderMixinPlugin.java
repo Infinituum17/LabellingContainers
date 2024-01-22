@@ -14,9 +14,7 @@ import java.util.function.Supplier;
 public final class ConditionalLoaderMixinPlugin implements IMixinConfigPlugin {
     private static final Map<String, Supplier<Boolean>> CONDITIONS = ImmutableMap.of(
             "infinituum.labellingcontainers.fabric.mixin.GenericChestBlockMixin", () -> ModList.get().isLoaded("ironchests"),
-            "infinituum.labellingcontainers.fabric.mixin.GenericChestBlockEntityMixin", () -> ModList.get().isLoaded("ironchests"),
-            "infinituum.labellingcontainers.fabric.mixin.MythicChestBlockMixin", () -> ModList.get().isLoaded("mythicmetals_decorations"),
-            "infinituum.labellingcontainers.fabric.mixin.MythicChestBlockEntityMixin", () -> ModList.get().isLoaded("mythicmetals_decorations")
+            "infinituum.labellingcontainers.fabric.mixin.GenericChestBlockEntityMixin", () -> ModList.get().isLoaded("ironchests")
     );
 
     @Override
