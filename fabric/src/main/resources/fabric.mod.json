@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "id": "labellingcontainers",
+  "id": "${modid}",
   "version": "${version}",
   "name": "Labelling Containers",
   "description": "This mod helps you organize the content of your chests and other containers by assigning them a name, and without using annoying signs",
@@ -11,23 +11,23 @@
     "sources": "https://github.com/Infinituum17/LabellingContainers"
   },
   "license": "MIT",
-  "icon": "assets/labellingcontainers/icon.png",
+  "icon": "assets/${modid}/icon.png",
   "environment": "*",
   "entrypoints": {
     "main": [
-      "infinituum.labellingcontainers.fabric.LabellingContainersFabric"
+      "infinituum.${modid}.fabric.LabellingContainersFabric"
     ],
     "fabric-datagen": [
-      "infinituum.labellingcontainers.fabric.LabellingContainersDataGeneration"
+      "infinituum.${modid}.fabric.LabellingContainersDataGeneration"
     ]
   },
   "mixins": [
     "external.mixins.json",
-    "labellingcontainers-common.mixins.json"
+    "${modid}-common.mixins.json"
   ],
   "depends": {
     "fabric": "*",
-    "minecraft": ">=1.20.1",
-    "architectury": ">=9.1.12"
+    "minecraft": ">=${mc_version}",
+    "architectury": ">=${arch_version}"
   }
 }

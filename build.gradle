@@ -36,6 +36,11 @@ allprojects {
 
     version = rootProject.mod_version
     group = rootProject.maven_group
+    forge_version = rootProject.forge_version
+    minecraft_version = rootProject.minecraft_version
+    architectury_version = rootProject.architectury_version
+    pack_format_version = rootProject.pack_format_version
+    archives_base_name = rootProject.archives_base_name
 
     repositories {
         // Add repositories to retrieve artifacts from in here.

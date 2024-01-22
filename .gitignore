@@ -43,3 +43,5 @@ replay_*.log
 # other
 **/*.png
 **/.cache/
+
+.architectury-transformer/

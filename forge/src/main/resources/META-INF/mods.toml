@@ -1,35 +1,35 @@
 modLoader = "javafml"
-loaderVersion = "[47,)"
+loaderVersion = "[${forge_maj_version},)"
 issueTrackerURL = "https://github.com/Infinituum17/LabellingContainers/issues"
 license = "MIT"
 
 [[mods]]
-modId = "labellingcontainers"
+modId = "${modid}"
 version = "${version}"
 displayName = "Labelling Containers"
 authors = "Infinituum"
 description = '''
 This mod helps you organize the content of your chests and other containers by assigning them a name, and without using annoying signs
 '''
-logoFile = "assets/labellingcontainers/icon.png"
+logoFile = "assets/${modid}/icon.png"
 
-[[dependencies.labellingcontainers]]
+[[dependencies.${ modid }]]
 modId = "forge"
 mandatory = true
-versionRange = "[47,)"
+versionRange = "[${forge_maj_version},)"
 ordering = "NONE"
 side = "BOTH"
 
-[[dependencies.labellingcontainers]]
+[[dependencies.${ modid }]]
 modId = "minecraft"
 mandatory = true
-versionRange = "[1.20.1,)"
+versionRange = "[${mc_version},)"
 ordering = "NONE"
 side = "BOTH"
 
-[[dependencies.labellingcontainers]]
+[[dependencies.${ modid }]]
 modId = "architectury"
 mandatory = true
-versionRange = "[9.1.12,)"
+versionRange = "[${arch_version},)"
 ordering = "AFTER"
 side = "BOTH"
