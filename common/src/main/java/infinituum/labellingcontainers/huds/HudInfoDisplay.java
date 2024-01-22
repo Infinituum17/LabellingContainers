@@ -28,7 +28,7 @@ public class HudInfoDisplay implements RenderHud {
         if (blockEntity == null) return;
 
         if (blockEntity instanceof Taggable labelable) {
-            Item displayItem = (labelable.getDisplayItem() != null) ? labelable.getDisplayItem() : client.world.getBlockState(blockPos).getBlock().asItem();
+            Item displayItem = (labelable.labellingcontainers$getDisplayItem() != null) ? labelable.labellingcontainers$getDisplayItem() : client.world.getBlockState(blockPos).getBlock().asItem();
 
             int width = client.getWindow().getScaledWidth();
             int height = client.getWindow().getScaledHeight();
@@ -39,7 +39,7 @@ public class HudInfoDisplay implements RenderHud {
             int leftPadding = 10;
 
             context.drawItem(new ItemStack(displayItem), x + leftPadding, y - 8);
-            context.drawTextWithShadow(client.textRenderer, labelable.getLabel(), x + leftPadding * 3, (y + 1) - fontHeight / 2, 0xFFFFFFFF);
+            context.drawTextWithShadow(client.textRenderer, labelable.labellingcontainers$getLabel(), x + leftPadding * 3, (y + 1) - fontHeight / 2, 0xFFFFFFFF);
         }
     }
 }

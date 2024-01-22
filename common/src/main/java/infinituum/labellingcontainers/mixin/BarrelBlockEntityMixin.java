@@ -17,14 +17,17 @@ import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(BarrelBlockEntity.class)
 public class BarrelBlockEntityMixin extends BlockEntity implements Taggable {
-    private MutableText label = Text.literal("");
-    private Item displayItem = Items.AIR;
+    @Unique
+    private MutableText labellingcontainers$label = Text.literal("");
+    @Unique
+    private Item labellingcontainers$displayItem = Items.AIR;
 
     public BarrelBlockEntityMixin(BlockEntityType<?> type, BlockPos pos, BlockState state) {
         super(type, pos, state);
@@ -40,56 +43,57 @@ public class BarrelBlockEntityMixin extends BlockEntity implements Taggable {
         return ((BarrelBlockEntity) (Object) this).createNbt();
     }
 
-    private void notifyClients(BlockState oldState) {
+    @Unique
+    private void labellingcontainers$notifyClients(BlockState oldState) {
         ((BarrelBlockEntity) (Object) this).markDirty();
         if (world != null) world.updateListeners(this.pos, oldState, this.getCachedState(), Block.NOTIFY_LISTENERS);
     }
 
     @Override
-    public Item getDisplayItem() {
-        return displayItem;
+    public Item labellingcontainers$getDisplayItem() {
+        return labellingcontainers$displayItem;
     }
 
     @Override
-    public void setDisplayItem(Item item) {
+    public void labellingcontainers$setDisplayItem(Item item) {
         BlockState oldState = this.getCachedState();
 
-        displayItem = item;
+        labellingcontainers$displayItem = item;
 
-        notifyClients(oldState);
+        labellingcontainers$notifyClients(oldState);
     }
 
     @Override
-    public MutableText getLabel() {
-        return label;
+    public MutableText labellingcontainers$getLabel() {
+        return labellingcontainers$label;
     }
 
     @Override
-    public void setLabel(MutableText newLabel) {
+    public void labellingcontainers$setLabel(MutableText newLabel) {
         BlockState oldState = this.getCachedState();
 
-        label = newLabel;
+        labellingcontainers$label = newLabel;
 
-        notifyClients(oldState);
+        labellingcontainers$notifyClients(oldState);
     }
 
     @Inject(method = "writeNbt", at = @At("TAIL"))
     public void writeNbtMixin(NbtCompound nbt, CallbackInfo ci) {
-        nbt.putString("label", label.getString());
+        nbt.putString("label", labellingcontainers$label.getString());
         NbtCompound displayItemNbt = new NbtCompound();
 
-        new ItemStack(displayItem).writeNbt(displayItemNbt);
+        new ItemStack(labellingcontainers$displayItem).writeNbt(displayItemNbt);
 
-        if (displayItem != null) {
+        if (labellingcontainers$displayItem != null) {
             nbt.put("displayItem", displayItemNbt);
         }
     }
 
     @Inject(method = "readNbt", at = @At("TAIL"))
     public void readNbtMixin(NbtCompound nbt, CallbackInfo ci) {
-        this.label = Text.of(nbt.getString("label")).copy();
+        this.labellingcontainers$label = Text.of(nbt.getString("label")).copy();
         if (nbt.contains("displayItem")) {
-            this.displayItem = ItemStack.fromNbt(nbt.getCompound("displayItem")).getItem();
+            this.labellingcontainers$displayItem = ItemStack.fromNbt(nbt.getCompound("displayItem")).getItem();
         }
     }
 }

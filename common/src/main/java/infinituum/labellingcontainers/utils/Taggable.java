@@ -5,11 +5,11 @@ import net.minecraft.item.Item;
 import net.minecraft.text.MutableText;
 
 public interface Taggable {
-    Item getDisplayItem();
+    Item labellingcontainers$getDisplayItem();
 
-    void setDisplayItem(Item item);
+    void labellingcontainers$setDisplayItem(Item item);
 
-    MutableText getLabel();
+    MutableText labellingcontainers$getLabel();
 
-    void setLabel(MutableText newLabel);
+    void labellingcontainers$setLabel(MutableText newLabel);
 }

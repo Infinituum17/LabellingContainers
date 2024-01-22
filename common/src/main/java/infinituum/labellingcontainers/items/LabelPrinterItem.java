@@ -78,7 +78,7 @@ public class LabelPrinterItem extends Item {
                     return ActionResult.FAIL;
                 }
 
-                if (taggable.getLabel().equals(label) && taggable.getDisplayItem().equals(displayItem)) {
+                if (taggable.labellingcontainers$getLabel().equals(label) && taggable.labellingcontainers$getDisplayItem().equals(displayItem)) {
                     ((ServerWorld) world).spawnParticles(ParticleTypes.SMOKE, hitPos.getX(), hitPos.getY(), hitPos.getZ(), 15, 0, 0, 0, 0.01);
                     world.playSound(null, pos, SoundEvents.BLOCK_FIRE_EXTINGUISH, SoundCategory.BLOCKS, 0.75f, 2f);
                     return ActionResult.FAIL;
@@ -86,8 +86,8 @@ public class LabelPrinterItem extends Item {
 
                 if (!player.isCreative()) InventoryHelper.removeOneItemFromInventory(inventory, Items.PAPER);
 
-                taggable.setLabel(label);
-                taggable.setDisplayItem(displayItem);
+                taggable.labellingcontainers$setLabel(label);
+                taggable.labellingcontainers$setDisplayItem(displayItem);
 
                 ((ServerWorld) world).spawnParticles(ParticleTypes.END_ROD, hitPos.getX(), hitPos.getY(), hitPos.getZ(), 15, 0, 0, 0, 0.01);
                 world.playSound(null, pos, SoundEvents.BLOCK_NOTE_BLOCK_HARP.value(), SoundCategory.BLOCKS, 0.75f, 2f);

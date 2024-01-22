@@ -39,8 +39,8 @@ public class ChestBlockMixin extends Block {
         ChestBlockEntity connectedChestBlockEntity = ChestHelper.getConnectedChestBlockEntity(world, pos, state);
 
         if (connectedChestBlockEntity instanceof TaggableChest connectedChest && currentChestBlockEntity instanceof TaggableChest currentChest) {
-            currentChest.setLabel(connectedChest.getLabel(), false);
-            currentChest.setDisplayItem(connectedChest.getDisplayItem(), false);
+            currentChest.labellingcontainers$setLabel(connectedChest.labellingcontainers$getLabel(), false);
+            currentChest.labellingcontainers$setDisplayItem(connectedChest.labellingcontainers$getDisplayItem(), false);
         }
     }
 
