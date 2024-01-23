@@ -4,12 +4,7 @@
   "plugin": "infinituum.labellingcontainers.fabric.utils.ConditionalLoaderMixinPlugin",
   "compatibilityLevel": "JAVA_17",
   "minVersion": "0.8",
-  "mixins": [
-    "GenericChestBlockEntityMixin",
-    "GenericChestBlockMixin",
-    "MythicChestBlockEntityMixin",
-    "MythicChestBlockMixin"
-  ],
+  "mixins": [],
   "injectors": {
     "defaultRequire": 1
   }

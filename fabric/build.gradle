@@ -42,29 +42,29 @@ dependencies {
     shadowCommon(project(path: ":common", configuration: "transformProductionFabric")) { transitive false }
 
     // Iron Chests: Restocked
-    modImplementation "curse.maven:resourceful-lib-570073:4851866"
-    modImplementation "curse.maven:ironchests-498794:4638050"
+    // modImplementation "curse.maven:resourceful-lib-570073:4851866"
+    // modImplementation "curse.maven:ironchests-498794:4638050"
 
     // Mythic Metals Decorations
-    def ccapiVersion = "5.0.2"
-    def mixinextrasVersion = "0.2.0"
-    def aeaVersion = "1.4.0+1.20.0"
-    def cpapiVersion = "1.0.0"
-    def bejVersion = "1.2.2"
+    // def ccapiVersion = "5.0.2"
+    // def mixinextrasVersion = "0.2.0"
+    // def aeaVersion = "1.4.0+1.20.0"
+    // def cpapiVersion = "1.0.0"
+    // def bejVersion = "1.2.2"
 
-    modImplementation "dev.onyxstudios.cardinal-components-api:cardinal-components-base:${ccapiVersion}"
-    modImplementation "dev.onyxstudios.cardinal-components-api:cardinal-components-entity:${ccapiVersion}"
-    modImplementation "io.github.llamalad7:mixinextras-fabric:${mixinextrasVersion}"
-    modImplementation "maven.modrinth:additionalentityattributes:${aeaVersion}"
-    modImplementation "eu.pb4:common-protection-api:${cpapiVersion}"
+    // modImplementation "dev.onyxstudios.cardinal-components-api:cardinal-components-base:${ccapiVersion}"
+    // modImplementation "dev.onyxstudios.cardinal-components-api:cardinal-components-entity:${ccapiVersion}"
+    // modImplementation "io.github.llamalad7:mixinextras-fabric:${mixinextrasVersion}"
+    // modImplementation "maven.modrinth:additionalentityattributes:${aeaVersion}"
+    // modImplementation "eu.pb4:common-protection-api:${cpapiVersion}"
 
-    implementation "blue.endless:jankson:${bejVersion}"
+    // implementation "blue.endless:jankson:${bejVersion}"
 
-    modImplementation "curse.maven:owo-lib-532610:4749199"
-    modImplementation "curse.maven:cloth-config-348521:4633442"
-    modImplementation "curse.maven:mythicmetals-410127:4644233"
-    modImplementation "curse.maven:alloy-forgery-438718:4644228"
-    modImplementation "curse.maven:mythicmetals-decorations-552128:4580007"
+    // modImplementation "curse.maven:owo-lib-532610:4749199"
+    // modImplementation "curse.maven:cloth-config-348521:4633442"
+    // modImplementation "curse.maven:mythicmetals-410127:4644233"
+    // modImplementation "curse.maven:alloy-forgery-438718:4644228"
+    // modImplementation "curse.maven:mythicmetals-decorations-552128:4580007"
 }
 
 processResources {
