@@ -1,0 +1,8 @@
+{
+  "pack": {
+    "description": "Labelling Containers",
+    "pack_format": ${
+  pack_format_version
+}
+  }
+}
