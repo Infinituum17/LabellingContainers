@@ -1,15 +1,15 @@
 package infinituum.labellingcontainers.utils;
 
 
-import net.minecraft.item.Item;
-import net.minecraft.text.MutableText;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.world.item.Item;
 
 public interface Taggable {
     Item labellingcontainers$getDisplayItem();
 
     void labellingcontainers$setDisplayItem(Item item);
 
-    MutableText labellingcontainers$getLabel();
+    MutableComponent labellingcontainers$getLabel();
 
-    void labellingcontainers$setLabel(MutableText newLabel);
+    void labellingcontainers$setLabel(MutableComponent newLabel);
 }

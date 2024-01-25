@@ -40,7 +40,7 @@ dependencies {
     // modImplementation "curse.maven:ironchests-498794:4638051"
 
     // Iron Chests
-    modImplementation "curse.maven:iron-chests-228756:4941829"
+    // modImplementation "curse.maven:iron-chests-228756:4941829"
 }
 
 processResources {

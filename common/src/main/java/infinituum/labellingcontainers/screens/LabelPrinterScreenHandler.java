@@ -1,43 +1,44 @@
 package infinituum.labellingcontainers.screens;
 
 import infinituum.labellingcontainers.registration.ScreenRegistration;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.Inventory;
-import net.minecraft.inventory.SimpleInventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.screen.ScreenHandler;
-import net.minecraft.screen.slot.Slot;
-import net.minecraft.screen.slot.SlotActionType;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.Container;
+import net.minecraft.world.SimpleContainer;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.ClickType;
+import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.item.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
-public class LabelPrinterScreenHandler extends ScreenHandler {
-    private final Inventory inventory;
+public class LabelPrinterScreenHandler extends AbstractContainerMenu {
+    private final Container inventory;
 
-    public LabelPrinterScreenHandler(int syncId, PlayerInventory playerInventory) {
-        this(syncId, playerInventory, new SimpleInventory(1));
+    public LabelPrinterScreenHandler(int syncId, Inventory playerInventory) {
+        this(syncId, playerInventory, new SimpleContainer(1));
     }
 
-    public LabelPrinterScreenHandler(int syncId, PlayerInventory playerInventory, Inventory inventory) {
+    public LabelPrinterScreenHandler(int syncId, Inventory playerInventory, Container inventory) {
         super(ScreenRegistration.LABEL_PRINTER_SCREEN_HANDLER.get(), syncId);
 
-        checkSize(inventory, 1);
+        checkContainerSize(inventory, 1);
 
-        if (playerInventory.getMainHandStack() != null) {
-            NbtCompound nbt = playerInventory.getMainHandStack().getSubNbt("Contents");
+        if (playerInventory.getSelected() != null) {
+            CompoundTag nbt = playerInventory.getSelected().getTagElement("Contents");
 
             if (nbt != null) {
-                ItemStack items = ItemStack.fromNbt(nbt);
+                ItemStack items = ItemStack.of(nbt);
 
                 if (items != ItemStack.EMPTY) {
-                    inventory.setStack(0, items);
+                    inventory.setItem(0, items);
                 }
             }
         }
 
         this.inventory = inventory;
 
-        inventory.onOpen(playerInventory.player);
+        inventory.startOpen(playerInventory.player);
 
         this.addSlot(new Slot(inventory, 0, 20, 35));
 
@@ -54,11 +55,11 @@ public class LabelPrinterScreenHandler extends ScreenHandler {
     }
 
     @Override
-    public void onSlotClick(int slotIndex, int button, SlotActionType actionType, PlayerEntity player) {
-        boolean inPlayerInventory = slotIndex >= this.inventory.size();
+    public void clicked(int slotIndex, int button, ClickType actionType, Player player) {
+        boolean inPlayerInventory = slotIndex >= this.inventory.getContainerSize();
 
         if (slotIndex < 0) {
-            super.onSlotClick(slotIndex, button, actionType, player);
+            super.clicked(slotIndex, button, actionType, player);
             return;
         }
 
@@ -67,50 +68,50 @@ public class LabelPrinterScreenHandler extends ScreenHandler {
         switch (actionType) {
             case PICKUP, PICKUP_ALL -> {
                 if (!inPlayerInventory) {
-                    this.setStackInSlot(slotIndex, this.nextRevision(), (this.getCursorStack() != ItemStack.EMPTY) ? new ItemStack(this.getCursorStack().getItem()) : ItemStack.EMPTY);
+                    this.setItem(slotIndex, this.incrementStateId(), (this.getCarried() != ItemStack.EMPTY) ? new ItemStack(this.getCarried().getItem()) : ItemStack.EMPTY);
                 } else {
-                    ItemStack itemInHand = player.getMainHandStack();
+                    ItemStack itemInHand = player.getMainHandItem();
 
-                    if (slot.hasStack() && ItemStack.areEqual(itemInHand, slot.getStack())) {
+                    if (slot.hasItem() && ItemStack.matches(itemInHand, slot.getItem())) {
                         return;
                     }
                 }
             }
             case QUICK_MOVE -> {
                 if (!inPlayerInventory) {
-                    this.setStackInSlot(slotIndex, this.nextRevision(), ItemStack.EMPTY);
+                    this.setItem(slotIndex, this.incrementStateId(), ItemStack.EMPTY);
                 } else {
-                    if (slot.hasStack())
-                        this.setStackInSlot(0, this.nextRevision(), new ItemStack(slot.getStack().getItem()));
+                    if (slot.hasItem())
+                        this.setItem(0, this.incrementStateId(), new ItemStack(slot.getItem().getItem()));
                 }
             }
         }
 
-        if (inPlayerInventory) super.onSlotClick(slotIndex, button, actionType, player);
+        if (inPlayerInventory) super.clicked(slotIndex, button, actionType, player);
     }
 
     @Override
-    public void onClosed(PlayerEntity player) {
-        if (player.getMainHandStack() != null && player.getMainHandStack() != ItemStack.EMPTY) {
-            ItemStack itemStack = this.inventory.getStack(0);
-            NbtCompound nbt = new NbtCompound();
+    public void removed(Player player) {
+        if (player.getMainHandItem() != null && player.getMainHandItem() != ItemStack.EMPTY) {
+            ItemStack itemStack = this.inventory.getItem(0);
+            CompoundTag nbt = new CompoundTag();
 
-            itemStack.writeNbt(nbt);
+            itemStack.save(nbt);
 
-            player.getMainHandStack().setSubNbt("Contents", nbt);
+            player.getMainHandItem().addTagElement("Contents", nbt);
         }
 
 
-        super.onClosed(player);
+        super.removed(player);
     }
 
     @Override
-    public ItemStack quickMove(PlayerEntity player, int slot) {
+    public @NotNull ItemStack quickMoveStack(Player player, int slot) {
         return ItemStack.EMPTY;
     }
 
     @Override
-    public boolean canUse(PlayerEntity player) {
-        return this.inventory.canPlayerUse(player);
+    public boolean stillValid(Player player) {
+        return this.inventory.stillValid(player);
     }
 }

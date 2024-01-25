@@ -1,21 +1,22 @@
 package infinituum.labellingcontainers.screens;
 
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.screen.NamedScreenHandlerFactory;
-import net.minecraft.screen.ScreenHandler;
-import net.minecraft.text.Text;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.MenuProvider;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import org.jetbrains.annotations.NotNull;
 
 import static infinituum.labellingcontainers.registration.ItemRegistration.LABEL_PRINTER;
 
-public class LabelPrinterScreenFactory implements NamedScreenHandlerFactory {
+public class LabelPrinterScreenFactory implements MenuProvider {
     @Override
-    public Text getDisplayName() {
-        return Text.translatable(LABEL_PRINTER.get().getTranslationKey() + ".gui_display_name");
+    public @NotNull Component getDisplayName() {
+        return Component.translatable(LABEL_PRINTER.get().getDescriptionId() + ".gui_display_name");
     }
 
     @Override
-    public ScreenHandler createMenu(int syncId, PlayerInventory playerInventory, PlayerEntity player) {
+    public AbstractContainerMenu createMenu(int syncId, Inventory playerInventory, Player player) {
         return new LabelPrinterScreenHandler(syncId, playerInventory);
     }
 }

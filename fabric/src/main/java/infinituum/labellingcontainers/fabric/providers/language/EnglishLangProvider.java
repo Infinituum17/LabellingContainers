@@ -14,7 +14,7 @@ public class EnglishLangProvider extends FabricLanguageProvider {
     public void generateTranslations(TranslationBuilder translationBuilder) {
         translationBuilder.add(LABEL_PRINTER.get(), "Label Printer");
 
-        String labelPrinterKey = LABEL_PRINTER.get().getTranslationKey();
+        String labelPrinterKey = LABEL_PRINTER.get().getDescriptionId();
 
         translationBuilder.add(labelPrinterKey + ".gui_display_name", "Label Printer");
         translationBuilder.add(labelPrinterKey + ".tooltip.none", "None");
