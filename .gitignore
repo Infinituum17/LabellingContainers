@@ -4,6 +4,7 @@
 build/
 out/
 classes/
+generated/
 
 # eclipse
 
@@ -42,3 +43,5 @@ replay_*.log
 # other
 **/*.png
 **/.cache/
+
+.architectury-transformer/
