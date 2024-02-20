@@ -1,0 +1,14 @@
+{
+  "required": false,
+  "package": "infinituum.labellingcontainers.fabric.mixin",
+  "plugin": "infinituum.labellingcontainers.fabric.utils.ConditionalLoaderMixinPlugin",
+  "compatibilityLevel": "JAVA_17",
+  "minVersion": "0.8",
+  "mixins": [
+    "MythicChestBlockEntityMixin",
+    "MythicChestBlockMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
