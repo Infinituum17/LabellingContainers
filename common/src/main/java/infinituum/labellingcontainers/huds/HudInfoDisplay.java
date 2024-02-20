@@ -41,7 +41,7 @@ public class HudInfoDisplay implements RenderHud {
 
             context.push();
 
-            client.getItemRenderer().renderGuiItemIcon(context, new ItemStack(displayItem), x + leftPadding, y - 8);
+            client.getItemRenderer().renderGuiItemIcon(new ItemStack(displayItem), x + leftPadding, y - 8);
             DrawableHelper.drawTextWithShadow(context, client.textRenderer, labelable.labellingcontainers$getLabel(), x + leftPadding * 3, (y + 1) - fontHeight / 2, 0xFFFFFFFF);
 
             context.pop();

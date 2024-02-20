@@ -90,7 +90,7 @@ public class LabelPrinterScreenHandler extends ScreenHandler {
     }
 
     @Override
-    public void onClosed(PlayerEntity player) {
+    public void close(PlayerEntity player) {
         if (player.getMainHandStack() != null && player.getMainHandStack() != ItemStack.EMPTY) {
             ItemStack itemStack = this.inventory.getStack(0);
             NbtCompound nbt = new NbtCompound();
@@ -101,7 +101,7 @@ public class LabelPrinterScreenHandler extends ScreenHandler {
         }
 
 
-        super.onClosed(player);
+        super.close(player);
     }
 
     @Override

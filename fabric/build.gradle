@@ -47,7 +47,7 @@ dependencies {
 
     // Mythic Metals Decorations
     def ccapiVersion = "5.0.2"
-    def aeaVersion = "1.4.0+1.19.4"
+    def aeaVersion = "1.4.0+1.19.3"
     def bejVersion = "1.2.2"
 
     modImplementation "dev.onyxstudios.cardinal-components-api:cardinal-components-base:${ccapiVersion}"
@@ -56,10 +56,10 @@ dependencies {
 
     implementation "blue.endless:jankson:${bejVersion}"
 
-    modImplementation "curse.maven:owo-lib-532610:4559399"
-    modImplementation "curse.maven:mythicmetals-410127:4578506"
-    modImplementation "curse.maven:alloy-forgery-438718:4487545"
-    modImplementation "curse.maven:mythicmetals-decorations-552128:4570786"
+    modImplementation "curse.maven:owo-lib-532610:4439876"
+    modImplementation "curse.maven:mythicmetals-410127:4441527"
+    modImplementation "curse.maven:alloy-forgery-438718:4403713"
+    modImplementation "curse.maven:mythicmetals-decorations-552128:4377089"
 }
 
 processResources {
