@@ -6,10 +6,10 @@ import infinituum.labellingcontainers.network.Packets;
 import infinituum.labellingcontainers.screens.LabelPrinterScreenHandler;
 import io.netty.buffer.Unpooled;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.client.render.GameRenderer;
+import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.nbt.NbtCompound;
@@ -22,8 +22,8 @@ import static infinituum.labellingcontainers.LabellingContainers.MOD_ID;
 
 public class LabelPrinterGui extends HandledScreen<LabelPrinterScreenHandler> {
     private static final Identifier BACKGROUND = new Identifier(MOD_ID, "textures/gui/label_printer_gui.png");
-    private final PlayerEntity player;
     private TextFieldWidget labelField;
+    private final PlayerEntity player;
 
     public LabelPrinterGui(LabelPrinterScreenHandler handler, PlayerInventory inventory, Text title) {
         super(handler, inventory, title);
@@ -45,7 +45,7 @@ public class LabelPrinterGui extends HandledScreen<LabelPrinterScreenHandler> {
 
         NbtCompound nbt = null;
 
-        if (player != null) {
+        if(player != null) {
             nbt = this.player.getInventory().getMainHandStack().getSubNbt("Label");
         }
 
@@ -58,7 +58,8 @@ public class LabelPrinterGui extends HandledScreen<LabelPrinterScreenHandler> {
     @Override
     protected void handledScreenTick() {
         super.handledScreenTick();
-        if (this.labelField == null) setup();
+        if(this.labelField == null) setup();
+        this.labelField.tick();
     }
 
     @Override
@@ -92,25 +93,25 @@ public class LabelPrinterGui extends HandledScreen<LabelPrinterScreenHandler> {
     }
 
     @Override
-    protected void drawBackground(DrawContext context, float delta, int mouseX, int mouseY) {
+    protected void drawBackground(MatrixStack matrices, float delta, int mouseX, int mouseY) {
         RenderSystem.setShader(GameRenderer::getPositionTexProgram);
         RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
         RenderSystem.setShaderTexture(0, BACKGROUND);
         int x = (width - backgroundWidth) / 2;
         int y = (height - backgroundHeight) / 2;
-        context.drawTexture(BACKGROUND, x, y, 0, 0, backgroundWidth, backgroundHeight);
+        drawTexture(matrices, x, y, 0, 0, backgroundWidth, backgroundHeight);
     }
 
-    protected void renderForeground(DrawContext context, int mouseX, int mouseY, float delta) {
-        this.labelField.render(context, mouseX, mouseY, delta);
+    protected void renderForeground(MatrixStack matrices, int mouseX, int mouseY, float delta) {
+        this.labelField.render(matrices, mouseX, mouseY, delta);
     }
 
     @Override
-    public void render(DrawContext context, int mouseX, int mouseY, float delta) {
-        if (this.labelField == null) setup();
-        renderBackground(context);
-        super.render(context, mouseX, mouseY, delta);
-        renderForeground(context, mouseX, mouseY, delta);
-        drawMouseoverTooltip(context, mouseX, mouseY);
+    public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
+        if(this.labelField == null) setup();
+        renderBackground(matrices);
+        super.render(matrices, mouseX, mouseY, delta);
+        renderForeground(matrices, mouseX, mouseY, delta);
+        drawMouseoverTooltip(matrices, mouseX, mouseY);
     }
 }

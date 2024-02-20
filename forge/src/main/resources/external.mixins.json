@@ -6,9 +6,7 @@
   "minVersion": "0.8",
   "mixins": [
     "AbstractIronChestBlockEntityMixin",
-    "AbstractIronChestBlockMixin",
-    "GenericChestBlockEntityMixin",
-    "GenericChestBlockMixin"
+    "AbstractIronChestBlockMixin"
   ],
   "injectors": {
     "defaultRequire": 1

@@ -13,8 +13,6 @@ import java.util.function.Supplier;
 
 public final class ConditionalLoaderMixinPlugin implements IMixinConfigPlugin {
     private static final Map<String, Supplier<Boolean>> CONDITIONS = ImmutableMap.of(
-            "infinituum.labellingcontainers.fabric.mixin.GenericChestBlockMixin", () -> FabricLoader.getInstance().isModLoaded("ironchests"),
-            "infinituum.labellingcontainers.fabric.mixin.GenericChestBlockEntityMixin", () -> FabricLoader.getInstance().isModLoaded("ironchests"),
             "infinituum.labellingcontainers.fabric.mixin.MythicChestBlockMixin", () -> FabricLoader.getInstance().isModLoaded("mythicmetals_decorations"),
             "infinituum.labellingcontainers.fabric.mixin.MythicChestBlockEntityMixin", () -> FabricLoader.getInstance().isModLoaded("mythicmetals_decorations")
     );

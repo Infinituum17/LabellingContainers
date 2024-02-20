@@ -4,7 +4,8 @@ import dev.architectury.event.events.client.ClientGuiEvent.RenderHud;
 import infinituum.labellingcontainers.utils.Taggable;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.gui.DrawableHelper;
+import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.hit.BlockHitResult;
@@ -13,21 +14,21 @@ import net.minecraft.util.math.BlockPos;
 
 public class HudInfoDisplay implements RenderHud {
     @Override
-    public void renderHud(DrawContext context, float tickDelta) {
+    public void renderHud(MatrixStack context, float tickDelta) {
         MinecraftClient client = MinecraftClient.getInstance();
-        if (client == null || client.currentScreen != null) return;
+        if(client == null || client.currentScreen != null) return;
 
         HitResult hit = client.crosshairTarget;
-        if (hit == null || hit.getType() != HitResult.Type.BLOCK) return;
+        if(hit == null || hit.getType() != HitResult.Type.BLOCK) return;
 
         BlockHitResult blockHit = (BlockHitResult) hit;
         BlockPos blockPos = blockHit.getBlockPos();
-        if (client.world == null) return;
+        if(client.world == null) return;
 
         BlockEntity blockEntity = client.world.getBlockEntity(blockPos);
-        if (blockEntity == null) return;
+        if(blockEntity == null) return;
 
-        if (blockEntity instanceof Taggable labelable) {
+        if(blockEntity instanceof Taggable labelable) {
             Item displayItem = (labelable.labellingcontainers$getDisplayItem() != null) ? labelable.labellingcontainers$getDisplayItem() : client.world.getBlockState(blockPos).getBlock().asItem();
 
             int width = client.getWindow().getScaledWidth();
@@ -38,8 +39,12 @@ public class HudInfoDisplay implements RenderHud {
             int y = height / 2;
             int leftPadding = 10;
 
-            context.drawItem(new ItemStack(displayItem), x + leftPadding, y - 8);
-            context.drawTextWithShadow(client.textRenderer, labelable.labellingcontainers$getLabel(), x + leftPadding * 3, (y + 1) - fontHeight / 2, 0xFFFFFFFF);
+            context.push();
+
+            client.getItemRenderer().renderGuiItemIcon(context, new ItemStack(displayItem), x + leftPadding, y - 8);
+            DrawableHelper.drawTextWithShadow(context, client.textRenderer, labelable.labellingcontainers$getLabel(), x + leftPadding * 3, (y + 1) - fontHeight / 2, 0xFFFFFFFF);
+
+            context.pop();
         }
     }
 }
