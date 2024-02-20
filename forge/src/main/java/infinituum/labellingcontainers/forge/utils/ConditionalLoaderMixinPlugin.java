@@ -11,7 +11,13 @@ import java.util.Map;
 import java.util.Set;
 
 public final class ConditionalLoaderMixinPlugin implements IMixinConfigPlugin {
-    private static final Map<String, String> MIXIN_MODIDS = ImmutableMap.of();
+    private static final Map<String, String> MIXIN_MODIDS = ImmutableMap.of(
+            "infinituum.labellingcontainers.forge.mixin.AbstractIronChestBlockMixin", "ironchest",
+            "infinituum.labellingcontainers.forge.mixin.AbstractIronChestBlockEntityMixin", "ironchest",
+            "infinituum.labellingcontainers.forge.mixin.GenericChestBlockMixin", "ironchests",
+            "infinituum.labellingcontainers.forge.mixin.GenericChestBlockEntityMixin", "ironchests"
+
+    );
 
     @Override
     public boolean shouldApplyMixin(String targetClassName, String mixinClassName) {

@@ -1,12 +1,12 @@
 package infinituum.labellingcontainers.fabric.providers.language;
 
-import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
+import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
 
 import static infinituum.labellingcontainers.registration.ItemRegistration.LABEL_PRINTER;
 
 public class SpanishLangProvider extends FabricLanguageProvider {
-    public SpanishLangProvider(FabricDataOutput dataOutput,String languageCode) { super(dataOutput, languageCode); }
+    public SpanishLangProvider(FabricDataGenerator dataOutput, String languageCode) { super(dataOutput, languageCode); }
 
     @Override
     public void generateTranslations(TranslationBuilder translationBuilder) {

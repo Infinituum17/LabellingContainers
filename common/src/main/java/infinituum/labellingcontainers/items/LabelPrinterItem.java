@@ -90,7 +90,7 @@ public class LabelPrinterItem extends Item {
                 taggable.labellingcontainers$setDisplayItem(displayItem);
 
                 ((ServerWorld) world).spawnParticles(ParticleTypes.END_ROD, hitPos.getX(), hitPos.getY(), hitPos.getZ(), 15, 0, 0, 0, 0.01);
-                world.playSound(null, pos, SoundEvents.BLOCK_NOTE_BLOCK_HARP.value(), SoundCategory.BLOCKS, 0.75f, 2f);
+                world.playSound(null, pos, SoundEvents.BLOCK_NOTE_BLOCK_HARP, SoundCategory.BLOCKS, 0.75f, 2f);
             }
 
             return ActionResult.SUCCESS;

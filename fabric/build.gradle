@@ -42,24 +42,29 @@ dependencies {
     shadowCommon(project(path: ":common", configuration: "transformProductionFabric")) { transitive false }
 
     // Iron Chests: Restocked
-    // modImplementation "curse.maven:resourceful-lib-570073:4851866"
-    // modImplementation "curse.maven:ironchests-498794:4638050"
+    modImplementation "curse.maven:resourceful-lib-570073:4301209"
+    modImplementation "curse.maven:ironchests-498794:4670971"
 
     // Mythic Metals Decorations
     def ccapiVersion = "5.0.2"
-    def aeaVersion = "1.4.0+1.19.3"
+    def mixinextrasVersion = "0.2.0"
+    def aeaVersion = "1.2.0+1.19.2"
+    def reaVersion = "2.3.0"
     def bejVersion = "1.2.2"
 
     modImplementation "dev.onyxstudios.cardinal-components-api:cardinal-components-base:${ccapiVersion}"
     modImplementation "dev.onyxstudios.cardinal-components-api:cardinal-components-entity:${ccapiVersion}"
+    modImplementation "io.github.llamalad7:mixinextras-fabric:${mixinextrasVersion}"
     modImplementation "maven.modrinth:additionalentityattributes:${aeaVersion}"
+    modImplementation "com.jamieswhiteshirt:reach-entity-attributes:${reaVersion}"
 
     implementation "blue.endless:jankson:${bejVersion}"
 
-    modImplementation "curse.maven:owo-lib-532610:4439876"
-    modImplementation "curse.maven:mythicmetals-410127:4441527"
-    modImplementation "curse.maven:alloy-forgery-438718:4403713"
-    modImplementation "curse.maven:mythicmetals-decorations-552128:4377089"
+    modImplementation "curse.maven:owo-lib-532610:4152949"
+    modImplementation "curse.maven:cloth-config-348521:4633414"
+    modImplementation "curse.maven:mythicmetals-410127:4441526"
+    modImplementation "curse.maven:alloy-forgery-438718:4487529"
+    modImplementation "curse.maven:mythicmetals-decorations-552128:4377086"
 }
 
 processResources {

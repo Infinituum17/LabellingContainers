@@ -1,12 +1,11 @@
 package infinituum.labellingcontainers.fabric.providers;
 
-import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
+import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
 import net.minecraft.advancement.criterion.InventoryChangedCriterion;
 import net.minecraft.data.server.recipe.RecipeJsonProvider;
 import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder;
 import net.minecraft.item.Items;
-import net.minecraft.recipe.book.RecipeCategory;
 import net.minecraft.util.Identifier;
 
 import java.util.function.Consumer;
@@ -15,13 +14,13 @@ import static infinituum.labellingcontainers.registration.ItemRegistration.LABEL
 
 public class RecipeProvider extends FabricRecipeProvider {
 
-    public RecipeProvider(FabricDataOutput output) {
+    public RecipeProvider(FabricDataGenerator output) {
         super(output);
     }
 
     @Override
-    public void generate(Consumer<RecipeJsonProvider> exporter) {
-        ShapedRecipeJsonBuilder.create(RecipeCategory.TOOLS, LABEL_PRINTER.get())
+    public void generateRecipes(Consumer<RecipeJsonProvider> exporter) {
+        ShapedRecipeJsonBuilder.create(LABEL_PRINTER.get())
                 .pattern("CIC")
                 .pattern("RSR")
                 .pattern("CIC")
@@ -30,6 +29,6 @@ public class RecipeProvider extends FabricRecipeProvider {
                 .input('S', Items.INK_SAC)
                 .input('I', Items.IRON_INGOT)
                 .criterion("has_items", InventoryChangedCriterion.Conditions.items(Items.INK_SAC, Items.COPPER_INGOT, Items.IRON_INGOT, Items.REDSTONE))
-                .offerTo(exporter, new Identifier(output.getModId(), "label_printer_recipe"));
+                .offerTo(exporter, new Identifier(dataGenerator.getModId(), "label_printer_recipe"));
     }
 }

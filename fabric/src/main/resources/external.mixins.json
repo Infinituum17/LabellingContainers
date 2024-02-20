@@ -6,7 +6,9 @@
   "minVersion": "0.8",
   "mixins": [
     "MythicChestBlockEntityMixin",
-    "MythicChestBlockMixin"
+    "MythicChestBlockMixin",
+    "GenericChestBlockEntityMixin",
+    "GenericChestBlockMixin"
   ],
   "injectors": {
     "defaultRequire": 1
