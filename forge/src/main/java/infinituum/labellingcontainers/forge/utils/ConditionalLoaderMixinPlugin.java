@@ -15,8 +15,13 @@ public final class ConditionalLoaderMixinPlugin implements IMixinConfigPlugin {
             "infinituum.labellingcontainers.forge.mixin.AbstractIronChestBlockMixin", "ironchest",
             "infinituum.labellingcontainers.forge.mixin.AbstractIronChestBlockEntityMixin", "ironchest",
             "infinituum.labellingcontainers.forge.mixin.GenericChestBlockMixin", "ironchests",
-            "infinituum.labellingcontainers.forge.mixin.GenericChestBlockEntityMixin", "ironchests"
-
+            "infinituum.labellingcontainers.forge.mixin.GenericChestBlockEntityMixin", "ironchests",
+            "infinituum.labellingcontainers.forge.mixin.BlockEntityColossalChest", "colossalchests",
+            "infinituum.labellingcontainers.forge.mixin.BlockEntityUncolossalChest", "colossalchests",
+            "infinituum.labellingcontainers.forge.mixin.ColossalChestMixin", "colossalchests",
+            "infinituum.labellingcontainers.forge.mixin.UncolossalChestMixin", "colossalchests",
+            "infinituum.labellingcontainers.forge.mixin.HudInfoDisplayMixin", "colossalchests",
+            "infinituum.labellingcontainers.forge.mixin.LabelPrinterItemMixin", "colossalchests"
     );
 
     @Override

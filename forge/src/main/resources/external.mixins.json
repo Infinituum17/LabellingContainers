@@ -5,12 +5,20 @@
   "compatibilityLevel": "JAVA_17",
   "minVersion": "0.8",
   "mixins": [
+    "AbstractIronChestBlockEntityMixin",
+    "AbstractIronChestBlockMixin",
+    "BlockEntityUncolossalChestMixin",
+    "ColossalChestMixin",
     "GenericChestBlockEntityMixin",
     "GenericChestBlockMixin",
-    "AbstractIronChestBlockEntityMixin",
-    "AbstractIronChestBlockMixin"
+    "HudInfoDisplayMixin",
+    "LabelPrinterItemMixin",
+    "UncolossalChestMixin"
   ],
   "injectors": {
     "defaultRequire": 1
-  }
+  },
+  "client": [
+    "BlockEntityColossalChestMixin"
+  ]
 }

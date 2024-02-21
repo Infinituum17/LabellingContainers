@@ -41,6 +41,10 @@ dependencies {
 
     // Iron Chests
     modImplementation "curse.maven:iron-chests-228756:3966365"
+
+    // Colossal Chests
+    modImplementation "curse.maven:colossal-chests-237875:4502150"
+    modImplementation "curse.maven:cyclops-core-232758:5080403"
 }
 
 processResources {
