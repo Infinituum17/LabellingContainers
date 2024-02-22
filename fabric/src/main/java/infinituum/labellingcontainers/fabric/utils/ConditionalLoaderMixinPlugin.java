@@ -20,6 +20,8 @@ public final class ConditionalLoaderMixinPlugin implements IMixinConfigPlugin {
             .put(MIXINS_FOLDER + "mythicmetals_decorations.MythicChestBlockEntityMixin", () -> FabricLoader.getInstance().isModLoaded("mythicmetals_decorations"))
             .put(MIXINS_FOLDER + "echochest.EchoChestBlockEntityMixin", () -> FabricLoader.getInstance().isModLoaded("echochest"))
             .put(MIXINS_FOLDER + "echochest.EchoChestBlockMixin", () -> FabricLoader.getInstance().isModLoaded("echochest"))
+            .put(MIXINS_FOLDER + "netherchested.NetherChestBlockEntityMixin", () -> FabricLoader.getInstance().isModLoaded("netherchested"))
+            .put(MIXINS_FOLDER + "netherchested.NetherChestBlockMixin", () -> FabricLoader.getInstance().isModLoaded("netherchested"))
             .build();
 
     @Override

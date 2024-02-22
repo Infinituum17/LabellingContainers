@@ -73,6 +73,9 @@ dependencies {
     modImplementation "net.minecraftforge:forgeconfigapiport-fabric:4.2.11"
     modImplementation "curse.maven:puzzles-lib-495476:4600774"
     modImplementation "curse.maven:echo-chest-857972:4538163"
+
+    // Nether Chested mod
+    modImplementation "curse.maven:new-nether-chest-857971:4539462"
 }
 
 processResources {

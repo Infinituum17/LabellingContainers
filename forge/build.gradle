@@ -49,6 +49,9 @@ dependencies {
     // Echo Chest mod
     modImplementation "curse.maven:puzzles-lib-495476:4600775"
     modImplementation "curse.maven:echo-chest-857972:4538164"
+
+    // Nether Chested mod
+    modImplementation "curse.maven:new-nether-chest-857971:4539463"
 }
 
 processResources {

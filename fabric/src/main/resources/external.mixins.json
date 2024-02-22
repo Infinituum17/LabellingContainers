@@ -10,7 +10,9 @@
     "ironchests.GenericChestBlockEntityMixin",
     "ironchests.GenericChestBlockMixin",
     "mythicmetals_decorations.MythicChestBlockEntityMixin",
-    "mythicmetals_decorations.MythicChestBlockMixin"
+    "mythicmetals_decorations.MythicChestBlockMixin",
+    "netherchested.NetherChestBlockEntityMixin",
+    "netherchested.NetherChestBlockMixin"
   ],
   "injectors": {
     "defaultRequire": 1

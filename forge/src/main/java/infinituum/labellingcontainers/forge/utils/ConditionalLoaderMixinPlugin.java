@@ -1,7 +1,7 @@
 package infinituum.labellingcontainers.forge.utils;
 
 import com.google.common.collect.ImmutableMap;
-import net.minecraftforge.fml.ModList;
+import net.minecraftforge.fml.loading.LoadingModList;
 import org.objectweb.asm.tree.ClassNode;
 import org.spongepowered.asm.mixin.extensibility.IMixinConfigPlugin;
 import org.spongepowered.asm.mixin.extensibility.IMixinInfo;
@@ -25,6 +25,8 @@ public final class ConditionalLoaderMixinPlugin implements IMixinConfigPlugin {
             .put(MIXINS_FOLDER + "colossalchests.LabelPrinterItemMixin", "colossalchests")
             .put(MIXINS_FOLDER + "echochest.EchoChestBlockMixin", "echochest")
             .put(MIXINS_FOLDER + "echochest.EchoChestBlockEntityMixin", "echochest")
+            .put(MIXINS_FOLDER + "netherchested.NetherChestBlockEntityMixin", "netherchested")
+            .put(MIXINS_FOLDER + "netherchested.NetherChestBlockMixin", "netherchested")
             .build();
 
     @Override
@@ -35,7 +37,7 @@ public final class ConditionalLoaderMixinPlugin implements IMixinConfigPlugin {
             return true;
         }
 
-        return ModList.get().getModFileById(MODID) != null;
+        return LoadingModList.get().getModFileById(MODID) != null;
     }
 
     @Override
