@@ -1,6 +1,5 @@
-package infinituum.labellingcontainers.mixin;
+package infinituum.labellingcontainers.forge.mixin.colossalchests;
 
-import net.minecraft.block.BarrelBlock;
 import net.minecraft.block.Block;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.item.ItemStack;
@@ -8,15 +7,16 @@ import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.world.BlockView;
+import org.cyclops.colossalchests.block.ColossalChest;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 
 import java.util.List;
 
-@Mixin(BarrelBlock.class)
-public class BarrelBlockMixin extends Block {
-    public BarrelBlockMixin(Settings settings) {
-        super(settings);
+@Mixin(ColossalChest.class)
+public class ColossalChestMixin extends Block {
+    public ColossalChestMixin(Settings arg) {
+        super(arg);
     }
 
     @Override

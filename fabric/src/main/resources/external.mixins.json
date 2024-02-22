@@ -5,8 +5,12 @@
   "compatibilityLevel": "JAVA_17",
   "minVersion": "0.8",
   "mixins": [
-    "MythicChestBlockEntityMixin",
-    "MythicChestBlockMixin"
+    "echochest.EchoChestBlockEntityMixin",
+    "echochest.EchoChestBlockMixin",
+    "mythicmetals_decorations.MythicChestBlockEntityMixin",
+    "mythicmetals_decorations.MythicChestBlockMixin",
+    "netherchested.NetherChestBlockEntityMixin",
+    "netherchested.NetherChestBlockMixin"
   ],
   "injectors": {
     "defaultRequire": 1

@@ -1,6 +1,6 @@
-package infinituum.labellingcontainers.forge.mixin;
+package infinituum.labellingcontainers.fabric.mixin.netherchested;
 
-import com.progwml6.ironchest.common.block.regular.entity.AbstractIronChestBlockEntity;
+import fuzs.netherchested.world.level.block.entity.NetherChestBlockEntity;
 import infinituum.labellingcontainers.utils.Taggable;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -22,14 +22,14 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-@Mixin(AbstractIronChestBlockEntity.class)
-public class AbstractIronChestBlockEntityMixin extends BlockEntity implements Taggable {
+@Mixin(NetherChestBlockEntity.class)
+public class NetherChestBlockEntityMixin extends BlockEntity implements Taggable {
     @Unique
     private MutableText labellingcontainers$label = Text.literal("");
     @Unique
     private Item labellingcontainers$displayItem = Items.AIR;
 
-    public AbstractIronChestBlockEntityMixin(BlockEntityType<?> type, BlockPos pos, BlockState state) {
+    public NetherChestBlockEntityMixin(BlockEntityType<?> type, BlockPos pos, BlockState state) {
         super(type, pos, state);
     }
 
