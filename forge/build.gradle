@@ -35,12 +35,16 @@ dependencies {
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
     shadowCommon(project(path: ":common", configuration: "transformProductionForge")) { transitive = false }
 
-    // Iron Chests: Restocked
-    // modImplementation "curse.maven:resourceful-lib-570073:4973823"
-    // modImplementation "curse.maven:ironchests-498794:4638051"
+    // Colossal Chests
+    modImplementation "curse.maven:colossal-chests-237875:4344636"
+    modImplementation "curse.maven:cyclops-core-232758:4438259"
 
-    // Iron Chests
-    // modImplementation "curse.maven:iron-chests-228756:4614846"
+    // Echo Chest mod
+    modImplementation "curse.maven:puzzles-lib-495476:4549813"
+    modImplementation "curse.maven:echo-chest-857972:4547706"
+
+    // Nether Chested mod
+    modImplementation "curse.maven:new-nether-chest-857971:4547698"
 }
 
 processResources {

@@ -41,10 +41,6 @@ dependencies {
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
     shadowCommon(project(path: ":common", configuration: "transformProductionFabric")) { transitive false }
 
-    // Iron Chests: Restocked
-    // modImplementation "curse.maven:resourceful-lib-570073:4851866"
-    // modImplementation "curse.maven:ironchests-498794:4638050"
-
     // Mythic Metals Decorations
     def ccapiVersion = "5.0.2"
     def aeaVersion = "1.4.0+1.19.3"
@@ -60,6 +56,19 @@ dependencies {
     modImplementation "curse.maven:mythicmetals-410127:4441527"
     modImplementation "curse.maven:alloy-forgery-438718:4403713"
     modImplementation "curse.maven:mythicmetals-decorations-552128:4377089"
+
+    // Echo Chest mod
+    modImplementation "dev.onyxstudios.cardinal-components-api:cardinal-components-block:${ccapiVersion}"
+    modImplementation "dev.onyxstudios.cardinal-components-api:cardinal-components-chunk:${ccapiVersion}"
+    modImplementation "dev.onyxstudios.cardinal-components-api:cardinal-components-world:${ccapiVersion}"
+    implementation 'com.electronwill.night-config:core:3.6.5'
+    implementation 'com.electronwill.night-config:toml:3.6.5'
+    modImplementation "curse.maven:forge-config-api-port-fabric-547434:4451341"
+    modImplementation "curse.maven:puzzles-lib-495476:4549814"
+    modImplementation "curse.maven:echo-chest-857972:4547705"
+
+    // Nether Chested mod
+    modImplementation "curse.maven:new-nether-chest-857971:4547697"
 }
 
 processResources {
