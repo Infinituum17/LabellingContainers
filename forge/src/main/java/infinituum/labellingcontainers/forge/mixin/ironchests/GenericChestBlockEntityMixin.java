@@ -1,4 +1,4 @@
-package infinituum.labellingcontainers.forge.mixin;
+package infinituum.labellingcontainers.forge.mixin.ironchests;
 
 import infinituum.labellingcontainers.utils.Taggable;
 import net.minecraft.block.Block;

@@ -1,6 +1,7 @@
-package infinituum.labellingcontainers.forge.mixin;
+package infinituum.labellingcontainers.fabric.mixin.mythicmetals_decorations;
 
-import infinituum.labellingcontainers.utils.Taggable;
+import infinituum.labellingcontainers.utils.ChestHelper;
+import infinituum.labellingcontainers.utils.TaggableChest;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
@@ -15,7 +16,7 @@ import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
-import org.cyclops.colossalchests.blockentity.BlockEntityColossalChest;
+import nourl.mythicmetalsdecorations.blocks.chest.MythicChestBlockEntity;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
@@ -23,15 +24,14 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-@Mixin(BlockEntityColossalChest.class)
-public class BlockEntityColossalChestMixin extends BlockEntity implements Taggable {
-
+@Mixin(MythicChestBlockEntity.class)
+public class MythicChestBlockEntityMixin extends BlockEntity implements TaggableChest {
     @Unique
     private MutableText labellingcontainers$label = Text.literal("");
     @Unique
     private Item labellingcontainers$displayItem = Items.AIR;
 
-    public BlockEntityColossalChestMixin(BlockEntityType<?> type, BlockPos pos, BlockState state) {
+    public MythicChestBlockEntityMixin(BlockEntityType<?> type, BlockPos pos, BlockState state) {
         super(type, pos, state);
     }
 
@@ -41,9 +41,14 @@ public class BlockEntityColossalChestMixin extends BlockEntity implements Taggab
         return BlockEntityUpdateS2CPacket.create(this);
     }
 
+    @Override
+    public NbtCompound toInitialChunkDataNbt() {
+        return super.createNbt();
+    }
+
     @Unique
     private void labellingcontainers$notifyClients(BlockState oldState) {
-        this.markDirty();
+        super.markDirty();
         if (world != null) world.updateListeners(this.pos, oldState, this.getCachedState(), Block.NOTIFY_LISTENERS);
     }
 
@@ -54,9 +59,21 @@ public class BlockEntityColossalChestMixin extends BlockEntity implements Taggab
 
     @Override
     public void labellingcontainers$setDisplayItem(Item item) {
+        labellingcontainers$setDisplayItem(item, true);
+    }
+
+    @Override
+    public void labellingcontainers$setDisplayItem(Item item, boolean searchDoubleChest) {
         BlockState oldState = this.getCachedState();
 
         labellingcontainers$displayItem = item;
+        if (searchDoubleChest) {
+            TaggableChest otherChest = (TaggableChest) ChestHelper.getConnectedChestBlockEntity(world, pos, this.getCachedState());
+
+            if (otherChest != null) {
+                otherChest.labellingcontainers$setDisplayItem(item, false);
+            }
+        }
 
         labellingcontainers$notifyClients(oldState);
     }
@@ -68,9 +85,21 @@ public class BlockEntityColossalChestMixin extends BlockEntity implements Taggab
 
     @Override
     public void labellingcontainers$setLabel(MutableText newLabel) {
+        labellingcontainers$setLabel(newLabel, true);
+    }
+
+    @Override
+    public void labellingcontainers$setLabel(MutableText newLabel, boolean searchDoubleChest) {
         BlockState oldState = this.getCachedState();
 
         labellingcontainers$label = newLabel;
+        if (searchDoubleChest) {
+            TaggableChest otherChest = (TaggableChest) ChestHelper.getConnectedChestBlockEntity(world, pos, this.getCachedState());
+
+            if (otherChest != null) {
+                otherChest.labellingcontainers$setLabel(newLabel, false);
+            }
+        }
 
         labellingcontainers$notifyClients(oldState);
     }
@@ -87,7 +116,7 @@ public class BlockEntityColossalChestMixin extends BlockEntity implements Taggab
         }
     }
 
-    @Inject(method = "read", at = @At("TAIL"))
+    @Inject(method = "readNbt", at = @At("TAIL"))
     public void readNbtMixin(NbtCompound nbt, CallbackInfo ci) {
         this.labellingcontainers$label = Text.of(nbt.getString("label")).copy();
         if (nbt.contains("displayItem")) {

@@ -50,7 +50,7 @@ public class LabelPrinterItemMixin extends Item {
 
     /**
      * @author Infinituum17
-     * @reason Adds interaction with Chest Wall blocks from Colossal Chests mod
+     * @reason Advanced interactions with Forge-only mods
      */
     @Overwrite
     public ActionResult useOnBlock(ItemUsageContext context) {

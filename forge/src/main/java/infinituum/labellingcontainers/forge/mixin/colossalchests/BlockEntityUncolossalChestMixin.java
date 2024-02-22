@@ -1,6 +1,5 @@
-package infinituum.labellingcontainers.forge.mixin;
+package infinituum.labellingcontainers.forge.mixin.colossalchests;
 
-import com.progwml6.ironchest.common.block.regular.entity.AbstractIronChestBlockEntity;
 import infinituum.labellingcontainers.utils.Taggable;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -16,23 +15,27 @@ import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
+import org.cyclops.colossalchests.blockentity.BlockEntityUncolossalChest;
+import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-@Mixin(AbstractIronChestBlockEntity.class)
-public class AbstractIronChestBlockEntityMixin extends BlockEntity implements Taggable {
+@Mixin(BlockEntityUncolossalChest.class)
+public class BlockEntityUncolossalChestMixin extends BlockEntity implements Taggable {
+
     @Unique
     private MutableText labellingcontainers$label = Text.literal("");
     @Unique
     private Item labellingcontainers$displayItem = Items.AIR;
 
-    public AbstractIronChestBlockEntityMixin(BlockEntityType<?> type, BlockPos pos, BlockState state) {
+    public BlockEntityUncolossalChestMixin(BlockEntityType<?> type, BlockPos pos, BlockState state) {
         super(type, pos, state);
     }
 
+    @Nullable
     @Override
     public Packet<ClientPlayPacketListener> toUpdatePacket() {
         return BlockEntityUpdateS2CPacket.create(this);
@@ -89,7 +92,7 @@ public class AbstractIronChestBlockEntityMixin extends BlockEntity implements Ta
         }
     }
 
-    @Inject(method = "readNbt", at = @At("TAIL"))
+    @Inject(method = "read", at = @At("TAIL"))
     public void readNbtMixin(NbtCompound nbt, CallbackInfo ci) {
         this.labellingcontainers$label = Text.of(nbt.getString("label")).copy();
         if (nbt.contains("displayItem")) {

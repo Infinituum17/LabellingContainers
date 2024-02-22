@@ -1,4 +1,4 @@
-package infinituum.labellingcontainers.forge.mixin;
+package infinituum.labellingcontainers.forge.mixin.colossalchests;
 
 import infinituum.labellingcontainers.utils.Taggable;
 import net.minecraft.block.Block;
@@ -15,7 +15,7 @@ import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
-import org.cyclops.colossalchests.blockentity.BlockEntityUncolossalChest;
+import org.cyclops.colossalchests.blockentity.BlockEntityColossalChest;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
@@ -23,15 +23,15 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-@Mixin(BlockEntityUncolossalChest.class)
-public class BlockEntityUncolossalChestMixin extends BlockEntity implements Taggable {
+@Mixin(BlockEntityColossalChest.class)
+public class BlockEntityColossalChestMixin extends BlockEntity implements Taggable {
 
     @Unique
     private MutableText labellingcontainers$label = Text.literal("");
     @Unique
     private Item labellingcontainers$displayItem = Items.AIR;
 
-    public BlockEntityUncolossalChestMixin(BlockEntityType<?> type, BlockPos pos, BlockState state) {
+    public BlockEntityColossalChestMixin(BlockEntityType<?> type, BlockPos pos, BlockState state) {
         super(type, pos, state);
     }
 
@@ -39,11 +39,6 @@ public class BlockEntityUncolossalChestMixin extends BlockEntity implements Tagg
     @Override
     public Packet<ClientPlayPacketListener> toUpdatePacket() {
         return BlockEntityUpdateS2CPacket.create(this);
-    }
-
-    @Override
-    public NbtCompound toInitialChunkDataNbt() {
-        return this.createNbt();
     }
 
     @Unique

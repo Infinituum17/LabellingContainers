@@ -45,6 +45,10 @@ dependencies {
     // Colossal Chests
     modImplementation "curse.maven:colossal-chests-237875:4502150"
     modImplementation "curse.maven:cyclops-core-232758:5080403"
+
+    // Echo Chest mod
+    modImplementation "curse.maven:puzzles-lib-495476:4600775"
+    modImplementation "curse.maven:echo-chest-857972:4538164"
 }
 
 processResources {

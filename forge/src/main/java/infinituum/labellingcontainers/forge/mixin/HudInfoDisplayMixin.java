@@ -23,7 +23,7 @@ import org.spongepowered.asm.mixin.Overwrite;
 public class HudInfoDisplayMixin implements RenderHud {
     /**
      * @author Infinituum17
-     * @reason Adds interaction with Chest Wall blocks from Colossal Chests mod
+     * @reason Advanced interactions with Forge-only mods
      */
     @Overwrite
     public void renderHud(MatrixStack context, float tickDelta) {

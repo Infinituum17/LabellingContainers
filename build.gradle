@@ -71,6 +71,12 @@ allprojects {
         maven { url = "https://maven.jamieswhiteshirt.com/libs-release" }
         maven { url = "https://maven.wispforest.io/" }
         maven { url = "https://maven.nucleoid.xyz/" }
+
+        maven {
+            name = "Fuzs Mod Resources"
+            url = "https://raw.githubusercontent.com/Fuzss/modresources/main/maven/"
+        }
+
     }
 
     tasks.withType(JavaCompile) {

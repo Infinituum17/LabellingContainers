@@ -5,10 +5,12 @@
   "compatibilityLevel": "JAVA_17",
   "minVersion": "0.8",
   "mixins": [
-    "MythicChestBlockEntityMixin",
-    "MythicChestBlockMixin",
-    "GenericChestBlockEntityMixin",
-    "GenericChestBlockMixin"
+    "echochest.EchoChestBlockEntityMixin",
+    "echochest.EchoChestBlockMixin",
+    "ironchests.GenericChestBlockEntityMixin",
+    "ironchests.GenericChestBlockMixin",
+    "mythicmetals_decorations.MythicChestBlockEntityMixin",
+    "mythicmetals_decorations.MythicChestBlockMixin"
   ],
   "injectors": {
     "defaultRequire": 1

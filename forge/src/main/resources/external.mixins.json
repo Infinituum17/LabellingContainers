@@ -5,20 +5,22 @@
   "compatibilityLevel": "JAVA_17",
   "minVersion": "0.8",
   "mixins": [
-    "AbstractIronChestBlockEntityMixin",
-    "AbstractIronChestBlockMixin",
-    "BlockEntityUncolossalChestMixin",
-    "ColossalChestMixin",
-    "GenericChestBlockEntityMixin",
-    "GenericChestBlockMixin",
+    "ironchest.AbstractIronChestBlockEntityMixin",
+    "ironchest.AbstractIronChestBlockMixin",
+    "colossalchests.BlockEntityUncolossalChestMixin",
+    "colossalchests.ColossalChestMixin",
+    "echochest.EchoChestBlockEntityMixin",
+    "echochest.EchoChestBlockMixin",
+    "ironchests.GenericChestBlockEntityMixin",
+    "ironchests.GenericChestBlockMixin",
     "HudInfoDisplayMixin",
     "LabelPrinterItemMixin",
-    "UncolossalChestMixin"
+    "colossalchests.UncolossalChestMixin"
   ],
   "injectors": {
     "defaultRequire": 1
   },
   "client": [
-    "BlockEntityColossalChestMixin"
+    "colossalchests.BlockEntityColossalChestMixin"
   ]
 }

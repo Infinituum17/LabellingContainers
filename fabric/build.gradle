@@ -65,6 +65,14 @@ dependencies {
     modImplementation "curse.maven:mythicmetals-410127:4441526"
     modImplementation "curse.maven:alloy-forgery-438718:4487529"
     modImplementation "curse.maven:mythicmetals-decorations-552128:4377086"
+
+    // Echo Chest mod
+    modImplementation "dev.onyxstudios.cardinal-components-api:cardinal-components-block:${ccapiVersion}"
+    modImplementation "dev.onyxstudios.cardinal-components-api:cardinal-components-chunk:${ccapiVersion}"
+    modImplementation "dev.onyxstudios.cardinal-components-api:cardinal-components-world:${ccapiVersion}"
+    modImplementation "net.minecraftforge:forgeconfigapiport-fabric:4.2.11"
+    modImplementation "curse.maven:puzzles-lib-495476:4600774"
+    modImplementation "curse.maven:echo-chest-857972:4538163"
 }
 
 processResources {
