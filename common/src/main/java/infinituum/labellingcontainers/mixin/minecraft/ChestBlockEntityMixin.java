@@ -1,6 +1,7 @@
-package infinituum.labellingcontainers.mixin;
+package infinituum.labellingcontainers.mixin.minecraft;
 
-import infinituum.labellingcontainers.utils.Taggable;
+import infinituum.labellingcontainers.utils.ChestHelper;
+import infinituum.labellingcontainers.utils.TaggableChest;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -14,23 +15,24 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraft.world.level.block.entity.ShulkerBoxBlockEntity;
+import net.minecraft.world.level.block.entity.ChestBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-@Mixin(ShulkerBoxBlockEntity.class)
-public class ShulkerBoxBlockEntityMixin extends BlockEntity implements Taggable {
+@Mixin(ChestBlockEntity.class)
+public class ChestBlockEntityMixin extends BlockEntity implements TaggableChest {
     @Unique
     private MutableComponent labellingcontainers$label = Component.literal("");
     @Unique
     private Item labellingcontainers$displayItem = Items.AIR;
 
-    public ShulkerBoxBlockEntityMixin(BlockEntityType<?> type, BlockPos pos, BlockState state) {
+    public ChestBlockEntityMixin(BlockEntityType<?> type, BlockPos pos, BlockState state) {
         super(type, pos, state);
     }
 
@@ -52,17 +54,46 @@ public class ShulkerBoxBlockEntityMixin extends BlockEntity implements Taggable 
     }
 
     @Override
+    public void labellingcontainers$setDisplayItem(Item item, boolean searchDoubleChest) {
+        BlockState oldState = this.getBlockState();
+
+        labellingcontainers$displayItem = item;
+        if (searchDoubleChest) {
+            TaggableChest otherChest = (TaggableChest) ChestHelper.getConnectedChestBlockEntity(level, worldPosition, this.getBlockState());
+
+            if (otherChest != null) {
+                otherChest.labellingcontainers$setDisplayItem(item, false);
+            }
+        }
+
+        labellingcontainers$notifyClients(oldState);
+    }
+
+    @Override
+    public void labellingcontainers$setLabel(MutableComponent newLabel, boolean searchDoubleChest) {
+        BlockState oldState = this.getBlockState();
+
+        labellingcontainers$label = newLabel;
+        if (searchDoubleChest) {
+            TaggableChest otherChest = (TaggableChest) ChestHelper.getConnectedChestBlockEntity(level, worldPosition, this.getBlockState());
+
+            if (otherChest != null) {
+                otherChest.labellingcontainers$setLabel(newLabel, false);
+            }
+        }
+
+        labellingcontainers$notifyClients(oldState);
+    }
+
+    @Nullable
+    @Override
     public Item labellingcontainers$getDisplayItem() {
         return labellingcontainers$displayItem;
     }
 
     @Override
     public void labellingcontainers$setDisplayItem(Item item) {
-        BlockState oldState = this.getBlockState();
-
-        labellingcontainers$displayItem = item;
-
-        labellingcontainers$notifyClients(oldState);
+        labellingcontainers$setDisplayItem(item, true);
     }
 
     @Override
@@ -72,11 +103,7 @@ public class ShulkerBoxBlockEntityMixin extends BlockEntity implements Taggable 
 
     @Override
     public void labellingcontainers$setLabel(MutableComponent newLabel) {
-        BlockState oldState = this.getBlockState();
-
-        labellingcontainers$label = newLabel;
-
-        labellingcontainers$notifyClients(oldState);
+        labellingcontainers$setLabel(newLabel, true);
     }
 
     @Inject(method = "saveAdditional", at = @At("TAIL"))

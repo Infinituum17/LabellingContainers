@@ -1,4 +1,4 @@
-package infinituum.labellingcontainers.mixin;
+package infinituum.labellingcontainers.mixin.minecraft;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
@@ -21,10 +21,10 @@ public class BarrelBlockMixin extends Block {
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable BlockGetter world, List<Component> tooltip, TooltipFlag options) {
+        super.appendHoverText(stack, world, tooltip, options);
+
         MutableComponent text = Component.literal("ⓘ ").withStyle(ChatFormatting.BLUE);
         text.append(Component.translatable("block.labelable").withStyle(ChatFormatting.ITALIC).withStyle(ChatFormatting.GRAY));
         tooltip.add(text);
-
-        super.appendHoverText(stack, world, tooltip, options);
     }
 }
