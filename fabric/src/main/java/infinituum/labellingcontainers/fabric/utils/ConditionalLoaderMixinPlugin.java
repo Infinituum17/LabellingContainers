@@ -11,7 +11,8 @@ import java.util.Set;
 import java.util.function.Supplier;
 
 public final class ConditionalLoaderMixinPlugin implements IMixinConfigPlugin {
-    private static final Map<String, Supplier<Boolean>> CONDITIONS = ImmutableMap.of();
+    private static final String MIXINS_FOLDER = "infinituum.labellingcontainers.fabric.mixin.";
+    private static final Map<String, Supplier<Boolean>> CONDITIONS = ImmutableMap.<String, Supplier<Boolean>>builder().build();
 
     @Override
     public boolean shouldApplyMixin(String targetClassName, String mixinClassName) {

@@ -5,8 +5,8 @@
   "compatibilityLevel": "JAVA_17",
   "minVersion": "0.8",
   "mixins": [
-    "AbstractIronChestBlockEntityMixin",
-    "AbstractIronChestBlockMixin"
+    "ironchest.AbstractIronChestBlockEntityMixin",
+    "ironchest.AbstractIronChestBlockMixin"
   ],
   "injectors": {
     "defaultRequire": 1
