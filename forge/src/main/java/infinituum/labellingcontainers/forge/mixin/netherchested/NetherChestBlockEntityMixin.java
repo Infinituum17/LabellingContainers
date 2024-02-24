@@ -1,7 +1,7 @@
-package infinituum.labellingcontainers.mixin;
+package infinituum.labellingcontainers.forge.mixin.netherchested;
 
-import infinituum.labellingcontainers.utils.ChestHelper;
-import infinituum.labellingcontainers.utils.TaggableChest;
+import fuzs.netherchested.world.level.block.entity.NetherChestBlockEntity;
+import infinituum.labellingcontainers.utils.Taggable;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -15,24 +15,21 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraft.world.level.block.entity.ChestBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-@Mixin(ChestBlockEntity.class)
-public class ChestBlockEntityMixin extends BlockEntity implements TaggableChest {
+@Mixin(NetherChestBlockEntity.class)
+public class NetherChestBlockEntityMixin extends BlockEntity implements Taggable {
     @Unique
     private MutableComponent labellingcontainers$label = Component.literal("");
     @Unique
     private Item labellingcontainers$displayItem = Items.AIR;
 
-    public ChestBlockEntityMixin(BlockEntityType<?> type, BlockPos pos, BlockState state) {
+    public NetherChestBlockEntityMixin(BlockEntityType<?> type, BlockPos pos, BlockState state) {
         super(type, pos, state);
     }
 
@@ -41,51 +38,12 @@ public class ChestBlockEntityMixin extends BlockEntity implements TaggableChest 
         return ClientboundBlockEntityDataPacket.create(this);
     }
 
-    @Override
-    public @NotNull CompoundTag getUpdateTag() {
-        return this.saveWithoutMetadata();
-    }
-
     @Unique
     private void labellingcontainers$notifyClients(BlockState oldState) {
         this.setChanged();
-        if (level != null)
-            level.sendBlockUpdated(this.worldPosition, oldState, this.getBlockState(), Block.UPDATE_CLIENTS);
+        if (level != null) level.sendBlockUpdated(this.worldPosition, oldState, this.getBlockState(), Block.UPDATE_CLIENTS);
     }
 
-    @Override
-    public void labellingcontainers$setDisplayItem(Item item, boolean searchDoubleChest) {
-        BlockState oldState = this.getBlockState();
-
-        labellingcontainers$displayItem = item;
-        if (searchDoubleChest) {
-            TaggableChest otherChest = (TaggableChest) ChestHelper.getConnectedChestBlockEntity(level, worldPosition, this.getBlockState());
-
-            if (otherChest != null) {
-                otherChest.labellingcontainers$setDisplayItem(item, false);
-            }
-        }
-
-        labellingcontainers$notifyClients(oldState);
-    }
-
-    @Override
-    public void labellingcontainers$setLabel(MutableComponent newLabel, boolean searchDoubleChest) {
-        BlockState oldState = this.getBlockState();
-
-        labellingcontainers$label = newLabel;
-        if (searchDoubleChest) {
-            TaggableChest otherChest = (TaggableChest) ChestHelper.getConnectedChestBlockEntity(level, worldPosition, this.getBlockState());
-
-            if (otherChest != null) {
-                otherChest.labellingcontainers$setLabel(newLabel, false);
-            }
-        }
-
-        labellingcontainers$notifyClients(oldState);
-    }
-
-    @Nullable
     @Override
     public Item labellingcontainers$getDisplayItem() {
         return labellingcontainers$displayItem;
@@ -93,7 +51,11 @@ public class ChestBlockEntityMixin extends BlockEntity implements TaggableChest 
 
     @Override
     public void labellingcontainers$setDisplayItem(Item item) {
-        labellingcontainers$setDisplayItem(item, true);
+        BlockState oldState = this.getBlockState();
+
+        labellingcontainers$displayItem = item;
+
+        labellingcontainers$notifyClients(oldState);
     }
 
     @Override
@@ -103,7 +65,11 @@ public class ChestBlockEntityMixin extends BlockEntity implements TaggableChest 
 
     @Override
     public void labellingcontainers$setLabel(MutableComponent newLabel) {
-        labellingcontainers$setLabel(newLabel, true);
+        BlockState oldState = this.getBlockState();
+
+        labellingcontainers$label = newLabel;
+
+        labellingcontainers$notifyClients(oldState);
     }
 
     @Inject(method = "saveAdditional", at = @At("TAIL"))

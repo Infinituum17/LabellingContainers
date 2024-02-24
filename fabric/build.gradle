@@ -41,30 +41,24 @@ dependencies {
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
     shadowCommon(project(path: ":common", configuration: "transformProductionFabric")) { transitive false }
 
-    // Iron Chests: Restocked
-    // modImplementation "curse.maven:resourceful-lib-570073:4851866"
-    // modImplementation "curse.maven:ironchests-498794:4638050"
+    def ccapiVersion = "5.2.0"
 
-    // Mythic Metals Decorations
-    // def ccapiVersion = "5.0.2"
-    // def mixinextrasVersion = "0.2.0"
-    // def aeaVersion = "1.4.0+1.20.0"
-    // def cpapiVersion = "1.0.0"
-    // def bejVersion = "1.2.2"
+    // Echo chest mod
+    modImplementation "dev.onyxstudios.cardinal-components-api:cardinal-components-block:${ccapiVersion}"
+    modImplementation "dev.onyxstudios.cardinal-components-api:cardinal-components-chunk:${ccapiVersion}"
+    modImplementation "dev.onyxstudios.cardinal-components-api:cardinal-components-world:${ccapiVersion}"
+    implementation 'com.electronwill.night-config:core:3.6.5'
+    implementation 'com.electronwill.night-config:toml:3.6.5'
 
-    // modImplementation "dev.onyxstudios.cardinal-components-api:cardinal-components-base:${ccapiVersion}"
-    // modImplementation "dev.onyxstudios.cardinal-components-api:cardinal-components-entity:${ccapiVersion}"
-    // modImplementation "io.github.llamalad7:mixinextras-fabric:${mixinextrasVersion}"
-    // modImplementation "maven.modrinth:additionalentityattributes:${aeaVersion}"
-    // modImplementation "eu.pb4:common-protection-api:${cpapiVersion}"
+    // From: https://github.com/Fuzss/modresources/tree/main/maven
+    modApi "fuzs.limitlesscontainers:limitlesscontainers-fabric:20.4.0"
+    modImplementation "curse.maven:puzzles-lib-495476:5131377"
+    modImplementation "curse.maven:forge-config-api-port-fabric-547434:5051714"
 
-    // implementation "blue.endless:jankson:${bejVersion}"
+    modImplementation "curse.maven:echo-chest-857972:5096975"
 
-    // modImplementation "curse.maven:owo-lib-532610:4749199"
-    // modImplementation "curse.maven:cloth-config-348521:4633442"
-    // modImplementation "curse.maven:mythicmetals-410127:4644233"
-    // modImplementation "curse.maven:alloy-forgery-438718:4644228"
-    // modImplementation "curse.maven:mythicmetals-decorations-552128:4580007"
+    // Nether Chested mod
+    modImplementation "curse.maven:new-nether-chest-857971:5080412"
 }
 
 processResources {

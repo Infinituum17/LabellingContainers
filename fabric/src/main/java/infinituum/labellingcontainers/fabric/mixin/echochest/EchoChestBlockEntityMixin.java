@@ -1,5 +1,6 @@
-package infinituum.labellingcontainers.mixin;
+package infinituum.labellingcontainers.fabric.mixin.echochest;
 
+import fuzs.echochest.world.level.block.entity.EchoChestBlockEntity;
 import infinituum.labellingcontainers.utils.Taggable;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -12,25 +13,23 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.entity.BarrelBlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-@Mixin(BarrelBlockEntity.class)
-public class BarrelBlockEntityMixin extends BlockEntity implements Taggable {
+@Mixin(EchoChestBlockEntity.class)
+public class EchoChestBlockEntityMixin extends BlockEntity implements Taggable {
     @Unique
     private MutableComponent labellingcontainers$label = Component.literal("");
     @Unique
     private Item labellingcontainers$displayItem = Items.AIR;
 
-    public BarrelBlockEntityMixin(BlockEntityType<?> type, BlockPos pos, BlockState state) {
+    public EchoChestBlockEntityMixin(BlockEntityType<?> type, BlockPos pos, BlockState state) {
         super(type, pos, state);
     }
 
@@ -39,16 +38,10 @@ public class BarrelBlockEntityMixin extends BlockEntity implements Taggable {
         return ClientboundBlockEntityDataPacket.create(this);
     }
 
-    @Override
-    public @NotNull CompoundTag getUpdateTag() {
-        return this.saveWithoutMetadata();
-    }
-
     @Unique
     private void labellingcontainers$notifyClients(BlockState oldState) {
         this.setChanged();
-        if (level != null)
-            level.sendBlockUpdated(this.worldPosition, oldState, this.getBlockState(), Block.UPDATE_CLIENTS);
+        if (level != null) level.sendBlockUpdated(this.worldPosition, oldState, this.getBlockState(), Block.UPDATE_CLIENTS);
     }
 
     @Override

@@ -1,4 +1,4 @@
-package infinituum.labellingcontainers.mixin;
+package infinituum.labellingcontainers.mixin.minecraft;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
@@ -23,10 +23,10 @@ public class ShulkerBoxBlockMixin extends Block {
 
     @Inject(method = "appendHoverText", at = @At("TAIL"))
     public void appendTooltip(ItemStack stack, BlockGetter world, List<Component> tooltip, TooltipFlag options, CallbackInfo ci) {
+        super.appendHoverText(stack, world, tooltip, options);
+
         MutableComponent text = Component.literal("ⓘ ").withStyle(ChatFormatting.BLUE);
         text.append(Component.translatable("block.labelable").withStyle(ChatFormatting.ITALIC).withStyle(ChatFormatting.GRAY));
         tooltip.add(text);
-
-        super.appendHoverText(stack, world, tooltip, options);
     }
 }
