@@ -1,5 +1,6 @@
-package infinituum.labellingcontainers.forge.mixin;
+package infinituum.labellingcontainers.forge.mixin.echochest;
 
+import fuzs.echochest.world.level.block.entity.EchoChestBlockEntity;
 import infinituum.labellingcontainers.utils.Taggable;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -9,8 +10,8 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.network.listener.ClientPlayPacketListener;
 import net.minecraft.network.packet.Packet;
+import net.minecraft.network.listener.ClientPlayPacketListener;
 import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
@@ -20,27 +21,21 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import tech.thatgravyboat.ironchests.common.blocks.GenericChestBlockEntity;
 
-@Mixin(GenericChestBlockEntity.class)
-public class GenericChestBlockEntityMixin extends BlockEntity implements Taggable {
+@Mixin(EchoChestBlockEntity.class)
+public class EchoChestBlockEntityMixin extends BlockEntity implements Taggable {
     @Unique
     private MutableText labellingcontainers$label = Text.literal("");
     @Unique
     private Item labellingcontainers$displayItem = Items.AIR;
 
-    public GenericChestBlockEntityMixin(BlockEntityType<?> type, BlockPos pos, BlockState state) {
+    public EchoChestBlockEntityMixin(BlockEntityType<?> type, BlockPos pos, BlockState state) {
         super(type, pos, state);
     }
 
     @Override
     public Packet<ClientPlayPacketListener> toUpdatePacket() {
         return BlockEntityUpdateS2CPacket.create(this);
-    }
-
-    @Override
-    public NbtCompound toInitialChunkDataNbt() {
-        return this.createNbt();
     }
 
     @Unique

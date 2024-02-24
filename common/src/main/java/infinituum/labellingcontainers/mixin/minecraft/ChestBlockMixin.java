@@ -1,4 +1,4 @@
-package infinituum.labellingcontainers.mixin;
+package infinituum.labellingcontainers.mixin.minecraft;
 
 import infinituum.labellingcontainers.utils.ChestHelper;
 import infinituum.labellingcontainers.utils.TaggableChest;
@@ -46,10 +46,10 @@ public class ChestBlockMixin extends Block {
 
     @Override
     public void appendTooltip(ItemStack stack, @Nullable BlockView world, List<Text> tooltip, TooltipContext options) {
+        super.appendTooltip(stack, world, tooltip, options);
+
         MutableText text = Text.literal("ⓘ ").formatted(Formatting.BLUE);
         text.append(Text.translatable("block.labelable").formatted(Formatting.ITALIC).formatted(Formatting.GRAY));
         tooltip.add(text);
-
-        super.appendTooltip(stack, world, tooltip, options);
     }
 }

@@ -1,4 +1,4 @@
-package infinituum.labellingcontainers.forge.mixin;
+package infinituum.labellingcontainers.forge.mixin.ironchest;
 
 import com.progwml6.ironchest.common.block.regular.entity.AbstractIronChestBlockEntity;
 import infinituum.labellingcontainers.utils.Taggable;

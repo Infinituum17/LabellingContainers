@@ -41,6 +41,21 @@ dependencies {
 
     // Iron Chests
     modImplementation "curse.maven:iron-chests-228756:4614852"
+
+    // Colossal Chest
+    modImplementation "curse.maven:colossal-chests-237875:4620461"
+    modImplementation "curse.maven:cyclops-core-232758:5080553"
+
+    // Echo Chest mod
+    modApi("curse.maven:puzzles-lib-495476:5112685") {
+        exclude group: "fuzs.puzzleslib"
+    }
+
+    modImplementation "curse.maven:puzzles-lib-495476:5112685"
+    modImplementation "curse.maven:echo-chest-857972:4613440"
+
+    // Nether Chested mod
+    modImplementation "curse.maven:new-nether-chest-857971:4614038"
 }
 
 processResources {

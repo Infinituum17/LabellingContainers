@@ -46,7 +46,7 @@ dependencies {
     modImplementation "curse.maven:ironchests-498794:4638050"
 
     // Mythic Metals Decorations
-    def ccapiVersion = "5.0.2"
+    def ccapiVersion = "5.2.0"
     def mixinextrasVersion = "0.2.0"
     def aeaVersion = "1.4.0+1.20.0"
     def cpapiVersion = "1.0.0"
@@ -65,6 +65,23 @@ dependencies {
     modImplementation "curse.maven:mythicmetals-410127:4644233"
     modImplementation "curse.maven:alloy-forgery-438718:4644228"
     modImplementation "curse.maven:mythicmetals-decorations-552128:4580007"
+
+    // Echo chest mod
+    modImplementation "dev.onyxstudios.cardinal-components-api:cardinal-components-block:${ccapiVersion}"
+    modImplementation "dev.onyxstudios.cardinal-components-api:cardinal-components-chunk:${ccapiVersion}"
+    modImplementation "dev.onyxstudios.cardinal-components-api:cardinal-components-world:${ccapiVersion}"
+    implementation 'com.electronwill.night-config:core:3.6.5'
+    implementation 'com.electronwill.night-config:toml:3.6.5'
+
+    // From: https://github.com/Fuzss/modresources/tree/main/maven
+    modApi "fuzs.puzzlesapi:puzzlesapi-fabric:8.1.5"
+    modImplementation "curse.maven:forge-config-api-port-fabric-547434:4583000"
+
+    modImplementation "curse.maven:puzzles-lib-495476:5112686"
+    modImplementation "curse.maven:echo-chest-857972:4613441"
+
+    // Nether Chested mod
+    modImplementation "curse.maven:new-nether-chest-857971:5056973"
 }
 
 processResources {

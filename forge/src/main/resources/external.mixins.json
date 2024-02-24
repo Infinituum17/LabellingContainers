@@ -5,12 +5,22 @@
   "compatibilityLevel": "JAVA_17",
   "minVersion": "0.8",
   "mixins": [
-    "AbstractIronChestBlockEntityMixin",
-    "AbstractIronChestBlockMixin",
-    "GenericChestBlockEntityMixin",
-    "GenericChestBlockMixin"
+    "colossalchests.BlockEntityUncolossalChestMixin",
+    "colossalchests.ColossalChestMixin",
+    "colossalchests.UncolossalChestMixin",
+    "echochest.EchoChestBlockEntityMixin",
+    "echochest.EchoChestBlockMixin",
+    "ironchest.AbstractIronChestBlockEntityMixin",
+    "ironchest.AbstractIronChestBlockMixin",
+    "ironchests.GenericChestBlockEntityMixin",
+    "ironchests.GenericChestBlockMixin",
+    "netherchested.NetherChestBlockEntityMixin",
+    "netherchested.NetherChestBlockMixin"
   ],
   "injectors": {
     "defaultRequire": 1
-  }
+  },
+  "client": [
+    "colossalchests.BlockEntityColossalChestMixin"
+  ]
 }

@@ -1,10 +1,11 @@
-package infinituum.labellingcontainers.fabric.mixin;
+package infinituum.labellingcontainers.mixin.minecraft;
 
 import infinituum.labellingcontainers.utils.Taggable;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
+import net.minecraft.block.entity.ShulkerBoxBlockEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -20,16 +21,15 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import tech.thatgravyboat.ironchests.common.blocks.GenericChestBlockEntity;
 
-@Mixin(GenericChestBlockEntity.class)
-public class GenericChestBlockEntityMixin extends BlockEntity implements Taggable {
+@Mixin(ShulkerBoxBlockEntity.class)
+public class ShulkerBoxBlockEntityMixin extends BlockEntity implements Taggable {
     @Unique
     private MutableText labellingcontainers$label = Text.literal("");
     @Unique
     private Item labellingcontainers$displayItem = Items.AIR;
 
-    public GenericChestBlockEntityMixin(BlockEntityType<?> type, BlockPos pos, BlockState state) {
+    public ShulkerBoxBlockEntityMixin(BlockEntityType<?> type, BlockPos pos, BlockState state) {
         super(type, pos, state);
     }
 

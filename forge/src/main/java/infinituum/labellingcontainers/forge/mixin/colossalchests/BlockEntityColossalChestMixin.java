@@ -1,46 +1,44 @@
-package infinituum.labellingcontainers.mixin;
+package infinituum.labellingcontainers.forge.mixin.colossalchests;
 
 import infinituum.labellingcontainers.utils.Taggable;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
-import net.minecraft.block.entity.ShulkerBoxBlockEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.network.listener.ClientPlayPacketListener;
 import net.minecraft.network.packet.Packet;
+import net.minecraft.network.listener.ClientPlayPacketListener;
 import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
+import org.cyclops.colossalchests.blockentity.BlockEntityColossalChest;
+import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-@Mixin(ShulkerBoxBlockEntity.class)
-public class ShulkerBoxBlockEntityMixin extends BlockEntity implements Taggable {
+@Mixin(BlockEntityColossalChest.class)
+public class BlockEntityColossalChestMixin extends BlockEntity implements Taggable {
+
     @Unique
     private MutableText labellingcontainers$label = Text.literal("");
     @Unique
     private Item labellingcontainers$displayItem = Items.AIR;
 
-    public ShulkerBoxBlockEntityMixin(BlockEntityType<?> type, BlockPos pos, BlockState state) {
+    public BlockEntityColossalChestMixin(BlockEntityType<?> type, BlockPos pos, BlockState state) {
         super(type, pos, state);
     }
 
+    @Nullable
     @Override
     public Packet<ClientPlayPacketListener> toUpdatePacket() {
         return BlockEntityUpdateS2CPacket.create(this);
-    }
-
-    @Override
-    public NbtCompound toInitialChunkDataNbt() {
-        return this.createNbt();
     }
 
     @Unique
@@ -89,7 +87,7 @@ public class ShulkerBoxBlockEntityMixin extends BlockEntity implements Taggable 
         }
     }
 
-    @Inject(method = "readNbt", at = @At("TAIL"))
+    @Inject(method = "read", at = @At("TAIL"))
     public void readNbtMixin(NbtCompound nbt, CallbackInfo ci) {
         this.labellingcontainers$label = Text.of(nbt.getString("label")).copy();
         if (nbt.contains("displayItem")) {
