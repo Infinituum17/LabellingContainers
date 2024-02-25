@@ -1,6 +1,7 @@
 package infinituum.labellingcontainers.items;
 
 import dev.architectury.registry.menu.MenuRegistry;
+import infinituum.labellingcontainers.PlatformHelper;
 import infinituum.labellingcontainers.registration.ItemRegistration;
 import infinituum.labellingcontainers.screens.LabelPrinterScreenFactory;
 import infinituum.labellingcontainers.utils.InventoryHelper;
@@ -27,6 +28,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -60,8 +62,9 @@ public class LabelPrinterItem extends Item {
         BlockPos pos = context.getClickedPos();
         Level world = context.getLevel();
         ItemStack itemStack = context.getItemInHand();
+        BlockEntity blockEntity = PlatformHelper.locateTargetBlockEntity(world, pos);
 
-        if (world.getBlockEntity(pos) instanceof Taggable taggable) {
+        if (blockEntity instanceof Taggable taggable) {
             if (!world.isClientSide()) {
                 MutableComponent label = Component.literal(getLabel(itemStack));
                 Item displayItem = getDisplayItem(itemStack);
