@@ -21,8 +21,6 @@ public final class ConditionalLoaderMixinPlugin implements IMixinConfigPlugin {
             .put(MIXINS_FOLDER + "colossalchests.BlockEntityUncolossalChest", "colossalchests")
             .put(MIXINS_FOLDER + "colossalchests.colossalchests.ColossalChestMixin", "colossalchests")
             .put(MIXINS_FOLDER + "colossalchests.colossalchests.UncolossalChestMixin", "colossalchests")
-            .put(MIXINS_FOLDER + "HudInfoDisplayMixin", "colossalchests")
-            .put(MIXINS_FOLDER + "LabelPrinterItemMixin", "colossalchests")
             .put(MIXINS_FOLDER + "echochest.EchoChestBlockMixin", "echochest")
             .put(MIXINS_FOLDER + "echochest.EchoChestBlockEntityMixin", "echochest")
             .put(MIXINS_FOLDER + "netherchested.NetherChestBlockEntityMixin", "netherchested")

@@ -1,10 +1,12 @@
 package infinituum.labellingcontainers.items;
 
 import dev.architectury.registry.menu.MenuRegistry;
+import infinituum.labellingcontainers.PlatformHelper;
 import infinituum.labellingcontainers.registration.ItemRegistration;
 import infinituum.labellingcontainers.screens.LabelPrinterScreenFactory;
 import infinituum.labellingcontainers.utils.InventoryHelper;
 import infinituum.labellingcontainers.utils.Taggable;
+import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.player.PlayerEntity;
@@ -59,8 +61,9 @@ public class LabelPrinterItem extends Item {
         BlockPos pos = context.getBlockPos();
         World world = context.getWorld();
         ItemStack itemStack = context.getStack();
+        BlockEntity blockEntity = PlatformHelper.locateTargetBlockEntity(world, pos);
 
-        if (world.getBlockEntity(pos) instanceof Taggable taggable) {
+        if (blockEntity instanceof Taggable taggable) {
             if (!world.isClient()) {
                 MutableText label = Text.literal(getLabel(itemStack));
                 Item displayItem = getDisplayItem(itemStack);
