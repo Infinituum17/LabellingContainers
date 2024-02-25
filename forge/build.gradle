@@ -36,6 +36,8 @@ dependencies {
     shadowCommon(project(path: ":common", configuration: "transformProductionForge")) { transitive = false }
 
     // Echo Chest mod
+    modApi "fuzs.limitlesscontainers:limitlesscontainers-forge:20.4.0"
+    modImplementation "curse.maven:forge-config-api-port-fabric-547434:5051715"
     modImplementation "curse.maven:puzzles-lib-495476:5131378"
     modImplementation "curse.maven:echo-chest-857972:5096976"
 
