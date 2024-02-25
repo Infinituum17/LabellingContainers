@@ -1,4 +1,4 @@
-package infinituum.labellingcontainers.mixin;
+package infinituum.labellingcontainers.mixin.minecraft;
 
 import infinituum.labellingcontainers.utils.ChestHelper;
 import infinituum.labellingcontainers.utils.TaggableChest;
