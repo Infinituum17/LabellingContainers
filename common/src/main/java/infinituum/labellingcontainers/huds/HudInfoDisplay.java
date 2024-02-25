@@ -1,6 +1,7 @@
 package infinituum.labellingcontainers.huds;
 
 import dev.architectury.event.events.client.ClientGuiEvent.RenderHud;
+import infinituum.labellingcontainers.PlatformHelper;
 import infinituum.labellingcontainers.utils.Taggable;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.client.MinecraftClient;
@@ -25,8 +26,7 @@ public class HudInfoDisplay implements RenderHud {
         BlockPos blockPos = blockHit.getBlockPos();
         if(client.world == null) return;
 
-        BlockEntity blockEntity = client.world.getBlockEntity(blockPos);
-        if(blockEntity == null) return;
+        BlockEntity blockEntity = PlatformHelper.locateTargetBlockEntity(client.world, blockPos);
 
         if(blockEntity instanceof Taggable labelable) {
             Item displayItem = (labelable.labellingcontainers$getDisplayItem() != null) ? labelable.labellingcontainers$getDisplayItem() : client.world.getBlockState(blockPos).getBlock().asItem();
