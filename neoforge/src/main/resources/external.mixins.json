@@ -1,0 +1,16 @@
+{
+  "required": false,
+  "package": "infinituum.labellingcontainers.neoforge.mixin",
+  "plugin": "infinituum.labellingcontainers.neoforge.utils.ConditionalLoaderMixinPlugin",
+  "compatibilityLevel": "JAVA_17",
+  "minVersion": "0.8",
+  "mixins": [
+    "echochest.EchoChestBlockEntityMixin",
+    "echochest.EchoChestBlockMixin",
+    "netherchested.NetherChestBlockEntityMixin",
+    "netherchested.NetherChestBlockMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
