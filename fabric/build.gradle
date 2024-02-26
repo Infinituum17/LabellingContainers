@@ -76,6 +76,21 @@ dependencies {
 
     // Nether Chested mod
     modImplementation "curse.maven:new-nether-chest-857971:4539462"
+
+    // More Chests mod
+    modImplementation "curse.maven:more-chests-737045:4977009"
+
+    // More Chests Variants mod
+    modImplementation "curse.maven:more-chest-variants-lieonlion-858032:4879889"
+
+    // Variant Barrels mod
+    modImplementation "curse.maven:variantbarrels-576766:4524672"
+
+    // Compact Storage mod
+    modImplementation "curse.maven:compactstorage-223703:4374192"
+
+    // Iron Chests (fabric)
+    modImplementation "curse.maven:iron-chests-for-fabric-498534:3991296"
 }
 
 processResources {
