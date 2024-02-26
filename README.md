@@ -23,7 +23,7 @@ label. Finally, have **paper** in your inventory and _shift-right-click_ a chest
 
 To add compatibility with your mod follow these steps:
 
-1. Install curse-maven: https://www.cursemaven.com/
+1. Install curse-maven: https://www.cursemaven.com/ <br/><br/>
 
 2. Add Labelling Containers to your project:<br/>
    Using Architectury / Fabric / Fabric-likes:
@@ -38,6 +38,7 @@ To add compatibility with your mod follow these steps:
         implementation fg.deobf("curse.maven:labelling-containers-844270:<version> ")
     }
     ```
+   <br/>
 
 3. Implement the `Taggable` interface in your BlockEntity class.<br/>
    Check out
@@ -48,6 +49,7 @@ To add compatibility with your mod follow these steps:
        chest.
    - `ChestBlockEntityMixin` implements `TaggableChest` (not `Taggable`) because the chest could be double, so it has
        to check for the presence of another linked container.
+     <br/><br/>
 
 4. Add the tooltip in your `Block`/`BlockItem`/`Item` class:
     ```java
