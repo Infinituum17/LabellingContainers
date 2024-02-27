@@ -1,12 +1,11 @@
 package infinituum.labellingcontainers.fabric.mixin.netherchested;
 
 import fuzs.netherchested.world.level.block.NetherChestBlock;
+import infinituum.labellingcontainers.utils.TaggableTooltip;
 import net.minecraft.block.Block;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.item.ItemStack;
-import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
-import net.minecraft.util.Formatting;
 import net.minecraft.world.BlockView;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
@@ -24,8 +23,6 @@ public class NetherChestBlockMixin extends Block {
 
     @Inject(method = "appendTooltip", at = @At("TAIL"))
     public void appendTooltip(ItemStack stack, @Nullable BlockView level, List<Text> tooltip, TooltipContext flag, CallbackInfo ci) {
-        MutableText text = Text.literal("ⓘ ").formatted(Formatting.BLUE);
-        text.append(Text.translatable("block.labelable").formatted(Formatting.ITALIC).formatted(Formatting.GRAY));
-        tooltip.add(text);
+        tooltip.add(TaggableTooltip.get());
     }
 }
