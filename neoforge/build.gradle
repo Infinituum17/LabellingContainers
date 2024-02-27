@@ -31,6 +31,9 @@ dependencies {
     modApi "fuzs.limitlesscontainers:limitlesscontainers-neoforge:20.4.0"
     modImplementation "curse.maven:forge-config-api-port-fabric-547434:5051716"
     modImplementation "curse.maven:new-nether-chest-857971:5097133"
+
+    // Compact Storage mod
+    modImplementation "curse.maven:compactstorage-223703:5136771"
 }
 
 processResources {

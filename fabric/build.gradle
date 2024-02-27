@@ -59,6 +59,12 @@ dependencies {
 
     // Nether Chested mod
     modImplementation "curse.maven:new-nether-chest-857971:5080412"
+
+    // More Chests mod
+    modImplementation "curse.maven:more-chests-737045:4978687"
+
+    // Compact Storage mod
+    modImplementation "curse.maven:compactstorage-223703:5136769"
 }
 
 processResources {
