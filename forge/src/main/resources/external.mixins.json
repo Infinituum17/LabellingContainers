@@ -10,9 +10,7 @@
     "compact_storage.CompactChestBlockEntityMixin",
     "compact_storage.CompactChestBlockMixin",
     "echochest.EchoChestBlockEntityMixin",
-    "echochest.EchoChestBlockMixin",
-    "netherchested.NetherChestBlockEntityMixin",
-    "netherchested.NetherChestBlockMixin"
+    "echochest.EchoChestBlockMixin"
   ],
   "injectors": {
     "defaultRequire": 1
