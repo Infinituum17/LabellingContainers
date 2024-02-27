@@ -8,8 +8,13 @@
     "colossalchests.BlockEntityUncolossalChestMixin",
     "colossalchests.ColossalChestMixin",
     "colossalchests.UncolossalChestMixin",
+    "compact_storage.CompactBarrelBlockEntityMixin",
+    "compact_storage.CompactBarrelBlockMixin",
+    "compact_storage.CompactChestBlockEntityMixin",
+    "compact_storage.CompactChestBlockMixin",
     "echochest.EchoChestBlockEntityMixin",
     "echochest.EchoChestBlockMixin",
+    "more_chests.BasicChestBlockMixin",
     "netherchested.NetherChestBlockEntityMixin",
     "netherchested.NetherChestBlockMixin"
   ],

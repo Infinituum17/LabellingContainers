@@ -21,6 +21,11 @@ public final class ConditionalLoaderMixinPlugin implements IMixinConfigPlugin {
             .put(MIXINS_FOLDER + "echochest.EchoChestBlockEntityMixin", "echochest")
             .put(MIXINS_FOLDER + "netherchested.NetherChestBlockEntityMixin", "netherchested")
             .put(MIXINS_FOLDER + "netherchested.NetherChestBlockMixin", "netherchested")
+            .put(MIXINS_FOLDER + "more_chests.BasicChestBlockMixin", "more_chests")
+            .put(MIXINS_FOLDER + "compact_storage.CompactChestBlockMixin", "compact_storage")
+            .put(MIXINS_FOLDER + "compact_storage.CompactBarrelBlockMixin", "compact_storage")
+            .put(MIXINS_FOLDER + "compact_storage.CompactChestBlockEntityMixin", "compact_storage")
+            .put(MIXINS_FOLDER + "compact_storage.CompactBarrelBlockEntityMixin", "compact_storage")
             .build();
 
     @Override
