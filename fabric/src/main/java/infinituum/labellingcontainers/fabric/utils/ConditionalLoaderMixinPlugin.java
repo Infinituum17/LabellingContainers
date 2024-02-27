@@ -1,6 +1,7 @@
 package infinituum.labellingcontainers.fabric.utils;
 
 import com.google.common.collect.ImmutableMap;
+import net.fabricmc.loader.api.FabricLoader;
 import org.objectweb.asm.tree.ClassNode;
 import org.spongepowered.asm.mixin.extensibility.IMixinConfigPlugin;
 import org.spongepowered.asm.mixin.extensibility.IMixinInfo;
@@ -12,7 +13,14 @@ import java.util.function.Supplier;
 
 public final class ConditionalLoaderMixinPlugin implements IMixinConfigPlugin {
     private static final String MIXINS_FOLDER = "infinituum.labellingcontainers.fabric.mixin.";
-    private static final Map<String, Supplier<Boolean>> CONDITIONS = ImmutableMap.<String, Supplier<Boolean>>builder().build();
+    private static final Map<String, Supplier<Boolean>> CONDITIONS = ImmutableMap.<String, Supplier<Boolean>>builder()
+            .put(MIXINS_FOLDER + "more_chests.CustomChestBlockItemMixin", isModLoaded("more_chests"))
+            .put(MIXINS_FOLDER + "more_chests.CustomChestBlockMixin", isModLoaded("more_chests"))
+            .build();
+
+    private static Supplier<Boolean> isModLoaded(String modid) {
+        return () -> FabricLoader.getInstance().isModLoaded(modid);
+    }
 
     @Override
     public boolean shouldApplyMixin(String targetClassName, String mixinClassName) {
