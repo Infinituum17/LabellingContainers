@@ -14,15 +14,25 @@ import java.util.function.Supplier;
 public final class ConditionalLoaderMixinPlugin implements IMixinConfigPlugin {
     private static final String MIXINS_FOLDER = "infinituum.labellingcontainers.fabric.mixin.";
     private static final Map<String, Supplier<Boolean>> CONDITIONS = ImmutableMap.<String, Supplier<Boolean>>builder()
-            .put(MIXINS_FOLDER + "mythicmetals_decorations.MythicChestBlockMixin", () -> FabricLoader.getInstance().isModLoaded("mythicmetals_decorations"))
-            .put(MIXINS_FOLDER + "mythicmetals_decorations.MythicChestBlockEntityMixin", () -> FabricLoader.getInstance().isModLoaded("mythicmetals_decorations"))
-            .put(MIXINS_FOLDER + "ironchests.GenericChestBlockEntityMixin", () -> FabricLoader.getInstance().isModLoaded("ironchests"))
-            .put(MIXINS_FOLDER + "ironchests.GenericChestBlockMixin", () -> FabricLoader.getInstance().isModLoaded("ironchests"))
-            .put(MIXINS_FOLDER + "echochest.EchoChestBlockEntityMixin", () -> FabricLoader.getInstance().isModLoaded("echochest"))
-            .put(MIXINS_FOLDER + "echochest.EchoChestBlockMixin", () -> FabricLoader.getInstance().isModLoaded("echochest"))
-            .put(MIXINS_FOLDER + "netherchested.NetherChestBlockEntityMixin", () -> FabricLoader.getInstance().isModLoaded("netherchested"))
-            .put(MIXINS_FOLDER + "netherchested.NetherChestBlockMixin", () -> FabricLoader.getInstance().isModLoaded("netherchested"))
+            .put(MIXINS_FOLDER + "mythicmetals_decorations.MythicChestBlockMixin", isModLoaded("mythicmetals_decorations"))
+            .put(MIXINS_FOLDER + "mythicmetals_decorations.MythicChestBlockEntityMixin", isModLoaded("mythicmetals_decorations"))
+            .put(MIXINS_FOLDER + "ironchests.GenericChestBlockEntityMixin", isModLoaded("ironchests"))
+            .put(MIXINS_FOLDER + "ironchests.GenericChestBlockMixin", isModLoaded("ironchests"))
+            .put(MIXINS_FOLDER + "echochest.EchoChestBlockEntityMixin", isModLoaded("echochest"))
+            .put(MIXINS_FOLDER + "echochest.EchoChestBlockMixin", isModLoaded("echochest"))
+            .put(MIXINS_FOLDER + "netherchested.NetherChestBlockEntityMixin", isModLoaded("netherchested"))
+            .put(MIXINS_FOLDER + "netherchested.NetherChestBlockMixin", isModLoaded("netherchested"))
+            .put(MIXINS_FOLDER + "more_chests.CustomChestBlockItemMixin", isModLoaded("more_chests"))
+            .put(MIXINS_FOLDER + "more_chests.CustomChestBlockMixin", isModLoaded("more_chests"))
+            .put(MIXINS_FOLDER + "compact_storage.CompactChestBlockMixin", isModLoaded("compact_storage"))
+            .put(MIXINS_FOLDER + "compact_storage.CompactBarrelBlockMixin", isModLoaded("compact_storage"))
+            .put(MIXINS_FOLDER + "compact_storage.CompactChestBlockEntityMixin", isModLoaded("compact_storage"))
+            .put(MIXINS_FOLDER + "compact_storage.CompactBarrelBlockEntityMixin", isModLoaded("compact_storage"))
             .build();
+
+    private static Supplier<Boolean> isModLoaded(String modid) {
+        return () -> FabricLoader.getInstance().isModLoaded(modid);
+    }
 
     @Override
     public boolean shouldApplyMixin(String targetClassName, String mixinClassName) {

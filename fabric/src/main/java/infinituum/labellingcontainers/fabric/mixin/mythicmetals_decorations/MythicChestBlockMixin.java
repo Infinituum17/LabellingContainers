@@ -2,6 +2,7 @@ package infinituum.labellingcontainers.fabric.mixin.mythicmetals_decorations;
 
 import infinituum.labellingcontainers.utils.ChestHelper;
 import infinituum.labellingcontainers.utils.TaggableChest;
+import infinituum.labellingcontainers.utils.TaggableTooltip;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
@@ -9,9 +10,7 @@ import net.minecraft.block.entity.ChestBlockEntity;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
-import net.minecraft.util.Formatting;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
@@ -48,8 +47,6 @@ public class MythicChestBlockMixin extends Block {
     public void appendTooltip(ItemStack stack, @Nullable BlockView world, List<Text> tooltip, TooltipContext options) {
         super.appendTooltip(stack, world, tooltip, options);
 
-        MutableText text = Text.literal("ⓘ ").formatted(Formatting.BLUE);
-        text.append(Text.translatable("block.labelable").formatted(Formatting.ITALIC).formatted(Formatting.GRAY));
-        tooltip.add(text);
+        tooltip.add(TaggableTooltip.get());
     }
 }
