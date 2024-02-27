@@ -1,5 +1,6 @@
 package infinituum.labellingcontainers.mixin.minecraft;
 
+import infinituum.labellingcontainers.utils.TaggableTooltip;
 import net.minecraft.block.BarrelBlock;
 import net.minecraft.block.Block;
 import net.minecraft.client.item.TooltipContext;
@@ -23,8 +24,6 @@ public class BarrelBlockMixin extends Block {
     public void appendTooltip(ItemStack stack, @Nullable BlockView world, List<Text> tooltip, TooltipContext options) {
         super.appendTooltip(stack, world, tooltip, options);
 
-        MutableText text = Text.literal("ⓘ ").formatted(Formatting.BLUE);
-        text.append(Text.translatable("block.labelable").formatted(Formatting.ITALIC).formatted(Formatting.GRAY));
-        tooltip.add(text);
+        tooltip.add(TaggableTooltip.get());
     }
 }

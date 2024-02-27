@@ -1,6 +1,7 @@
 package infinituum.labellingcontainers.fabric.mixin.echochest;
 
 import fuzs.echochest.world.level.block.EchoChestBlock;
+import infinituum.labellingcontainers.utils.TaggableTooltip;
 import net.minecraft.block.Block;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.item.ItemStack;
@@ -24,8 +25,6 @@ public class EchoChestBlockMixin extends Block {
 
     @Inject(method = "appendTooltip", at = @At("TAIL"))
     public void appendTooltip(ItemStack stack, @Nullable BlockView level, List<Text> tooltip, TooltipContext flag, CallbackInfo ci) {
-        MutableText text = Text.literal("ⓘ ").formatted(Formatting.BLUE);
-        text.append(Text.translatable("block.labelable").formatted(Formatting.ITALIC).formatted(Formatting.GRAY));
-        tooltip.add(text);
+        tooltip.add(TaggableTooltip.get());
     }
 }
