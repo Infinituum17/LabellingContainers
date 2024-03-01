@@ -28,6 +28,12 @@ public final class ConditionalLoaderMixinPlugin implements IMixinConfigPlugin {
             .put(MIXINS_FOLDER + "compact_storage.CompactBarrelBlockMixin", isModLoaded("compact_storage"))
             .put(MIXINS_FOLDER + "compact_storage.CompactChestBlockEntityMixin", isModLoaded("compact_storage"))
             .put(MIXINS_FOLDER + "compact_storage.CompactBarrelBlockEntityMixin", isModLoaded("compact_storage"))
+            .put(MIXINS_FOLDER + "supplementaries.AbstractPresentBlockMixin", isModLoaded("supplementaries"))
+            .put(MIXINS_FOLDER + "supplementaries.OpeneableContainerBlockEntityMixin", isModLoaded("supplementaries"))
+            .put(MIXINS_FOLDER + "supplementaries.SackBlockMixin", isModLoaded("supplementaries"))
+            .put(MIXINS_FOLDER + "supplementaries.SafeBlockMixin", isModLoaded("supplementaries"))
+            .put(MIXINS_FOLDER + "supplementaries.JarBlockTileMixin", isModLoaded("supplementaries"))
+            .put(MIXINS_FOLDER + "supplementaries.JarItemMixin", isModLoaded("supplementaries"))
             .build();
 
     private static Supplier<Boolean> isModLoaded(String modid) {

@@ -1,4 +1,4 @@
-package infinituum.labellingcontainers.forge.mixin.supplementaries;
+package infinituum.labellingcontainers.fabric.mixin.supplementaries;
 
 import infinituum.labellingcontainers.utils.TaggableTooltip;
 import net.mehvahdjukaar.supplementaries.common.items.JarItem;
