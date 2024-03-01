@@ -1,50 +1,50 @@
 package infinituum.labellingcontainers.huds;
 
+import com.mojang.blaze3d.vertex.PoseStack;
 import dev.architectury.event.events.client.ClientGuiEvent.RenderHud;
 import infinituum.labellingcontainers.PlatformHelper;
 import infinituum.labellingcontainers.utils.Taggable;
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.DrawableHelper;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.hit.BlockHitResult;
-import net.minecraft.util.hit.HitResult;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiComponent;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.HitResult;
 
 public class HudInfoDisplay implements RenderHud {
     @Override
-    public void renderHud(MatrixStack context, float tickDelta) {
-        MinecraftClient client = MinecraftClient.getInstance();
-        if(client == null || client.currentScreen != null) return;
+    public void renderHud(PoseStack context, float tickDelta) {
+        Minecraft client = Minecraft.getInstance();
+        if (client.screen != null) return;
 
-        HitResult hit = client.crosshairTarget;
+        HitResult hit = client.hitResult;
         if(hit == null || hit.getType() != HitResult.Type.BLOCK) return;
 
         BlockHitResult blockHit = (BlockHitResult) hit;
         BlockPos blockPos = blockHit.getBlockPos();
-        if(client.world == null) return;
+        if (client.level == null) return;
 
-        BlockEntity blockEntity = PlatformHelper.locateTargetBlockEntity(client.world, blockPos);
+        BlockEntity blockEntity = PlatformHelper.locateTargetBlockEntity(client.level, blockPos);
 
         if(blockEntity instanceof Taggable labelable) {
-            Item displayItem = (labelable.labellingcontainers$getDisplayItem() != null) ? labelable.labellingcontainers$getDisplayItem() : client.world.getBlockState(blockPos).getBlock().asItem();
+            Item displayItem = (labelable.labellingcontainers$getDisplayItem() != null) ? labelable.labellingcontainers$getDisplayItem() : client.level.getBlockState(blockPos).getBlock().asItem();
 
-            int width = client.getWindow().getScaledWidth();
-            int height = client.getWindow().getScaledHeight();
-            int fontHeight = client.textRenderer.fontHeight;
+            int width = client.getWindow().getGuiScaledWidth();
+            int height = client.getWindow().getGuiScaledHeight();
+            int fontHeight = client.font.lineHeight;
 
             int x = width / 2;
             int y = height / 2;
             int leftPadding = 10;
 
-            context.push();
+            context.pushPose();
 
-            client.getItemRenderer().renderGuiItemIcon(context, new ItemStack(displayItem), x + leftPadding, y - 8);
-            DrawableHelper.drawTextWithShadow(context, client.textRenderer, labelable.labellingcontainers$getLabel(), x + leftPadding * 3, (y + 1) - fontHeight / 2, 0xFFFFFFFF);
+            client.getItemRenderer().renderGuiItem(context, new ItemStack(displayItem), x + leftPadding, y - 8);
+            GuiComponent.drawString(context, client.font, labelable.labellingcontainers$getLabel(), x + leftPadding * 3, (y + 1) - fontHeight / 2, 0xFFFFFFFF);
 
-            context.pop();
+            context.popPose();
         }
     }
 }

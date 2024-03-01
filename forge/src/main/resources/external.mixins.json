@@ -13,7 +13,13 @@
     "ironchest.AbstractIronChestBlockEntityMixin",
     "ironchest.AbstractIronChestBlockMixin",
     "netherchested.NetherChestBlockEntityMixin",
-    "netherchested.NetherChestBlockMixin"
+    "netherchested.NetherChestBlockMixin",
+    "supplementaries.AbstractPresentBlockMixin",
+    "supplementaries.JarBlockTileMixin",
+    "supplementaries.JarItemMixin",
+    "supplementaries.OpeneableContainerBlockEntityMixin",
+    "supplementaries.SackBlockMixin",
+    "supplementaries.SafeBlockMixin"
   ],
   "injectors": {
     "defaultRequire": 1

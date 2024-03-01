@@ -1,40 +1,47 @@
-package infinituum.labellingcontainers.forge.mixin.colossalchests;
+package infinituum.labellingcontainers.forge.mixin.supplementaries;
 
 import infinituum.labellingcontainers.utils.Taggable;
+import net.mehvahdjukaar.supplementaries.common.block.tiles.JarBlockTile;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import org.cyclops.colossalchests.blockentity.BlockEntityColossalChest;
-import org.cyclops.cyclopscore.blockentity.CyclopsBlockEntity;
+import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-@Mixin(BlockEntityColossalChest.class)
-public class BlockEntityColossalChestMixin extends CyclopsBlockEntity implements Taggable {
-
+@Mixin(JarBlockTile.class)
+public class JarBlockTileMixin extends BlockEntity implements Taggable {
     @Unique
     private MutableComponent labellingcontainers$label = Component.literal("");
     @Unique
     private Item labellingcontainers$displayItem = Items.AIR;
 
-    public BlockEntityColossalChestMixin(BlockEntityType<?> type, BlockPos pos, BlockState state) {
+    public JarBlockTileMixin(BlockEntityType type, BlockPos pos, BlockState state) {
         super(type, pos, state);
     }
 
     @Override
-    public ClientboundBlockEntityDataPacket getUpdatePacket() {
+    public Packet<ClientGamePacketListener> getUpdatePacket() {
         return ClientboundBlockEntityDataPacket.create(this);
+    }
+
+    @Override
+    public @NotNull CompoundTag getUpdateTag() {
+        return this.saveWithoutMetadata();
     }
 
     @Unique
@@ -84,7 +91,7 @@ public class BlockEntityColossalChestMixin extends CyclopsBlockEntity implements
         }
     }
 
-    @Inject(method = "read", at = @At("TAIL"), remap = false)
+    @Inject(method = "load", at = @At("TAIL"))
     public void readNbtMixin(CompoundTag nbt, CallbackInfo ci) {
         this.labellingcontainers$label = Component.nullToEmpty(nbt.getString("label")).copy();
         if (nbt.contains("displayItem")) {

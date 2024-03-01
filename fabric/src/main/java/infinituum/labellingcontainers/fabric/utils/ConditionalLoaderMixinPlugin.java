@@ -22,6 +22,12 @@ public final class ConditionalLoaderMixinPlugin implements IMixinConfigPlugin {
             .put(MIXINS_FOLDER + "netherchested.NetherChestBlockMixin", isModLoaded("netherchested"))
             .put(MIXINS_FOLDER + "more_chests.CustomChestBlockItemMixin", isModLoaded("more_chests"))
             .put(MIXINS_FOLDER + "more_chests.CustomChestBlockMixin", isModLoaded("more_chests"))
+            .put(MIXINS_FOLDER + "supplementaries.AbstractPresentBlockMixin", isModLoaded("supplementaries"))
+            .put(MIXINS_FOLDER + "supplementaries.OpeneableContainerBlockEntityMixin", isModLoaded("supplementaries"))
+            .put(MIXINS_FOLDER + "supplementaries.SackBlockMixin", isModLoaded("supplementaries"))
+            .put(MIXINS_FOLDER + "supplementaries.SafeBlockMixin", isModLoaded("supplementaries"))
+            .put(MIXINS_FOLDER + "supplementaries.JarBlockTileMixin", isModLoaded("supplementaries"))
+            .put(MIXINS_FOLDER + "supplementaries.JarItemMixin", isModLoaded("supplementaries"))
             .build();
 
     private static Supplier<Boolean> isModLoaded(String modid) {

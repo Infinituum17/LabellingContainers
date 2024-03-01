@@ -46,32 +46,36 @@ dependencies {
     def aeaVersion = "1.4.0+1.19.4"
     def bejVersion = "1.2.2"
 
-    modImplementation "dev.onyxstudios.cardinal-components-api:cardinal-components-base:${ccapiVersion}"
-    modImplementation "dev.onyxstudios.cardinal-components-api:cardinal-components-entity:${ccapiVersion}"
-    modImplementation "maven.modrinth:additionalentityattributes:${aeaVersion}"
+    modCompileOnly "dev.onyxstudios.cardinal-components-api:cardinal-components-base:${ccapiVersion}"
+    modCompileOnly "dev.onyxstudios.cardinal-components-api:cardinal-components-entity:${ccapiVersion}"
+    modCompileOnly "maven.modrinth:additionalentityattributes:${aeaVersion}"
 
     implementation "blue.endless:jankson:${bejVersion}"
 
-    modImplementation "curse.maven:owo-lib-532610:4559399"
-    modImplementation "curse.maven:mythicmetals-410127:4578506"
-    modImplementation "curse.maven:alloy-forgery-438718:4487545"
-    modImplementation "curse.maven:mythicmetals-decorations-552128:4570786"
+    modCompileOnly "curse.maven:owo-lib-532610:4559399"
+    modCompileOnly "curse.maven:mythicmetals-410127:4578506"
+    modCompileOnly "curse.maven:alloy-forgery-438718:4487545"
+    modCompileOnly "curse.maven:mythicmetals-decorations-552128:4570786"
 
     // Echo Chest mod
-    modImplementation "dev.onyxstudios.cardinal-components-api:cardinal-components-block:${ccapiVersion}"
-    modImplementation "dev.onyxstudios.cardinal-components-api:cardinal-components-chunk:${ccapiVersion}"
-    modImplementation "dev.onyxstudios.cardinal-components-api:cardinal-components-world:${ccapiVersion}"
+    modCompileOnly "dev.onyxstudios.cardinal-components-api:cardinal-components-block:${ccapiVersion}"
+    modCompileOnly "dev.onyxstudios.cardinal-components-api:cardinal-components-chunk:${ccapiVersion}"
+    modCompileOnly "dev.onyxstudios.cardinal-components-api:cardinal-components-world:${ccapiVersion}"
     implementation 'com.electronwill.night-config:core:3.6.5'
     implementation 'com.electronwill.night-config:toml:3.6.5'
-    modImplementation "curse.maven:forge-config-api-port-fabric-547434:4451343"
-    modImplementation "curse.maven:puzzles-lib-495476:4582314"
-    modImplementation "curse.maven:echo-chest-857972:4552567"
+    modCompileOnly "curse.maven:forge-config-api-port-fabric-547434:4451343"
+    modCompileOnly "curse.maven:puzzles-lib-495476:4582314"
+    modCompileOnly "curse.maven:echo-chest-857972:4552567"
 
     // Nether Chested mod
-    modImplementation "curse.maven:new-nether-chest-857971:4552679"
+    modCompileOnly "curse.maven:new-nether-chest-857971:4552679"
 
     // More Chests mod
-    modImplementation "curse.maven:more-chests-737045:4977019"
+    modCompileOnly "curse.maven:more-chests-737045:4977019"
+
+    // Supplementaries mod
+    modImplementation "curse.maven:selene-499980:4567754"
+    modImplementation "curse.maven:supplementaries-412082:4558910"
 }
 
 processResources {

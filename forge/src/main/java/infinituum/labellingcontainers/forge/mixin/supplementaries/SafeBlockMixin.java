@@ -1,12 +1,11 @@
-package infinituum.labellingcontainers.forge.mixin.netherchested;
+package infinituum.labellingcontainers.forge.mixin.supplementaries;
 
-import fuzs.netherchested.world.level.block.NetherChestBlock;
 import infinituum.labellingcontainers.utils.TaggableTooltip;
+import net.mehvahdjukaar.supplementaries.common.block.blocks.SafeBlock;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.BlockGetter;
-import net.minecraft.world.level.block.Block;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -15,14 +14,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.List;
 
-@Mixin(NetherChestBlock.class)
-public class NetherChestBlockMixin extends Block {
-    public NetherChestBlockMixin(Properties arg) {
-        super(arg);
-    }
-
+@Mixin(SafeBlock.class)
+public class SafeBlockMixin {
     @Inject(method = "appendHoverText", at = @At("TAIL"))
-    public void appendTooltip(ItemStack stack, @Nullable BlockGetter level, List<Component> tooltip, TooltipFlag flag, CallbackInfo ci) {
+    public void appendHoverText(ItemStack stack, @Nullable BlockGetter level, List<Component> tooltip, TooltipFlag flagIn, CallbackInfo ci) {
         tooltip.add(TaggableTooltip.get());
     }
 }

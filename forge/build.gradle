@@ -36,18 +36,22 @@ dependencies {
     shadowCommon(project(path: ":common", configuration: "transformProductionForge")) { transitive = false }
 
     // Iron Chests
-    modImplementation "curse.maven:iron-chests-228756:4614846"
+    modCompileOnly "curse.maven:iron-chests-228756:4614846"
 
     // Colossal Chests
-    modImplementation "curse.maven:colossal-chests-237875:4517669"
-    modImplementation "curse.maven:cyclops-core-232758:4578164"
+    modCompileOnly "curse.maven:colossal-chests-237875:4517669"
+    modCompileOnly "curse.maven:cyclops-core-232758:4578164"
 
     // Echo Chest mod
-    modImplementation "curse.maven:puzzles-lib-495476:4582313"
-    modImplementation "curse.maven:echo-chest-857972:4552568"
+    modCompileOnly "curse.maven:puzzles-lib-495476:4582313"
+    modCompileOnly "curse.maven:echo-chest-857972:4552568"
 
     // Nether Chested mod
-    modImplementation "curse.maven:new-nether-chest-857971:4552680"
+    modCompileOnly "curse.maven:new-nether-chest-857971:4552680"
+
+    // Supplementaries mod
+    modImplementation "curse.maven:selene-499980:4561896"
+    modImplementation "curse.maven:supplementaries-412082:4620166"
 }
 
 processResources {
