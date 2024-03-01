@@ -3,17 +3,17 @@ package infinituum.labellingcontainers.fabric.mixin.mythicmetals_decorations;
 import infinituum.labellingcontainers.utils.ChestHelper;
 import infinituum.labellingcontainers.utils.TaggableChest;
 import infinituum.labellingcontainers.utils.TaggableTooltip;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.block.entity.ChestBlockEntity;
-import net.minecraft.client.item.TooltipContext;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.text.Text;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.BlockView;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.ChestBlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
 import nourl.mythicmetalsdecorations.blocks.chest.MythicChestBlock;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
@@ -25,13 +25,13 @@ import java.util.List;
 
 @Mixin(MythicChestBlock.class)
 public class MythicChestBlockMixin extends Block {
-    public MythicChestBlockMixin(Settings settings) {
+    public MythicChestBlockMixin(Properties settings) {
         super(settings);
     }
 
-    @Inject(method = "onPlaced", at = @At("HEAD"))
-    public void onPlaced(World world, BlockPos pos, BlockState state, LivingEntity placer, ItemStack itemStack, CallbackInfo ci) {
-        if (world.isClient()) return;
+    @Inject(method = "setPlacedBy", at = @At("HEAD"))
+    public void onPlaced(Level world, BlockPos pos, BlockState state, LivingEntity placer, ItemStack itemStack, CallbackInfo ci) {
+        if (world.isClientSide()) return;
         if (world.getBlockEntity(pos) == null) return;
 
         BlockEntity currentChestBlockEntity = world.getBlockEntity(pos);
@@ -44,8 +44,8 @@ public class MythicChestBlockMixin extends Block {
     }
 
     @Override
-    public void appendTooltip(ItemStack stack, @Nullable BlockView world, List<Text> tooltip, TooltipContext options) {
-        super.appendTooltip(stack, world, tooltip, options);
+    public void appendHoverText(ItemStack stack, @Nullable BlockGetter world, List<Component> tooltip, TooltipFlag options) {
+        super.appendHoverText(stack, world, tooltip, options);
 
         tooltip.add(TaggableTooltip.get());
     }

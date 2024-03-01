@@ -1,12 +1,11 @@
-package infinituum.labellingcontainers.fabric.mixin.compact_storage;
+package infinituum.labellingcontainers.forge.mixin.supplementaries;
 
-import com.tabithastrong.compactstorage.block.CompactBarrelBlock;
 import infinituum.labellingcontainers.utils.TaggableTooltip;
+import net.mehvahdjukaar.supplementaries.common.block.blocks.SafeBlock;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.BlockGetter;
-import net.minecraft.world.level.block.Block;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -15,14 +14,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.List;
 
-@Mixin(CompactBarrelBlock.class)
-public class CompactBarrelBlockMixin extends Block {
-    public CompactBarrelBlockMixin(Properties settings) {
-        super(settings);
-    }
-
+@Mixin(SafeBlock.class)
+public class SafeBlockMixin {
     @Inject(method = "appendHoverText", at = @At("TAIL"))
-    public void appendTooltip(ItemStack stack, @Nullable BlockGetter world, List<Component> tooltip, TooltipFlag options, CallbackInfo ci) {
+    public void appendHoverText(ItemStack stack, @Nullable BlockGetter level, List<Component> tooltip, TooltipFlag flagIn, CallbackInfo ci) {
         tooltip.add(TaggableTooltip.get());
     }
 }

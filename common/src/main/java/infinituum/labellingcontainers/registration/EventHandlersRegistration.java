@@ -2,21 +2,21 @@ package infinituum.labellingcontainers.registration;
 
 import dev.architectury.networking.NetworkManager;
 import infinituum.labellingcontainers.network.Packets;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.item.ItemStack;
 
 public class EventHandlersRegistration {
     public static void init() {
         NetworkManager.registerReceiver(NetworkManager.c2s(), Packets.LABEL_UPDATE_PACKET_ID, (buf, context) -> {
-            String label = buf.readString();
-            ItemStack item = context.getPlayer().getMainHandStack();
+            String label = buf.readUtf();
+            ItemStack item = context.getPlayer().getMainHandItem();
 
             if (!item.isEmpty()) {
-                if (item.isOf(ItemRegistration.LABEL_PRINTER.get())) {
-                    NbtCompound nbt = new NbtCompound();
+                if (item.is(ItemRegistration.LABEL_PRINTER.get())) {
+                    CompoundTag nbt = new CompoundTag();
                     nbt.putString("text", label);
 
-                    item.setSubNbt("Label", nbt);
+                    item.addTagElement("Label", nbt);
                 }
             }
         });

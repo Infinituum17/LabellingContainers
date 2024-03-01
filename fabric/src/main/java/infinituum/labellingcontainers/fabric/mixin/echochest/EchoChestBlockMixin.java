@@ -2,11 +2,11 @@ package infinituum.labellingcontainers.fabric.mixin.echochest;
 
 import fuzs.echochest.world.level.block.EchoChestBlock;
 import infinituum.labellingcontainers.utils.TaggableTooltip;
-import net.minecraft.block.Block;
-import net.minecraft.client.item.TooltipContext;
-import net.minecraft.item.ItemStack;
-import net.minecraft.text.Text;
-import net.minecraft.world.BlockView;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.block.Block;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -17,12 +17,12 @@ import java.util.List;
 
 @Mixin(EchoChestBlock.class)
 public class EchoChestBlockMixin extends Block {
-    public EchoChestBlockMixin(Settings arg) {
+    public EchoChestBlockMixin(Properties arg) {
         super(arg);
     }
 
-    @Inject(method = "appendTooltip", at = @At("TAIL"))
-    public void appendTooltip(ItemStack stack, @Nullable BlockView level, List<Text> tooltip, TooltipContext flag, CallbackInfo ci) {
+    @Inject(method = "appendHoverText", at = @At("TAIL"))
+    public void appendTooltip(ItemStack stack, @Nullable BlockGetter level, List<Component> tooltip, TooltipFlag flag, CallbackInfo ci) {
         tooltip.add(TaggableTooltip.get());
     }
 }
