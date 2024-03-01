@@ -1,20 +1,17 @@
 ---
 name: Labelling Containers
-about: Report a bug
-title: "[BUG]"
-labels: help wanted
+about: Add Mod Compatibility
+title: "[CMP]"
+labels: enhancement
 assignees: Infinituum17
 
 ---
 
-**Minecraft Version**
-Ex. 1.19.2
+**What mod would you want to be compatible with Labelling Containers?**
+Ex. Labelling Containers
 
-**Mod Version**
-Ex. 1.4.3
+**List of blocks that you'd like to add**
+Ex. Chests, Shulker Boxes, ...
 
-**Describe the bug**
-What happened?
-
-**Crash Report or Log**
-Upload a crash report or log (or the entire error message)
+**CurseForge link**
+Ex. https://www.curseforge.com/minecraft/mc-mods/labelling-containers
