@@ -1,5 +1,5 @@
 ---
-name: Labelling Containers
+name: Labelling Containers Compatibility
 about: Add Mod Compatibility
 title: "[CMP]"
 labels: enhancement
