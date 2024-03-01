@@ -13,10 +13,10 @@ import java.util.Set;
 public final class ConditionalLoaderMixinPlugin implements IMixinConfigPlugin {
     private static final String MIXINS_FOLDER = "infinituum.labellingcontainers.forge.mixin.";
     private static final Map<String, String> MIXIN_MODIDS = ImmutableMap.<String, String>builder()
-            .put(MIXINS_FOLDER + "colossalchests.BlockEntityColossalChest", "colossalchests")
-            .put(MIXINS_FOLDER + "colossalchests.BlockEntityUncolossalChest", "colossalchests")
-            .put(MIXINS_FOLDER + "colossalchests.colossalchests.ColossalChestMixin", "colossalchests")
-            .put(MIXINS_FOLDER + "colossalchests.colossalchests.UncolossalChestMixin", "colossalchests")
+            .put(MIXINS_FOLDER + "colossalchests.BlockEntityColossalChestMixin", "colossalchests")
+            .put(MIXINS_FOLDER + "colossalchests.BlockEntityUncolossalChestMixin", "colossalchests")
+            .put(MIXINS_FOLDER + "colossalchests.ColossalChestMixin", "colossalchests")
+            .put(MIXINS_FOLDER + "colossalchests.UncolossalChestMixin", "colossalchests")
             .put(MIXINS_FOLDER + "echochest.EchoChestBlockMixin", "echochest")
             .put(MIXINS_FOLDER + "echochest.EchoChestBlockEntityMixin", "echochest")
             .put(MIXINS_FOLDER + "netherchested.NetherChestBlockEntityMixin", "netherchested")
