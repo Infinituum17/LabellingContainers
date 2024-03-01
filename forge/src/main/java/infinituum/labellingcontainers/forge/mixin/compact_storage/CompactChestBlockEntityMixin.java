@@ -2,20 +2,21 @@ package infinituum.labellingcontainers.forge.mixin.compact_storage;
 
 import com.tabithastrong.compactstorage.block.entity.CompactChestBlockEntity;
 import infinituum.labellingcontainers.utils.Taggable;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.block.entity.BlockEntityType;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.network.Packet;
-import net.minecraft.network.listener.ClientPlayPacketListener;
-import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
-import net.minecraft.text.MutableText;
-import net.minecraft.text.Text;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.protocol.game.ClientGamePacketListener;
+import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockState;
+import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -25,7 +26,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(CompactChestBlockEntity.class)
 public class CompactChestBlockEntityMixin extends BlockEntity implements Taggable {
     @Unique
-    private MutableText labellingcontainers$label = Text.literal("");
+    private MutableComponent labellingcontainers$label = Component.literal("");
     @Unique
     private Item labellingcontainers$displayItem = Items.AIR;
 
@@ -34,19 +35,20 @@ public class CompactChestBlockEntityMixin extends BlockEntity implements Taggabl
     }
 
     @Override
-    public Packet<ClientPlayPacketListener> toUpdatePacket() {
-        return BlockEntityUpdateS2CPacket.create(((CompactChestBlockEntity) (Object) this));
+    public Packet<ClientGamePacketListener> getUpdatePacket() {
+        return ClientboundBlockEntityDataPacket.create(((CompactChestBlockEntity) (Object) this));
     }
 
     @Override
-    public NbtCompound toInitialChunkDataNbt() {
-        return this.createNbt();
+    public @NotNull CompoundTag getUpdateTag() {
+        return this.saveWithoutMetadata();
     }
 
     @Unique
     private void labellingcontainers$notifyClients(BlockState oldState) {
-        this.markDirty();
-        if (world != null) world.updateListeners(this.pos, oldState, this.getCachedState(), Block.NOTIFY_LISTENERS);
+        this.setChanged();
+        if (level != null)
+            level.sendBlockUpdated(this.worldPosition, oldState, this.getBlockState(), Block.UPDATE_CLIENTS);
     }
 
     @Override
@@ -56,7 +58,7 @@ public class CompactChestBlockEntityMixin extends BlockEntity implements Taggabl
 
     @Override
     public void labellingcontainers$setDisplayItem(Item item) {
-        BlockState oldState = this.getCachedState();
+        BlockState oldState = this.getBlockState();
 
         labellingcontainers$displayItem = item;
 
@@ -64,36 +66,36 @@ public class CompactChestBlockEntityMixin extends BlockEntity implements Taggabl
     }
 
     @Override
-    public MutableText labellingcontainers$getLabel() {
+    public MutableComponent labellingcontainers$getLabel() {
         return labellingcontainers$label;
     }
 
     @Override
-    public void labellingcontainers$setLabel(MutableText newLabel) {
-        BlockState oldState = this.getCachedState();
+    public void labellingcontainers$setLabel(MutableComponent newLabel) {
+        BlockState oldState = this.getBlockState();
 
         labellingcontainers$label = newLabel;
 
         labellingcontainers$notifyClients(oldState);
     }
 
-    @Inject(method = "writeNbt", at = @At("TAIL"))
-    public void writeNbtMixin(NbtCompound nbt, CallbackInfo ci) {
+    @Inject(method = "saveAdditional", at = @At("TAIL"))
+    public void writeNbtMixin(CompoundTag nbt, CallbackInfo ci) {
         nbt.putString("label", labellingcontainers$label.getString());
-        NbtCompound displayItemNbt = new NbtCompound();
+        CompoundTag displayItemNbt = new CompoundTag();
 
-        new ItemStack(labellingcontainers$displayItem).writeNbt(displayItemNbt);
+        new ItemStack(labellingcontainers$displayItem).save(displayItemNbt);
 
         if (labellingcontainers$displayItem != null) {
             nbt.put("displayItem", displayItemNbt);
         }
     }
 
-    @Inject(method = "readNbt", at = @At("TAIL"))
-    public void readNbtMixin(NbtCompound nbt, CallbackInfo ci) {
-        this.labellingcontainers$label = Text.of(nbt.getString("label")).copy();
+    @Inject(method = "load", at = @At("TAIL"))
+    public void readNbtMixin(CompoundTag nbt, CallbackInfo ci) {
+        this.labellingcontainers$label = Component.nullToEmpty(nbt.getString("label")).copy();
         if (nbt.contains("displayItem")) {
-            this.labellingcontainers$displayItem = ItemStack.fromNbt(nbt.getCompound("displayItem")).getItem();
+            this.labellingcontainers$displayItem = ItemStack.of(nbt.getCompound("displayItem")).getItem();
         }
     }
 }

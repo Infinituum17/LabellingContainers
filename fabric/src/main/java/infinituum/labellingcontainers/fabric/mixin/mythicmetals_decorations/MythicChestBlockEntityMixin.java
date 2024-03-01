@@ -1,21 +1,21 @@
-package infinituum.labellingcontainers.fabric.mixin.mythicmetals_decorations;
+/*package infinituum.labellingcontainers.fabric.mixin.mythicmetals_decorations;
 
 import infinituum.labellingcontainers.utils.ChestHelper;
 import infinituum.labellingcontainers.utils.TaggableChest;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.block.entity.BlockEntityType;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.network.Packet;
-import net.minecraft.network.listener.ClientPlayPacketListener;
-import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
-import net.minecraft.text.MutableText;
-import net.minecraft.text.Text;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.protocol.game.ClientGamePacketListener;
+import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockState;
 import nourl.mythicmetalsdecorations.blocks.chest.MythicChestBlockEntity;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
@@ -27,7 +27,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(MythicChestBlockEntity.class)
 public class MythicChestBlockEntityMixin extends BlockEntity implements TaggableChest {
     @Unique
-    private MutableText labellingcontainers$label = Text.literal("");
+    private MutableComponent labellingcontainers$label = Component.literal("");
     @Unique
     private Item labellingcontainers$displayItem = Items.AIR;
 
@@ -37,19 +37,19 @@ public class MythicChestBlockEntityMixin extends BlockEntity implements Taggable
 
     @Nullable
     @Override
-    public Packet<ClientPlayPacketListener> toUpdatePacket() {
-        return BlockEntityUpdateS2CPacket.create(this);
+    public Packet<ClientGamePacketListener> getUpdatePacket() {
+        return ClientboundBlockEntityDataPacket.create(this);
     }
 
     @Override
-    public NbtCompound toInitialChunkDataNbt() {
-        return super.createNbt();
+    public CompoundTag getUpdateTag() {
+        return super.saveWithoutMetadata();
     }
 
     @Unique
     private void labellingcontainers$notifyClients(BlockState oldState) {
-        super.markDirty();
-        if (world != null) world.updateListeners(this.pos, oldState, this.getCachedState(), Block.NOTIFY_LISTENERS);
+        super.setChanged();
+        if (level != null) level.sendBlockUpdated(this.worldPosition, oldState, this.getBlockState(), Block.UPDATE_CLIENTS);
     }
 
     @Override
@@ -64,11 +64,11 @@ public class MythicChestBlockEntityMixin extends BlockEntity implements Taggable
 
     @Override
     public void labellingcontainers$setDisplayItem(Item item, boolean searchDoubleChest) {
-        BlockState oldState = this.getCachedState();
+        BlockState oldState = this.getBlockState();
 
         labellingcontainers$displayItem = item;
         if (searchDoubleChest) {
-            TaggableChest otherChest = (TaggableChest) ChestHelper.getConnectedChestBlockEntity(world, pos, this.getCachedState());
+            TaggableChest otherChest = (TaggableChest) ChestHelper.getConnectedChestBlockEntity(level, worldPosition, this.getBlockState());
 
             if (otherChest != null) {
                 otherChest.labellingcontainers$setDisplayItem(item, false);
@@ -79,22 +79,22 @@ public class MythicChestBlockEntityMixin extends BlockEntity implements Taggable
     }
 
     @Override
-    public MutableText labellingcontainers$getLabel() {
+    public MutableComponent labellingcontainers$getLabel() {
         return labellingcontainers$label;
     }
 
     @Override
-    public void labellingcontainers$setLabel(MutableText newLabel) {
+    public void labellingcontainers$setLabel(MutableComponent newLabel) {
         labellingcontainers$setLabel(newLabel, true);
     }
 
     @Override
-    public void labellingcontainers$setLabel(MutableText newLabel, boolean searchDoubleChest) {
-        BlockState oldState = this.getCachedState();
+    public void labellingcontainers$setLabel(MutableComponent newLabel, boolean searchDoubleChest) {
+        BlockState oldState = this.getBlockState();
 
         labellingcontainers$label = newLabel;
         if (searchDoubleChest) {
-            TaggableChest otherChest = (TaggableChest) ChestHelper.getConnectedChestBlockEntity(world, pos, this.getCachedState());
+            TaggableChest otherChest = (TaggableChest) ChestHelper.getConnectedChestBlockEntity(level, worldPosition, this.getBlockState());
 
             if (otherChest != null) {
                 otherChest.labellingcontainers$setLabel(newLabel, false);
@@ -105,11 +105,11 @@ public class MythicChestBlockEntityMixin extends BlockEntity implements Taggable
     }
 
     @Inject(method = "writeNbt", at = @At("TAIL"))
-    public void writeNbtMixin(NbtCompound nbt, CallbackInfo ci) {
+    public void writeNbtMixin(CompoundTag nbt, CallbackInfo ci) {
         nbt.putString("label", labellingcontainers$label.getString());
-        NbtCompound displayItemNbt = new NbtCompound();
+        CompoundTag displayItemNbt = new CompoundTag();
 
-        new ItemStack(labellingcontainers$displayItem).writeNbt(displayItemNbt);
+        new ItemStack(labellingcontainers$displayItem).save(displayItemNbt);
 
         if (labellingcontainers$displayItem != null) {
             nbt.put("displayItem", displayItemNbt);
@@ -117,10 +117,10 @@ public class MythicChestBlockEntityMixin extends BlockEntity implements Taggable
     }
 
     @Inject(method = "readNbt", at = @At("TAIL"))
-    public void readNbtMixin(NbtCompound nbt, CallbackInfo ci) {
-        this.labellingcontainers$label = Text.of(nbt.getString("label")).copy();
+    public void readNbtMixin(CompoundTag nbt, CallbackInfo ci) {
+        this.labellingcontainers$label = Component.nullToEmpty(nbt.getString("label")).copy();
         if (nbt.contains("displayItem")) {
-            this.labellingcontainers$displayItem = ItemStack.fromNbt(nbt.getCompound("displayItem")).getItem();
+            this.labellingcontainers$displayItem = ItemStack.of(nbt.getCompound("displayItem")).getItem();
         }
     }
-}
+}*/

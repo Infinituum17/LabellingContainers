@@ -12,8 +12,6 @@
     "echochest.EchoChestBlockEntityMixin",
     "echochest.EchoChestBlockMixin",
     "more_chests.BasicChestBlockMixin",
-    "mythicmetals_decorations.MythicChestBlockEntityMixin",
-    "mythicmetals_decorations.MythicChestBlockMixin",
     "netherchested.NetherChestBlockEntityMixin",
     "netherchested.NetherChestBlockMixin"
   ],

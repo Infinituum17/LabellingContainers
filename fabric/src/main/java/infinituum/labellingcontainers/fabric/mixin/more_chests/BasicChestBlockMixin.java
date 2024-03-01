@@ -3,26 +3,26 @@ package infinituum.labellingcontainers.fabric.mixin.more_chests;
 import games.twinhead.morechests.block.BasicChestBlock;
 import infinituum.labellingcontainers.utils.ChestHelper;
 import infinituum.labellingcontainers.utils.TaggableChest;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.block.entity.ChestBlockEntity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.ChestBlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 
 @Mixin(BasicChestBlock.class)
 public class BasicChestBlockMixin extends Block {
-    public BasicChestBlockMixin(Settings arg) {
+    public BasicChestBlockMixin(Properties arg) {
         super(arg);
     }
 
     @Override
-    public void onPlaced(World world, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack itemStack) {
-        if (world.isClient()) return;
+    public void setPlacedBy(Level world, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack itemStack) {
+        if (world.isClientSide()) return;
         if (world.getBlockEntity(pos) == null) return;
 
         BlockEntity currentChestBlockEntity = world.getBlockEntity(pos);

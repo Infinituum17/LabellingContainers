@@ -41,8 +41,10 @@ dependencies {
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
     shadowCommon(project(path: ":common", configuration: "transformProductionFabric")) { transitive false }
 
+
     // Mythic Metals Decorations
     def ccapiVersion = "5.0.2"
+    /*
     def aeaVersion = "1.4.0+1.19.3"
     def bejVersion = "1.2.2"
 
@@ -56,6 +58,7 @@ dependencies {
     modImplementation "curse.maven:mythicmetals-410127:4441527"
     modImplementation "curse.maven:alloy-forgery-438718:4403713"
     modImplementation "curse.maven:mythicmetals-decorations-552128:4377089"
+     */
 
     // Echo Chest mod
     modImplementation "dev.onyxstudios.cardinal-components-api:cardinal-components-block:${ccapiVersion}"
