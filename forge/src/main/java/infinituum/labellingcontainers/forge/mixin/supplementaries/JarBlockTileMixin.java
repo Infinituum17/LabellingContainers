@@ -1,7 +1,7 @@
-package infinituum.labellingcontainers.forge.mixin.echochest;
+package infinituum.labellingcontainers.forge.mixin.supplementaries;
 
-import fuzs.echochest.world.level.block.entity.EchoChestBlockEntity;
 import infinituum.labellingcontainers.utils.Taggable;
+import net.mehvahdjukaar.supplementaries.common.block.tiles.JarBlockTile;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -16,26 +16,32 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-@Mixin(EchoChestBlockEntity.class)
-public class EchoChestBlockEntityMixin extends BlockEntity implements Taggable {
+@Mixin(JarBlockTile.class)
+public class JarBlockTileMixin extends BlockEntity implements Taggable {
     @Unique
     private MutableComponent labellingcontainers$label = Component.literal("");
     @Unique
     private Item labellingcontainers$displayItem = Items.AIR;
 
-    public EchoChestBlockEntityMixin(BlockEntityType<?> type, BlockPos pos, BlockState state) {
+    public JarBlockTileMixin(BlockEntityType type, BlockPos pos, BlockState state) {
         super(type, pos, state);
     }
 
     @Override
     public Packet<ClientGamePacketListener> getUpdatePacket() {
         return ClientboundBlockEntityDataPacket.create(this);
+    }
+
+    @Override
+    public @NotNull CompoundTag getUpdateTag() {
+        return this.saveWithoutMetadata();
     }
 
     @Unique

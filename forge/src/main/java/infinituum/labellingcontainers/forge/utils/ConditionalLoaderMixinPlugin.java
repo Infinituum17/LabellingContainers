@@ -19,6 +19,12 @@ public final class ConditionalLoaderMixinPlugin implements IMixinConfigPlugin {
             .put(MIXINS_FOLDER + "echochest.EchoChestBlockEntityMixin", "echochest")
             .put(MIXINS_FOLDER + "netherchested.NetherChestBlockEntityMixin", "netherchested")
             .put(MIXINS_FOLDER + "netherchested.NetherChestBlockMixin", "netherchested")
+            .put(MIXINS_FOLDER + "supplementaries.AbstractPresentBlockMixin", "supplementaries")
+            .put(MIXINS_FOLDER + "supplementaries.OpeneableContainerBlockEntityMixin", "supplementaries")
+            .put(MIXINS_FOLDER + "supplementaries.SackBlockMixin", "supplementaries")
+            .put(MIXINS_FOLDER + "supplementaries.SafeBlockMixin", "supplementaries")
+            .put(MIXINS_FOLDER + "supplementaries.JarBlockTileMixin", "supplementaries")
+            .put(MIXINS_FOLDER + "supplementaries.JarItemMixin", "supplementaries")
             .build();
 
     @Override
