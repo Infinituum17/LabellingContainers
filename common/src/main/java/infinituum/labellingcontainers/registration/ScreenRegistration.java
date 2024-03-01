@@ -3,22 +3,22 @@ package infinituum.labellingcontainers.registration;
 import dev.architectury.registry.registries.DeferredRegister;
 import dev.architectury.registry.registries.RegistrySupplier;
 import infinituum.labellingcontainers.screens.LabelPrinterScreenHandler;
-import net.minecraft.registry.RegistryKeys;
-import net.minecraft.resource.featuretoggle.FeatureSet;
-import net.minecraft.screen.ScreenHandlerType;
-import net.minecraft.util.Identifier;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.flag.FeatureFlagSet;
+import net.minecraft.world.inventory.MenuType;
 
 import static infinituum.labellingcontainers.LabellingContainers.MOD_ID;
 
 public class ScreenRegistration {
-    public static final DeferredRegister<ScreenHandlerType<?>> MENUS = DeferredRegister.create(MOD_ID, RegistryKeys.SCREEN_HANDLER);
+    public static final DeferredRegister<MenuType<?>> MENUS = DeferredRegister.create(MOD_ID, Registries.MENU);
 
     public static void init() {
         MENUS.register();
     }
 
-    public static final RegistrySupplier<ScreenHandlerType<LabelPrinterScreenHandler>> LABEL_PRINTER_SCREEN_HANDLER =
-            MENUS.register(new Identifier(MOD_ID, "label_printer_screen"), () -> new ScreenHandlerType<>(LabelPrinterScreenHandler::new, FeatureSet.empty()));
+    public static final RegistrySupplier<MenuType<LabelPrinterScreenHandler>> LABEL_PRINTER_SCREEN_HANDLER =
+            MENUS.register(new ResourceLocation(MOD_ID, "label_printer_screen"), () -> new MenuType<>(LabelPrinterScreenHandler::new, FeatureFlagSet.of()));
 
 
 }

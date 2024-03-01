@@ -1,13 +1,13 @@
 package infinituum.labellingcontainers.utils;
 
-import net.minecraft.text.MutableText;
-import net.minecraft.text.Text;
-import net.minecraft.util.Formatting;
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 
 public class TaggableTooltip {
-    public static Text get() {
-        MutableText text = Text.literal("ⓘ ").formatted(Formatting.BLUE);
-        text.append(Text.translatable("block.labelable").formatted(Formatting.ITALIC).formatted(Formatting.GRAY));
+    public static Component get() {
+        MutableComponent text = Component.literal("ⓘ ").withStyle(ChatFormatting.BLUE);
+        text.append(Component.translatable("block.labelable").withStyle(ChatFormatting.ITALIC).withStyle(ChatFormatting.GRAY));
         return text;
     }
 }
