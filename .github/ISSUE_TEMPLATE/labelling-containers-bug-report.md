@@ -1,5 +1,5 @@
 ---
-name: Labelling Containers
+name: Labelling Containers Bug Report
 about: Report a bug
 title: "[BUG]"
 labels: help wanted
