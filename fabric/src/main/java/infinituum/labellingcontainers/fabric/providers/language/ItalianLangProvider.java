@@ -12,7 +12,7 @@ public class ItalianLangProvider extends FabricLanguageProvider {
     public void generateTranslations(TranslationBuilder translationBuilder) {
         translationBuilder.add(LABEL_PRINTER.get(), "Stampante di etichette");
 
-        String labelPrinterKey = LABEL_PRINTER.get().getTranslationKey();
+        String labelPrinterKey = LABEL_PRINTER.get().getDescriptionId();
 
         translationBuilder.add(labelPrinterKey + ".gui_display_name", "Stampante di etichette");
         translationBuilder.add(labelPrinterKey + ".tooltip.none", "Nessuno");

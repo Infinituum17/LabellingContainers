@@ -45,6 +45,7 @@ dependencies {
     modImplementation "curse.maven:resourceful-lib-570073:4301209"
     modImplementation "curse.maven:ironchests-498794:4670971"
 
+
     // Mythic Metals Decorations
     def ccapiVersion = "5.0.2"
     def mixinextrasVersion = "0.2.0"
@@ -64,7 +65,8 @@ dependencies {
     modImplementation "curse.maven:cloth-config-348521:4633414"
     modImplementation "curse.maven:mythicmetals-410127:4441526"
     modImplementation "curse.maven:alloy-forgery-438718:4487529"
-    modImplementation "curse.maven:mythicmetals-decorations-552128:4377086"
+
+    // modImplementation "curse.maven:mythicmetals-decorations-552128:4377086"
 
     // Echo Chest mod
     modImplementation "dev.onyxstudios.cardinal-components-api:cardinal-components-block:${ccapiVersion}"

@@ -12,7 +12,7 @@ public class SpanishLangProvider extends FabricLanguageProvider {
     public void generateTranslations(TranslationBuilder translationBuilder) {
         translationBuilder.add(LABEL_PRINTER.get(), "Etiquetador");
 
-        String labelPrinterKey = LABEL_PRINTER.get().getTranslationKey();
+        String labelPrinterKey = LABEL_PRINTER.get().getDescriptionId();
 
         translationBuilder.add(labelPrinterKey + ".gui_display_name", "Etiquetador");
         translationBuilder.add(labelPrinterKey + ".tooltip.none", "Ninguno");

@@ -2,12 +2,11 @@ package infinituum.labellingcontainers.fabric.providers;
 
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
-import net.minecraft.advancement.criterion.InventoryChangedCriterion;
-import net.minecraft.data.server.recipe.RecipeJsonProvider;
-import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder;
-import net.minecraft.item.Items;
-import net.minecraft.util.Identifier;
-
+import net.minecraft.advancements.critereon.InventoryChangeTrigger;
+import net.minecraft.data.recipes.FinishedRecipe;
+import net.minecraft.data.recipes.ShapedRecipeBuilder;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Items;
 import java.util.function.Consumer;
 
 import static infinituum.labellingcontainers.registration.ItemRegistration.LABEL_PRINTER;
@@ -19,16 +18,16 @@ public class RecipeProvider extends FabricRecipeProvider {
     }
 
     @Override
-    public void generateRecipes(Consumer<RecipeJsonProvider> exporter) {
-        ShapedRecipeJsonBuilder.create(LABEL_PRINTER.get())
+    public void generateRecipes(Consumer<FinishedRecipe> exporter) {
+        ShapedRecipeBuilder.shaped(LABEL_PRINTER.get())
                 .pattern("CIC")
                 .pattern("RSR")
                 .pattern("CIC")
-                .input('R', Items.REDSTONE)
-                .input('C', Items.COPPER_INGOT)
-                .input('S', Items.INK_SAC)
-                .input('I', Items.IRON_INGOT)
-                .criterion("has_items", InventoryChangedCriterion.Conditions.items(Items.INK_SAC, Items.COPPER_INGOT, Items.IRON_INGOT, Items.REDSTONE))
-                .offerTo(exporter, new Identifier(dataGenerator.getModId(), "label_printer_recipe"));
+                .define('R', Items.REDSTONE)
+                .define('C', Items.COPPER_INGOT)
+                .define('S', Items.INK_SAC)
+                .define('I', Items.IRON_INGOT)
+                .unlockedBy("has_items", InventoryChangeTrigger.TriggerInstance.hasItems(Items.INK_SAC, Items.COPPER_INGOT, Items.IRON_INGOT, Items.REDSTONE))
+                .save(exporter, new ResourceLocation(dataGenerator.getModId(), "label_printer_recipe"));
     }
 }

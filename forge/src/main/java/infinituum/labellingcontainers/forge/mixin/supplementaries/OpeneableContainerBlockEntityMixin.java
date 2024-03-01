@@ -1,7 +1,7 @@
-package infinituum.labellingcontainers.fabric.mixin.compact_storage;
+package infinituum.labellingcontainers.forge.mixin.supplementaries;
 
-import com.tabithastrong.compactstorage.block.entity.CompactBarrelBlockEntity;
 import infinituum.labellingcontainers.utils.Taggable;
+import net.mehvahdjukaar.supplementaries.common.block.tiles.OpeneableContainerBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -23,20 +23,21 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-@Mixin(CompactBarrelBlockEntity.class)
-public class CompactBarrelBlockEntityMixin extends BlockEntity implements Taggable {
+@Mixin(OpeneableContainerBlockEntity.class)
+public class OpeneableContainerBlockEntityMixin extends BlockEntity implements Taggable {
+
+    public OpeneableContainerBlockEntityMixin(BlockEntityType<?> arg, BlockPos arg2, BlockState arg3) {
+        super(arg, arg2, arg3);
+    }
+
     @Unique
     private MutableComponent labellingcontainers$label = Component.literal("");
     @Unique
     private Item labellingcontainers$displayItem = Items.AIR;
 
-    public CompactBarrelBlockEntityMixin(BlockEntityType<?> type, BlockPos pos, BlockState state) {
-        super(type, pos, state);
-    }
-
     @Override
     public Packet<ClientGamePacketListener> getUpdatePacket() {
-        return ClientboundBlockEntityDataPacket.create(((CompactBarrelBlockEntity) (Object) this));
+        return ClientboundBlockEntityDataPacket.create(this);
     }
 
     @Override
@@ -45,7 +46,7 @@ public class CompactBarrelBlockEntityMixin extends BlockEntity implements Taggab
     }
 
     @Unique
-    private void notifyClients(BlockState oldState) {
+    private void labellingcontainers$notifyClients(BlockState oldState) {
         this.setChanged();
         if (level != null) level.sendBlockUpdated(this.worldPosition, oldState, this.getBlockState(), Block.UPDATE_CLIENTS);
     }
@@ -61,7 +62,7 @@ public class CompactBarrelBlockEntityMixin extends BlockEntity implements Taggab
 
         labellingcontainers$displayItem = item;
 
-        notifyClients(oldState);
+        labellingcontainers$notifyClients(oldState);
     }
 
     @Override
@@ -75,7 +76,7 @@ public class CompactBarrelBlockEntityMixin extends BlockEntity implements Taggab
 
         labellingcontainers$label = newLabel;
 
-        notifyClients(oldState);
+        labellingcontainers$notifyClients(oldState);
     }
 
     @Inject(method = "saveAdditional", at = @At("TAIL"))

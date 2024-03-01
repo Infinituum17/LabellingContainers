@@ -20,7 +20,11 @@
     "ironchests.GenericChestBlockMixin",
     "more_chests.BasicChestBlockMixin",
     "netherchested.NetherChestBlockEntityMixin",
-    "netherchested.NetherChestBlockMixin"
+    "netherchested.NetherChestBlockMixin",
+    "supplementaries.AbstractPresentBlockMixin",
+    "supplementaries.OpeneableContainerBlockEntityMixin",
+    "supplementaries.SackBlockMixin",
+    "supplementaries.SafeBlockMixin"
   ],
   "injectors": {
     "defaultRequire": 1

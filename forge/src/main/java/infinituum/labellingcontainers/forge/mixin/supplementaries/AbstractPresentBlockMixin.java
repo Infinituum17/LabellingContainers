@@ -1,21 +1,22 @@
-package infinituum.labellingcontainers.forge.mixin.colossalchests;
+package infinituum.labellingcontainers.forge.mixin.supplementaries;
 
 import infinituum.labellingcontainers.utils.TaggableTooltip;
-import org.cyclops.colossalchests.block.UncolossalChest;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-import org.spongepowered.asm.mixin.Mixin;
-
-import java.util.List;
+import net.mehvahdjukaar.supplementaries.common.block.blocks.AbstractPresentBlock;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+import org.spongepowered.asm.mixin.Mixin;
 
-@Mixin(UncolossalChest.class)
-public class UncolossalChestMixin extends Block {
-    public UncolossalChestMixin(Properties arg) {
+import java.util.List;
+
+@Mixin(AbstractPresentBlock.class)
+public class AbstractPresentBlockMixin extends Block {
+    public AbstractPresentBlockMixin(BlockBehaviour.Properties arg) {
         super(arg);
     }
 

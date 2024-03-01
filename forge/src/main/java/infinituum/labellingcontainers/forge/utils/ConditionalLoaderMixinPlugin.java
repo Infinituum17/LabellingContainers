@@ -30,6 +30,10 @@ public final class ConditionalLoaderMixinPlugin implements IMixinConfigPlugin {
             .put(MIXINS_FOLDER + "compact_storage.CompactBarrelBlockMixin", "compact_storage")
             .put(MIXINS_FOLDER + "compact_storage.CompactChestBlockEntityMixin", "compact_storage")
             .put(MIXINS_FOLDER + "compact_storage.CompactBarrelBlockEntityMixin", "compact_storage")
+            .put(MIXINS_FOLDER + "supplementaries.AbstractPresentBlockMixin", "supplementaries")
+            .put(MIXINS_FOLDER + "supplementaries.OpeneableContainerBlockEntityMixin", "supplementaries")
+            .put(MIXINS_FOLDER + "supplementaries.SackBlockMixin", "supplementaries")
+            .put(MIXINS_FOLDER + "supplementaries.SafeBlockMixin", "supplementaries")
             .build();
 
     @Override

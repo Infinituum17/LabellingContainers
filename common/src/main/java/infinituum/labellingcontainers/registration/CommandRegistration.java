@@ -2,29 +2,29 @@ package infinituum.labellingcontainers.registration;
 
 import dev.architectury.event.events.common.CommandRegistrationEvent;
 import infinituum.labellingcontainers.utils.Taggable;
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.command.argument.ItemStackArgumentType;
-import net.minecraft.command.argument.MessageArgumentType;
-import net.minecraft.command.argument.Vec3ArgumentType;
-import net.minecraft.item.Item;
-import net.minecraft.text.MutableText;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.commands.arguments.MessageArgument;
+import net.minecraft.commands.arguments.coordinates.Vec3Argument;
+import net.minecraft.commands.arguments.item.ItemArgument;
+import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BlockEntity;
 
-import static net.minecraft.server.command.CommandManager.argument;
-import static net.minecraft.server.command.CommandManager.literal;
+import static net.minecraft.commands.Commands.argument;
+import static net.minecraft.commands.Commands.literal;
 
 public class CommandRegistration {
     public static void init() {
         CommandRegistrationEvent.EVENT.register((dispatcher, registryAccess, environment) -> {
             dispatcher.register(literal("setlabel")
-                    .then(argument("location", Vec3ArgumentType.vec3())
+                    .then(argument("location", Vec3Argument.vec3())
                             .then(literal("label")
-                                    .then(argument("label", MessageArgumentType.message()).executes(context -> {
-                                        BlockPos pos = Vec3ArgumentType.getPosArgument(context, "location").toAbsoluteBlockPos(context.getSource());
-                                        MutableText label = MessageArgumentType.getMessage(context, "label").copy();
+                                    .then(argument("label", MessageArgument.message()).executes(context -> {
+                                        BlockPos pos = Vec3Argument.getCoordinates(context, "location").getBlockPos(context.getSource());
+                                        MutableComponent label = MessageArgument.getMessage(context, "label").copy();
 
-                                        World world = context.getSource().getWorld();
+                                        Level world = context.getSource().getLevel();
 
                                         BlockEntity be = world.getBlockEntity(pos);
 
@@ -39,13 +39,13 @@ public class CommandRegistration {
             );
 
             dispatcher.register(literal("setlabel")
-                    .then(argument("location", Vec3ArgumentType.vec3())
+                    .then(argument("location", Vec3Argument.vec3())
                             .then(literal("item")
-                                    .then(argument("display-item", ItemStackArgumentType.itemStack(registryAccess)).executes(context -> {
-                                        BlockPos pos = Vec3ArgumentType.getPosArgument(context, "location").toAbsoluteBlockPos(context.getSource());
-                                        Item item = ItemStackArgumentType.getItemStackArgument(context, "display-item").getItem();
+                                    .then(argument("display-item", ItemArgument.item(registryAccess)).executes(context -> {
+                                        BlockPos pos = Vec3Argument.getCoordinates(context, "location").getBlockPos(context.getSource());
+                                        Item item = ItemArgument.getItem(context, "display-item").getItem();
 
-                                        World world = context.getSource().getWorld();
+                                        Level world = context.getSource().getLevel();
 
                                         BlockEntity be = world.getBlockEntity(pos);
 

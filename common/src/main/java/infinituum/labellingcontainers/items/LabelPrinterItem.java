@@ -6,85 +6,86 @@ import infinituum.labellingcontainers.registration.ItemRegistration;
 import infinituum.labellingcontainers.screens.LabelPrinterScreenFactory;
 import infinituum.labellingcontainers.utils.InventoryHelper;
 import infinituum.labellingcontainers.utils.Taggable;
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.item.TooltipContext;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemUsageContext;
-import net.minecraft.item.Items;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.particle.ParticleTypes;
-import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvents;
-import net.minecraft.text.MutableText;
-import net.minecraft.text.Text;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Formatting;
-import net.minecraft.util.Hand;
-import net.minecraft.util.TypedActionResult;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.World;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import net.minecraft.ChatFormatting;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.context.UseOnContext;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.phys.Vec3;
 
-import static net.minecraft.item.Items.AIR;
+import static net.minecraft.world.item.Items.AIR;
 
 public class LabelPrinterItem extends Item {
-    public LabelPrinterItem(Settings settings) {
+    public LabelPrinterItem(Properties settings) {
         super(settings);
     }
 
     private String getLabel(ItemStack itemStack) {
-        NbtCompound labelNbt = itemStack.getSubNbt("Label");
+        CompoundTag labelNbt = itemStack.getTagElement("Label");
         return (labelNbt != null) ? labelNbt.getString("text") : "";
     }
 
     private Item getDisplayItem(ItemStack itemStack) {
-        NbtCompound displayItemNbt = itemStack.getSubNbt("Contents");
-        return (displayItemNbt != null) ? ItemStack.fromNbt(displayItemNbt).getItem() : ItemStack.EMPTY.getItem();
+        CompoundTag displayItemNbt = itemStack.getTagElement("Contents");
+        return (displayItemNbt != null) ? ItemStack.of(displayItemNbt).getItem() : ItemStack.EMPTY.getItem();
     }
 
     @Override
-    public ActionResult useOnBlock(ItemUsageContext context) {
-        PlayerEntity player = context.getPlayer();
+    public @NotNull InteractionResult useOn(UseOnContext context) {
+        Player player = context.getPlayer();
 
-        if (player == null) return super.useOnBlock(context);
+        if (player == null) return super.useOn(context);
 
-        PlayerInventory inventory = player.getInventory();
-        BlockPos pos = context.getBlockPos();
-        World world = context.getWorld();
-        ItemStack itemStack = context.getStack();
+        Inventory inventory = player.getInventory();
+        BlockPos pos = context.getClickedPos();
+        Level world = context.getLevel();
+        ItemStack itemStack = context.getItemInHand();
         BlockEntity blockEntity = PlatformHelper.locateTargetBlockEntity(world, pos);
 
         if (blockEntity instanceof Taggable taggable) {
-            if (!world.isClient()) {
-                MutableText label = Text.literal(getLabel(itemStack));
+            if (!world.isClientSide()) {
+                MutableComponent label = Component.literal(getLabel(itemStack));
                 Item displayItem = getDisplayItem(itemStack);
-                Vec3d hitPos = context.getHitPos();
+                Vec3 hitPos = context.getClickLocation();
 
-                if (!inventory.contains(Items.PAPER.getDefaultStack()) && !player.isCreative()) {
-                    Text message = Text
-                            .translatable(ItemRegistration.LABEL_PRINTER.get().getTranslationKey() + ".paper.error")
-                            .formatted(Formatting.RED);
-                    player.sendMessage(message);
+                if (!inventory.contains(Items.PAPER.getDefaultInstance()) && !player.isCreative()) {
+                    Component message = Component
+                            .translatable(ItemRegistration.LABEL_PRINTER.get().getDescriptionId() + ".paper.error")
+                            .withStyle(ChatFormatting.RED);
+                    player.sendSystemMessage(message);
 
-                    ((ServerWorld) world).spawnParticles(ParticleTypes.SMOKE, hitPos.getX(), hitPos.getY(), hitPos.getZ(), 15, 0, 0, 0, 0.01);
-                    world.playSound(null, pos, SoundEvents.BLOCK_FIRE_EXTINGUISH, SoundCategory.BLOCKS, 0.75f, 2f);
+                    ((ServerLevel) world).sendParticles(ParticleTypes.SMOKE, hitPos.x(), hitPos.y(), hitPos.z(), 15, 0, 0, 0, 0.01);
+                    world.playSound(null, pos, SoundEvents.FIRE_EXTINGUISH, SoundSource.BLOCKS, 0.75f, 2f);
 
-                    return ActionResult.FAIL;
+                    return InteractionResult.FAIL;
                 }
 
                 if (taggable.labellingcontainers$getLabel().equals(label) && taggable.labellingcontainers$getDisplayItem().equals(displayItem)) {
-                    ((ServerWorld) world).spawnParticles(ParticleTypes.SMOKE, hitPos.getX(), hitPos.getY(), hitPos.getZ(), 15, 0, 0, 0, 0.01);
-                    world.playSound(null, pos, SoundEvents.BLOCK_FIRE_EXTINGUISH, SoundCategory.BLOCKS, 0.75f, 2f);
-                    return ActionResult.FAIL;
+                    ((ServerLevel) world).sendParticles(ParticleTypes.SMOKE, hitPos.x(), hitPos.y(), hitPos.z(), 15, 0, 0, 0, 0.01);
+                    world.playSound(null, pos, SoundEvents.FIRE_EXTINGUISH, SoundSource.BLOCKS, 0.75f, 2f);
+                    return InteractionResult.FAIL;
                 }
 
                 if (!player.isCreative()) InventoryHelper.removeOneItemFromInventory(inventory, Items.PAPER);
@@ -92,63 +93,63 @@ public class LabelPrinterItem extends Item {
                 taggable.labellingcontainers$setLabel(label);
                 taggable.labellingcontainers$setDisplayItem(displayItem);
 
-                ((ServerWorld) world).spawnParticles(ParticleTypes.END_ROD, hitPos.getX(), hitPos.getY(), hitPos.getZ(), 15, 0, 0, 0, 0.01);
-                world.playSound(null, pos, SoundEvents.BLOCK_NOTE_BLOCK_HARP, SoundCategory.BLOCKS, 0.75f, 2f);
+                ((ServerLevel) world).sendParticles(ParticleTypes.END_ROD, hitPos.x(), hitPos.y(), hitPos.z(), 15, 0, 0, 0, 0.01);
+                world.playSound(null, pos, SoundEvents.NOTE_BLOCK_HARP, SoundSource.BLOCKS, 0.75f, 2f);
             }
 
-            return ActionResult.SUCCESS;
+            return InteractionResult.SUCCESS;
         }
 
-        return super.useOnBlock(context);
+        return super.useOn(context);
     }
 
     @Override
-    public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
-        if (!world.isClient()) {
-            MenuRegistry.openMenu((ServerPlayerEntity) user, new LabelPrinterScreenFactory());
+    public @NotNull InteractionResultHolder<ItemStack> use(Level world, Player user, InteractionHand hand) {
+        if (!world.isClientSide()) {
+            MenuRegistry.openMenu((ServerPlayer) user, new LabelPrinterScreenFactory());
         }
 
         return super.use(world, user, hand);
     }
 
     @Override
-    public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
+    public void appendHoverText(ItemStack stack, @Nullable Level world, List<Component> tooltip, TooltipFlag context) {
         String currentLabel = getLabel(stack);
         Item currentDisplayItem = getDisplayItem(stack);
 
-        MutableText descriptionText = Text.literal("ⓘ ").formatted(Formatting.BLUE);
+        MutableComponent descriptionText = Component.literal("ⓘ ").withStyle(ChatFormatting.BLUE);
 
-        if (world != null && world.isClient() && Screen.hasShiftDown()) {
-            descriptionText.append(Text.translatable(this.getTranslationKey() + ".tooltip.description").formatted(Formatting.GREEN));
+        if (world != null && world.isClientSide() && Screen.hasShiftDown()) {
+            descriptionText.append(Component.translatable(this.getDescriptionId() + ".tooltip.description").withStyle(ChatFormatting.GREEN));
         } else {
-            descriptionText.append(Text.translatable(this.getTranslationKey() + ".tooltip.hidden").formatted(Formatting.GRAY));
+            descriptionText.append(Component.translatable(this.getDescriptionId() + ".tooltip.hidden").withStyle(ChatFormatting.GRAY));
         }
 
         tooltip.add(descriptionText);
 
-        MutableText labelText = Text.literal("● ").formatted(Formatting.GRAY);
-        labelText.append(Text.translatable(this.getTranslationKey() + ".tooltip.label").formatted(Formatting.GRAY));
+        MutableComponent labelText = Component.literal("● ").withStyle(ChatFormatting.GRAY);
+        labelText.append(Component.translatable(this.getDescriptionId() + ".tooltip.label").withStyle(ChatFormatting.GRAY));
 
         if (currentLabel.isEmpty()) {
-            labelText.append(Text.translatable(this.getTranslationKey() + ".tooltip.none").formatted(Formatting.DARK_RED));
+            labelText.append(Component.translatable(this.getDescriptionId() + ".tooltip.none").withStyle(ChatFormatting.DARK_RED));
         } else {
-            labelText.append(Text.literal("\"" + currentLabel + "\"").formatted(Formatting.GOLD));
+            labelText.append(Component.literal("\"" + currentLabel + "\"").withStyle(ChatFormatting.GOLD));
         }
 
-        tooltip.add(Text.literal(""));
+        tooltip.add(Component.literal(""));
         tooltip.add(labelText);
 
-        MutableText displayItemText = Text.literal("● ").formatted(Formatting.GRAY);
-        displayItemText.append(Text.translatable(this.getTranslationKey() + ".tooltip.display_item").formatted(Formatting.GRAY));
+        MutableComponent displayItemText = Component.literal("● ").withStyle(ChatFormatting.GRAY);
+        displayItemText.append(Component.translatable(this.getDescriptionId() + ".tooltip.display_item").withStyle(ChatFormatting.GRAY));
 
         if (currentDisplayItem.equals(AIR)) {
-            displayItemText.append(Text.translatable(this.getTranslationKey() + ".tooltip.none").formatted(Formatting.DARK_RED));
+            displayItemText.append(Component.translatable(this.getDescriptionId() + ".tooltip.none").withStyle(ChatFormatting.DARK_RED));
         } else {
-            displayItemText.append(currentDisplayItem.getName().copy().formatted(Formatting.AQUA));
+            displayItemText.append(currentDisplayItem.getDescription().copy().withStyle(ChatFormatting.AQUA));
         }
 
         tooltip.add(displayItemText);
 
-        super.appendTooltip(stack, world, tooltip, context);
+        super.appendHoverText(stack, world, tooltip, context);
     }
 }
