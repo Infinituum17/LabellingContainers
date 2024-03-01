@@ -91,7 +91,6 @@ public class LabelPrinterScreenHandler extends AbstractContainerMenu {
 
     @Override
     public void removed(Player player) {
-        player.getMainHandItem();
         if (player.getMainHandItem() != ItemStack.EMPTY) {
             ItemStack itemStack = this.inventory.getItem(0);
             CompoundTag nbt = new CompoundTag();
