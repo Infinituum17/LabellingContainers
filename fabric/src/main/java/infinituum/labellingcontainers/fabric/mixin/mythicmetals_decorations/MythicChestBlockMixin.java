@@ -1,3 +1,4 @@
+/*
 package infinituum.labellingcontainers.fabric.mixin.mythicmetals_decorations;
 
 import infinituum.labellingcontainers.utils.ChestHelper;
@@ -51,3 +52,4 @@ public class MythicChestBlockMixin extends Block {
         tooltip.add(TaggableTooltip.get());
     }
 }
+*/

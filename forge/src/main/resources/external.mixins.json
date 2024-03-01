@@ -22,6 +22,8 @@
     "netherchested.NetherChestBlockEntityMixin",
     "netherchested.NetherChestBlockMixin",
     "supplementaries.AbstractPresentBlockMixin",
+    "supplementaries.JarBlockTileMixin",
+    "supplementaries.JarItemMixin",
     "supplementaries.OpeneableContainerBlockEntityMixin",
     "supplementaries.SackBlockMixin",
     "supplementaries.SafeBlockMixin"

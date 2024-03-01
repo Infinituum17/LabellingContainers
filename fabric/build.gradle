@@ -42,12 +42,11 @@ dependencies {
     shadowCommon(project(path: ":common", configuration: "transformProductionFabric")) { transitive false }
 
     // Iron Chests: Restocked
-    modImplementation "curse.maven:resourceful-lib-570073:4301209"
-    modImplementation "curse.maven:ironchests-498794:4670971"
+    modCompileOnly "curse.maven:resourceful-lib-570073:4301209"
+    modCompileOnly "curse.maven:ironchests-498794:4670971"
 
-
+    /*
     // Mythic Metals Decorations
-    def ccapiVersion = "5.0.2"
     def mixinextrasVersion = "0.2.0"
     def aeaVersion = "1.2.0+1.19.2"
     def reaVersion = "2.3.0"
@@ -66,33 +65,40 @@ dependencies {
     modImplementation "curse.maven:mythicmetals-410127:4441526"
     modImplementation "curse.maven:alloy-forgery-438718:4487529"
 
-    // modImplementation "curse.maven:mythicmetals-decorations-552128:4377086"
+    modImplementation "curse.maven:mythicmetals-decorations-552128:4377086"
+    */
+
+    def ccapiVersion = "5.0.2"
 
     // Echo Chest mod
-    modImplementation "dev.onyxstudios.cardinal-components-api:cardinal-components-block:${ccapiVersion}"
-    modImplementation "dev.onyxstudios.cardinal-components-api:cardinal-components-chunk:${ccapiVersion}"
-    modImplementation "dev.onyxstudios.cardinal-components-api:cardinal-components-world:${ccapiVersion}"
-    modImplementation "net.minecraftforge:forgeconfigapiport-fabric:4.2.11"
-    modImplementation "curse.maven:puzzles-lib-495476:4600774"
-    modImplementation "curse.maven:echo-chest-857972:4538163"
+    modCompileOnly "dev.onyxstudios.cardinal-components-api:cardinal-components-block:${ccapiVersion}"
+    modCompileOnly "dev.onyxstudios.cardinal-components-api:cardinal-components-chunk:${ccapiVersion}"
+    modCompileOnly "dev.onyxstudios.cardinal-components-api:cardinal-components-world:${ccapiVersion}"
+    modCompileOnly "net.minecraftforge:forgeconfigapiport-fabric:4.2.11"
+    modCompileOnly "curse.maven:puzzles-lib-495476:4600774"
+    modCompileOnly "curse.maven:echo-chest-857972:4538163"
 
     // Nether Chested mod
-    modImplementation "curse.maven:new-nether-chest-857971:4539462"
+    modCompileOnly "curse.maven:new-nether-chest-857971:4539462"
 
     // More Chests mod
-    modImplementation "curse.maven:more-chests-737045:4977009"
+    modCompileOnly "curse.maven:more-chests-737045:4977009"
 
     // More Chests Variants mod
-    modImplementation "curse.maven:more-chest-variants-lieonlion-858032:4879889"
+    modCompileOnly "curse.maven:more-chest-variants-lieonlion-858032:4879889"
 
     // Variant Barrels mod
-    modImplementation "curse.maven:variantbarrels-576766:4524672"
+    modCompileOnly "curse.maven:variantbarrels-576766:4524672"
 
     // Compact Storage mod
-    modImplementation "curse.maven:compactstorage-223703:4374192"
+    modCompileOnly "curse.maven:compactstorage-223703:4374192"
 
     // Iron Chests (fabric)
-    modImplementation "curse.maven:iron-chests-for-fabric-498534:3991296"
+    modCompileOnly "curse.maven:iron-chests-for-fabric-498534:3991296"
+
+    // Supplementaries mod
+    modImplementation "curse.maven:selene-499980:4983975"
+    modImplementation "curse.maven:supplementaries-412082:5116485"
 }
 
 processResources {

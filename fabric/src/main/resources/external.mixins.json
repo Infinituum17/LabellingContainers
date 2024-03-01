@@ -15,8 +15,6 @@
     "ironchests.GenericChestBlockMixin",
     "more_chests.CustomChestBlockItemMixin",
     "more_chests.CustomChestBlockMixin",
-    "mythicmetals_decorations.MythicChestBlockEntityMixin",
-    "mythicmetals_decorations.MythicChestBlockMixin",
     "netherchested.NetherChestBlockEntityMixin",
     "netherchested.NetherChestBlockMixin"
   ],

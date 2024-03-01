@@ -17,10 +17,10 @@ public final class ConditionalLoaderMixinPlugin implements IMixinConfigPlugin {
             .put(MIXINS_FOLDER + "ironchest.AbstractIronChestBlockEntityMixin", "ironchest")
             .put(MIXINS_FOLDER + "ironchests.GenericChestBlockMixin", "ironchests")
             .put(MIXINS_FOLDER + "ironchests.GenericChestBlockEntityMixin", "ironchests")
-            .put(MIXINS_FOLDER + "colossalchests.BlockEntityColossalChest", "colossalchests")
-            .put(MIXINS_FOLDER + "colossalchests.BlockEntityUncolossalChest", "colossalchests")
-            .put(MIXINS_FOLDER + "colossalchests.colossalchests.ColossalChestMixin", "colossalchests")
-            .put(MIXINS_FOLDER + "colossalchests.colossalchests.UncolossalChestMixin", "colossalchests")
+            .put(MIXINS_FOLDER + "colossalchests.BlockEntityColossalChestMixin", "colossalchests")
+            .put(MIXINS_FOLDER + "colossalchests.BlockEntityUncolossalChestMixin", "colossalchests")
+            .put(MIXINS_FOLDER + "colossalchests.ColossalChestMixin", "colossalchests")
+            .put(MIXINS_FOLDER + "colossalchests.UncolossalChestMixin", "colossalchests")
             .put(MIXINS_FOLDER + "echochest.EchoChestBlockMixin", "echochest")
             .put(MIXINS_FOLDER + "echochest.EchoChestBlockEntityMixin", "echochest")
             .put(MIXINS_FOLDER + "netherchested.NetherChestBlockEntityMixin", "netherchested")
@@ -34,6 +34,8 @@ public final class ConditionalLoaderMixinPlugin implements IMixinConfigPlugin {
             .put(MIXINS_FOLDER + "supplementaries.OpeneableContainerBlockEntityMixin", "supplementaries")
             .put(MIXINS_FOLDER + "supplementaries.SackBlockMixin", "supplementaries")
             .put(MIXINS_FOLDER + "supplementaries.SafeBlockMixin", "supplementaries")
+            .put(MIXINS_FOLDER + "supplementaries.JarBlockTileMixin", "supplementaries")
+            .put(MIXINS_FOLDER + "supplementaries.JarItemMixin", "supplementaries")
             .build();
 
     @Override
