@@ -24,7 +24,6 @@ public class LabelPrinterScreenHandler extends AbstractContainerMenu {
 
         checkContainerSize(inventory, 1);
 
-        playerInventory.getSelected();
         CompoundTag nbt = playerInventory.getSelected().getTagElement("Contents");
 
         if (nbt != null) {
