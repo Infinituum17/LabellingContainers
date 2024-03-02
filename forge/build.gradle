@@ -17,10 +17,6 @@ loom {
         mixinConfig "labellingcontainers-common.mixins.json"
         mixinConfig "external.mixins.json"
     }
-
-    mixin {
-        useLegacyMixinAp = true
-    }
 }
 
 configurations {
@@ -65,8 +61,11 @@ dependencies {
     modCompileOnly "curse.maven:compactstorage-223703:4732852"
 
     // Supplementaries mod
-    modCompileOnly "curse.maven:selene-499980:5146536"
-    modCompileOnly "curse.maven:supplementaries-412082:5147148"
+    compileOnly(annotationProcessor("io.github.llamalad7:mixinextras-common:0.3.5"))
+    implementation("io.github.llamalad7:mixinextras-forge:0.3.5")
+
+    modImplementation "curse.maven:selene-499980:5146536"
+    modImplementation "curse.maven:supplementaries-412082:5147148"
 }
 
 processResources {
