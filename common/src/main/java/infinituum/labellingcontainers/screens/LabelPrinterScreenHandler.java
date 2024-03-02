@@ -24,15 +24,13 @@ public class LabelPrinterScreenHandler extends AbstractContainerMenu {
 
         checkContainerSize(inventory, 1);
 
-        if (playerInventory.getSelected() != null) {
-            CompoundTag nbt = playerInventory.getSelected().getTagElement("Contents");
+        CompoundTag nbt = playerInventory.getSelected().getTagElement("Contents");
 
-            if (nbt != null) {
-                ItemStack items = ItemStack.of(nbt);
+        if (nbt != null) {
+            ItemStack items = ItemStack.of(nbt);
 
-                if (items != ItemStack.EMPTY) {
-                    inventory.setItem(0, items);
-                }
+            if (items != ItemStack.EMPTY) {
+                inventory.setItem(0, items);
             }
         }
 
@@ -92,7 +90,7 @@ public class LabelPrinterScreenHandler extends AbstractContainerMenu {
 
     @Override
     public void removed(Player player) {
-        if (player.getMainHandItem() != null && player.getMainHandItem() != ItemStack.EMPTY) {
+        if (player.getMainHandItem() != ItemStack.EMPTY) {
             ItemStack itemStack = this.inventory.getItem(0);
             CompoundTag nbt = new CompoundTag();
 
