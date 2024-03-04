@@ -66,6 +66,10 @@ dependencies {
 
     modImplementation "curse.maven:selene-499980:5146536"
     modImplementation "curse.maven:supplementaries-412082:5147148"
+
+    // Sophisticated Storage mod
+    modImplementation "curse.maven:sophisticated-core-618298:5102975"
+    modImplementation "curse.maven:sophisticated-storage-619320:5104313"
 }
 
 processResources {

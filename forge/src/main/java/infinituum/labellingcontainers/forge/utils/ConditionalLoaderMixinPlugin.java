@@ -35,6 +35,9 @@ public final class ConditionalLoaderMixinPlugin implements IMixinConfigPlugin {
             .put(MIXINS_FOLDER + "supplementaries.SafeBlockMixin", "supplementaries")
             .put(MIXINS_FOLDER + "supplementaries.JarBlockTileMixin", "supplementaries")
             .put(MIXINS_FOLDER + "supplementaries.JarItemMixin", "supplementaries")
+            .put(MIXINS_FOLDER + "sophisticatedstorage.LimitedBarrelBlockMixin", "sophisticatedstorage")
+            .put(MIXINS_FOLDER + "sophisticatedstorage.StorageBlockBaseMixin", "sophisticatedstorage")
+            .put(MIXINS_FOLDER + "sophisticatedstorage.StorageBlockEntityMixin", "sophisticatedstorage")
             .build();
     @Override
     public boolean shouldApplyMixin(String targetClassName, String mixinClassName) {
