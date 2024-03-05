@@ -94,7 +94,14 @@ allprojects {
                 displayName = "Labelling Containers ${project.minecraft_version}-${project.name} - ${project.mod_version}"
                 gameVersions = [project.minecraft_version]
                 gameLoaders = [project.name]
-                version = project.version + "-" + project.name
+
+                def clog = new File(project.getRootDir(), "changelog.txt")
+
+                if (clog.exists()) {
+                    changelog = clog.getText()
+                }
+
+                version = project.version
 
                 mainPublication remapJar
 
@@ -105,16 +112,64 @@ allprojects {
                             curseforge = "fabric-api"
                             modrinth = "fabric-api"
                         }
+
+                        optional {
+                            curseforge = "more-chests"
+                            modrinth = "more-chests"
+                        }
+
+                        optional {
+                            curseforge = "mythicmetals-decorations"
+                            modrinth = "mythicmetals-decorations"
+                        }
                     }
 
                     if (project.name == "forge") {
                         // Forge-Only dependencies
+                        optional {
+                            curseforge = "colossal-chests"
+                            modrinth = "colossal-chests"
+                        }
+
+                        optional {
+                            curseforge = "iron-chests"
+                            modrinth = "iron-chests"
+                        }
+
+                        optional {
+                            curseforge = "sophisticated-storage"
+                        }
                     }
 
                     // Common dependencies
                     depends {
                         curseforge = "architectury-api"
                         modrinth = "architectury-api"
+                    }
+
+                    optional {
+                        curseforge = "compactstorage"
+                        modrinth = "compact_storage"
+                    }
+
+                    optional {
+                        curseforge = "echo-chest"
+                        modrinth = "echo-chest"
+                    }
+
+                    optional {
+                        curseforge = "ironchests"
+                        modrinth = "ironchests"
+                    }
+
+                    optional {
+                        curseforge = "new-nether-chest"
+                        modrinth = "new-nether-chest"
+                    }
+
+                    optional {
+                        curseforge = "supplementaries"
+                        modrinth = "supplementaries"
                     }
                 }
 
