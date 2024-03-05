@@ -96,7 +96,14 @@ allprojects {
                 displayName = "Labelling Containers ${project.minecraft_version}-${project.name} - ${project.mod_version}"
                 gameVersions = [project.minecraft_version]
                 gameLoaders = [project.name]
-                version = project.version + "-" + project.name
+
+                def clog = new File(project.getRootDir(), "changelog.txt")
+
+                if (clog.exists()) {
+                    changelog = clog.getText()
+                }
+
+                version = project.version
 
                 mainPublication remapJar
 
