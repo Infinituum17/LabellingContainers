@@ -94,7 +94,7 @@ allprojects {
                 gameVersions = [project.minecraft_version]
                 gameLoaders = [project.name]
 
-                def clog = new File(project.getRootDir(), "changelog.txt")
+                def clog = new File(project.getRootDir(), "changelog.md")
 
                 if (clog.exists()) {
                     changelog = clog.getText()
