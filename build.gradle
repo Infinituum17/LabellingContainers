@@ -95,14 +95,20 @@ allprojects {
         withSourcesJar()
     }
 
-
     if ((project.name == "fabric" || project.name == "forge" || project.name == "neoforge") && project.version != "0.0.0") {
         unifiedPublishing {
             project {
                 displayName = "Labelling Containers ${project.minecraft_version}-${project.name} - ${project.mod_version}"
                 gameVersions = [project.minecraft_version]
                 gameLoaders = [project.name]
-                version = project.version + "-" + project.name
+
+                def clog = new File(project.getRootDir(), "changelog.txt")
+
+                if (clog.exists()) {
+                    changelog = clog.getText()
+                }
+
+                version = project.version
 
                 mainPublication remapJar
 
@@ -113,16 +119,35 @@ allprojects {
                             curseforge = "fabric-api"
                             modrinth = "fabric-api"
                         }
+
+                        optional {
+                            curseforge = "more-chests"
+                            modrinth = "more-chests"
+                        }
                     }
 
                     if (project.name == "forge") {
                         // Forge-Only dependencies
                     }
 
+                    if (project.name == "neoforge") {
+                        // NeoForge-Only dependencies
+                    }
+
                     // Common dependencies
                     depends {
                         curseforge = "architectury-api"
                         modrinth = "architectury-api"
+                    }
+
+                    optional {
+                        curseforge = "compactstorage"
+                        modrinth = "compact_storage"
+                    }
+
+                    optional {
+                        curseforge = "echo-chest"
+                        modrinth = "echo-chest"
                     }
                 }
 
