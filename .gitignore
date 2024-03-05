@@ -45,3 +45,5 @@ replay_*.log
 **/.cache/
 
 .architectury-transformer/
+
+changelog.txt
