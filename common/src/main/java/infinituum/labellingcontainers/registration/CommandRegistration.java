@@ -29,7 +29,7 @@ public class CommandRegistration {
                                         BlockEntity be = world.getBlockEntity(pos);
 
                                         if (be instanceof Taggable labelable) {
-                                            labelable.labellingcontainers$setLabel(label);
+                                            labelable.labellingcontainers$setLabel(label, true);
                                         }
 
                                         return 1;
@@ -50,7 +50,7 @@ public class CommandRegistration {
                                         BlockEntity be = world.getBlockEntity(pos);
 
                                         if (be instanceof Taggable labelable) {
-                                            labelable.labellingcontainers$setDisplayItem(item);
+                                            labelable.labellingcontainers$setDisplayItem(item, true);
                                         }
 
                                         return 1;
