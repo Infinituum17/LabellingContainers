@@ -1,11 +1,12 @@
 package infinituum.labellingcontainers.items;
 
 import dev.architectury.registry.menu.MenuRegistry;
-import infinituum.labellingcontainers.PlatformHelper;
 import infinituum.labellingcontainers.registration.ItemRegistration;
 import infinituum.labellingcontainers.screens.LabelPrinterScreenFactory;
+import infinituum.labellingcontainers.utils.BlockEntityHelper;
 import infinituum.labellingcontainers.utils.InventoryHelper;
 import infinituum.labellingcontainers.utils.Taggable;
+import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -62,7 +63,8 @@ public class LabelPrinterItem extends Item {
         BlockPos pos = context.getClickedPos();
         Level world = context.getLevel();
         ItemStack itemStack = context.getItemInHand();
-        BlockEntity blockEntity = PlatformHelper.locateTargetBlockEntity(world, pos);
+        BlockState state = world.getBlockState(pos);
+        BlockEntity blockEntity = BlockEntityHelper.locateTargetBlockEntity(world, pos, state);
 
         if (blockEntity instanceof Taggable taggable) {
             if (!world.isClientSide()) {
@@ -90,8 +92,8 @@ public class LabelPrinterItem extends Item {
 
                 if (!player.isCreative()) InventoryHelper.removeOneItemFromInventory(inventory, Items.PAPER);
 
-                taggable.labellingcontainers$setLabel(label);
-                taggable.labellingcontainers$setDisplayItem(displayItem);
+                taggable.labellingcontainers$setLabel(label, true);
+                taggable.labellingcontainers$setDisplayItem(displayItem, true);
 
                 ((ServerLevel) world).sendParticles(ParticleTypes.END_ROD, hitPos.x(), hitPos.y(), hitPos.z(), 15, 0, 0, 0, 0.01);
                 world.playSound(null, pos, SoundEvents.NOTE_BLOCK_HARP, SoundSource.BLOCKS, 0.75f, 2f);

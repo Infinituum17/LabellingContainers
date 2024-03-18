@@ -1,6 +1,10 @@
 package infinituum.labellingcontainers.registration;
 
+import dev.architectury.event.events.common.BlockEvent;
+import dev.architectury.event.events.common.LifecycleEvent;
 import dev.architectury.networking.NetworkManager;
+import infinituum.labellingcontainers.events.BlockEventPlaceHandler;
+import infinituum.labellingcontainers.events.LifecycleEventHandler;
 import infinituum.labellingcontainers.network.Packets;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ItemStack;
@@ -20,5 +24,8 @@ public class EventHandlersRegistration {
                 }
             }
         });
+
+        LifecycleEvent.SETUP.register(LifecycleEventHandler::handle);
+        // BlockEvent.PLACE.register(BlockEventPlaceHandler::handle);
     }
 }
