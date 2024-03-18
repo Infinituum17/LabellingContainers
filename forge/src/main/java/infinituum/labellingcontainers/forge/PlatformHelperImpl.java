@@ -10,7 +10,7 @@ import org.cyclops.colossalchests.block.ChestWall;
 import org.cyclops.colossalchests.block.ColossalChest;
 
 public class PlatformHelperImpl {
-    public static BlockEntity locateTargetBlockEntity(Level world, BlockPos blockPos) {
+    public static BlockEntity locateTargetBlockEntity(Level world, BlockPos blockPos, BlockState state) {
         if(Platform.isModLoaded("colossalchests")) {
             BlockState blockState = world.getBlockState(blockPos);
             Block block = blockState.getBlock();
