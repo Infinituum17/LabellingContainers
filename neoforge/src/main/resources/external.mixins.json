@@ -4,14 +4,7 @@
   "plugin": "infinituum.labellingcontainers.neoforge.utils.ConditionalLoaderMixinPlugin",
   "compatibilityLevel": "JAVA_17",
   "minVersion": "0.8",
-  "mixins": [
-    "compact_storage.CompactBarrelBlockEntityMixin",
-    "compact_storage.CompactBarrelBlockMixin",
-    "compact_storage.CompactChestBlockEntityMixin",
-    "compact_storage.CompactChestBlockMixin",
-    "echochest.EchoChestBlockEntityMixin",
-    "echochest.EchoChestBlockMixin"
-  ],
+  "mixins": [],
   "injectors": {
     "defaultRequire": 1
   }
