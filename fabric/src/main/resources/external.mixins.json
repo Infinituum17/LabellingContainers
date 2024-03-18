@@ -4,22 +4,7 @@
   "plugin": "infinituum.labellingcontainers.fabric.utils.ConditionalLoaderMixinPlugin",
   "compatibilityLevel": "JAVA_17",
   "minVersion": "0.8",
-  "mixins": [
-    "echochest.EchoChestBlockEntityMixin",
-    "echochest.EchoChestBlockMixin",
-    "more_chests.CustomChestBlockItemMixin",
-    "more_chests.CustomChestBlockMixin",
-    "mythicmetals_decorations.MythicChestBlockEntityMixin",
-    "mythicmetals_decorations.MythicChestBlockMixin",
-    "netherchested.NetherChestBlockEntityMixin",
-    "netherchested.NetherChestBlockMixin",
-    "supplementaries.AbstractPresentBlockMixin",
-    "supplementaries.JarBlockTileMixin",
-    "supplementaries.JarItemMixin",
-    "supplementaries.OpeneableContainerBlockEntityMixin",
-    "supplementaries.SackBlockMixin",
-    "supplementaries.SafeBlockMixin"
-  ],
+  "mixins": [],
   "injectors": {
     "defaultRequire": 1
   }
