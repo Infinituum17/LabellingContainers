@@ -13,19 +13,25 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.ChestType;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Optional;
+
 public final class BlockEntityHelper {
-    public static BlockEntity locateTargetBlockEntity(@NotNull Level world, BlockPos pos, BlockState state) {
+    public static BlockEntity locateTargetBlockEntity(@NotNull Level level, BlockPos pos, BlockState state) {
         Block block = state.getBlock();
 
         if (block instanceof AbstractChestBlock<?>) {
-            return getConnectedChest(world, pos, state);
+            return getConnectedChest(level, pos, state);
         } else {
-            return PlatformHelper.locateTargetBlockEntity(world, pos, state);
+            return PlatformHelper.locateTargetBlockEntity(level, pos, state);
         }
     }
 
     public static BlockEntity getConnectedChest(Level level, BlockPos pos, BlockState state) {
-        ChestType chestType = state.getValue(ChestBlock.TYPE);
+        Optional<ChestType> optType = state.getOptionalValue(ChestBlock.TYPE);
+
+        if (optType.isEmpty()) return level.getBlockEntity(pos);
+
+        ChestType chestType = optType.get();
 
         if (chestType == ChestType.SINGLE) return level.getBlockEntity(pos);
 
