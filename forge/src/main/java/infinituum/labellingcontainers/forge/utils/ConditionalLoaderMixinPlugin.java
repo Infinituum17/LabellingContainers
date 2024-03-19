@@ -12,10 +12,7 @@ import java.util.Set;
 
 public final class ConditionalLoaderMixinPlugin implements IMixinConfigPlugin {
     private static final String MIXINS_FOLDER = "infinituum.labellingcontainers.forge.mixin.";
-    private static final Map<String, String> MIXIN_MODIDS = ImmutableMap.<String, String>builder()
-            .put(MIXINS_FOLDER + "ironchest.AbstractIronChestBlockMixin", "ironchest")
-            .put(MIXINS_FOLDER + "ironchest.AbstractIronChestBlockEntityMixin", "ironchest")
-            .build();
+    private static final Map<String, String> MIXIN_MODIDS = ImmutableMap.<String, String>builder().build();
 
 
     @Override
