@@ -7,7 +7,7 @@ import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 
-public class InheritTagAction {
+public final class InheritTagAction {
     public static void handle(Player player, Level level, BlockPos blockPos, BlockState blockState) {
         if (player == null || level.isClientSide()) return;
 

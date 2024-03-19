@@ -24,6 +24,5 @@ public class EventHandlersRegistration {
         });
 
         LifecycleEvent.SETUP.register(LifecycleEventHandler::handle);
-        // BlockEvent.PLACE.register(BlockEventPlaceHandler::handle);
     }
 }
