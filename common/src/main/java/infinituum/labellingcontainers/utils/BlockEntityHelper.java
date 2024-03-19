@@ -13,7 +13,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.ChestType;
 import org.jetbrains.annotations.NotNull;
 
-public class BlockEntityHelper {
+public final class BlockEntityHelper {
     public static BlockEntity locateTargetBlockEntity(@NotNull Level world, BlockPos pos, BlockState state) {
         Block block = state.getBlock();
 

@@ -1,6 +1,6 @@
 package infinituum.labellingcontainers.fabric.mixin;
 
-import infinituum.labellingcontainers.fabric.events.BlockPlaceCallback;
+import infinituum.labellingcontainers.fabric.events.custom.BlockPlaceCallback;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.context.BlockPlaceContext;
