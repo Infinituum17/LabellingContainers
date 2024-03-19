@@ -4,8 +4,8 @@ import infinituum.labellingcontainers.PlatformHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.AbstractChestBlock;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.ChestBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.ChestBlockEntity;
@@ -17,7 +17,7 @@ public final class BlockEntityHelper {
     public static BlockEntity locateTargetBlockEntity(@NotNull Level world, BlockPos pos, BlockState state) {
         Block block = state.getBlock();
 
-        if (block == Blocks.CHEST) {
+        if (block instanceof AbstractChestBlock<?>) {
             return getConnectedChest(world, pos, state);
         } else {
             return PlatformHelper.locateTargetBlockEntity(world, pos, state);
