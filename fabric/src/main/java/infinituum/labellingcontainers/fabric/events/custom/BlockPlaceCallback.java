@@ -1,4 +1,4 @@
-package infinituum.labellingcontainers.fabric.events;
+package infinituum.labellingcontainers.fabric.events.custom;
 
 
 import net.fabricmc.fabric.api.event.Event;
@@ -10,7 +10,7 @@ import net.minecraft.world.level.block.state.BlockState;
 
 /**
  * Callback for placing a block.
- * Called after the block is placed, BlockEntity is created, BlockState is set.
+ * Called AFTER the block is placed, BlockEntity is created, BlockState is set.
  * Upon return:
  * - SUCCESS cancels further processing and continues with normal block placement.
  * - PASS falls back to further processing and defaults to SUCCESS if no other listeners are available.

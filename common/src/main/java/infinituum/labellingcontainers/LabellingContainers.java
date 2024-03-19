@@ -1,13 +1,10 @@
 package infinituum.labellingcontainers;
 
-import dev.architectury.event.events.common.LifecycleEvent;
 import infinituum.labellingcontainers.registration.CommandRegistration;
 import infinituum.labellingcontainers.registration.EventHandlersRegistration;
 import infinituum.labellingcontainers.registration.ItemRegistration;
 import infinituum.labellingcontainers.registration.ScreenRegistration;
-import net.minecraft.core.Registry;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.EntityBlock;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

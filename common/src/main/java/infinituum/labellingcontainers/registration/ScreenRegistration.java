@@ -19,6 +19,4 @@ public class ScreenRegistration {
 
     public static final RegistrySupplier<MenuType<LabelPrinterScreenHandler>> LABEL_PRINTER_SCREEN_HANDLER =
             MENUS.register(new ResourceLocation(MOD_ID, "label_printer_screen"), () -> new MenuType<>(LabelPrinterScreenHandler::new, FeatureFlagSet.of()));
-
-
 }
