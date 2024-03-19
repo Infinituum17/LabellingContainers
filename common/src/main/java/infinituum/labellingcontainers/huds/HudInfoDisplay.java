@@ -2,7 +2,6 @@ package infinituum.labellingcontainers.huds;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import dev.architectury.event.events.client.ClientGuiEvent.RenderHud;
-import infinituum.labellingcontainers.PlatformHelper;
 import infinituum.labellingcontainers.utils.BlockEntityHelper;
 import infinituum.labellingcontainers.utils.Taggable;
 import net.minecraft.client.Minecraft;
@@ -27,7 +26,7 @@ public class HudInfoDisplay implements RenderHud {
         BlockPos blockPos = blockHit.getBlockPos();
         if(client.level == null) return;
 
-        BlockEntity blockEntity = PlatformHelper.locateTargetBlockEntity(client.level, blockPos, client.level.getBlockState(blockPos));
+        BlockEntity blockEntity = BlockEntityHelper.locateTargetBlockEntity(client.level, blockPos, client.level.getBlockState(blockPos));
 
         if(blockEntity instanceof Taggable labelable) {
             Item displayItem = (labelable.labellingcontainers$getDisplayItem() != null) ? labelable.labellingcontainers$getDisplayItem() : client.level.getBlockState(blockPos).getBlock().asItem();
