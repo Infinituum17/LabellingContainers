@@ -81,7 +81,7 @@ public abstract class BlockEntityMixin implements Taggable {
 
         labellingcontainers$label = newLabel;
 
-        if (searchDoubleChest) {
+        if (searchDoubleChest && level != null) {
             Taggable otherChest = (Taggable) BlockEntityHelper.locateTargetBlockEntity(level, worldPosition, this.getBlockState());
 
             if (otherChest != null) {

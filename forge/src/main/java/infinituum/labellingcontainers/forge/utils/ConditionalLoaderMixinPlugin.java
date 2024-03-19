@@ -12,20 +12,7 @@ import java.util.Set;
 
 public final class ConditionalLoaderMixinPlugin implements IMixinConfigPlugin {
     private static final String MIXINS_FOLDER = "infinituum.labellingcontainers.forge.mixin.";
-    private static final Map<String, String> MIXIN_MODIDS = ImmutableMap.<String, String>builder()
-            .put(MIXINS_FOLDER + "ironchests.GenericChestBlockEntityMixin", "ironchests")
-            .put(MIXINS_FOLDER + "ironchests.GenericChestBlockMixin", "ironchests")
-            .put(MIXINS_FOLDER + "echochest.EchoChestBlockMixin", "echochest")
-            .put(MIXINS_FOLDER + "echochest.EchoChestBlockEntityMixin", "echochest")
-            .put(MIXINS_FOLDER + "netherchested.NetherChestBlockEntityMixin", "netherchested")
-            .put(MIXINS_FOLDER + "netherchested.NetherChestBlockMixin", "netherchested")
-            .put(MIXINS_FOLDER + "supplementaries.AbstractPresentBlockMixin", "supplementaries")
-            .put(MIXINS_FOLDER + "supplementaries.OpeneableContainerBlockEntityMixin", "supplementaries")
-            .put(MIXINS_FOLDER + "supplementaries.SackBlockMixin", "supplementaries")
-            .put(MIXINS_FOLDER + "supplementaries.SafeBlockMixin", "supplementaries")
-            .put(MIXINS_FOLDER + "supplementaries.JarBlockTileMixin", "supplementaries")
-            .put(MIXINS_FOLDER + "supplementaries.JarItemMixin", "supplementaries")
-            .build();
+    private static final Map<String, String> MIXIN_MODIDS = ImmutableMap.<String, String>builder().build();
 
     @Override
     public boolean shouldApplyMixin(String targetClassName, String mixinClassName) {
