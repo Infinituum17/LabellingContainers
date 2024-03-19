@@ -1,19 +1,15 @@
-package infinituum.labellingcontainers.events;
+package infinituum.labellingcontainers.utils;
 
-import dev.architectury.event.EventResult;
-import infinituum.labellingcontainers.utils.BlockEntityHelper;
-import infinituum.labellingcontainers.utils.Taggable;
 import net.minecraft.core.BlockPos;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 
-public class BlockEventPlaceHandler {
-    public static EventResult handle(Level level, BlockPos blockPos, BlockState blockState, Entity entity) {
-        if (!(entity instanceof Player) && level.isClientSide()) return EventResult.pass();
+public class InheritTagAction {
+    public static void handle(Player player, Level level, BlockPos blockPos, BlockState blockState) {
+        if (player == null || level.isClientSide()) return;
 
         if (blockState.getBlock() instanceof EntityBlock) {
             BlockEntity currentBlockEntity = level.getBlockEntity(blockPos);
@@ -24,7 +20,5 @@ public class BlockEventPlaceHandler {
                 currentTaggable.labellingcontainers$setDisplayItem(connectedTaggable.labellingcontainers$getDisplayItem(), false);
             }
         }
-
-        return EventResult.pass();
     }
 }
