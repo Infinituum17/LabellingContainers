@@ -10,9 +10,9 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(BlockItem.class)
-public class BlockMixin {
+public class BlockItemMixin {
     @Inject(method = "place", at = @At("RETURN"))
-    public void setPlacedBy(BlockPlaceContext blockPlaceContext, CallbackInfoReturnable<InteractionResult> cir) {
+    public void place(BlockPlaceContext blockPlaceContext, CallbackInfoReturnable<InteractionResult> cir) {
         BlockPlaceCallback.EVENT.invoker().interact(
                 blockPlaceContext.getPlayer(),
                 blockPlaceContext.getLevel(),
