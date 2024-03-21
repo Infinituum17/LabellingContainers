@@ -13,22 +13,7 @@ import java.util.function.Supplier;
 
 public final class ConditionalLoaderMixinPlugin implements IMixinConfigPlugin {
     private static final String MIXINS_FOLDER = "infinituum.labellingcontainers.fabric.mixin.";
-    private static final Map<String, Supplier<Boolean>> CONDITIONS = ImmutableMap.<String, Supplier<Boolean>>builder()
-            .put(MIXINS_FOLDER + "mythicmetals_decorations.MythicChestBlockMixin", isModLoaded("mythicmetals_decorations"))
-            .put(MIXINS_FOLDER + "mythicmetals_decorations.MythicChestBlockEntityMixin", isModLoaded("mythicmetals_decorations"))
-            .put(MIXINS_FOLDER + "echochest.EchoChestBlockEntityMixin", isModLoaded("echochest"))
-            .put(MIXINS_FOLDER + "echochest.EchoChestBlockMixin", isModLoaded("echochest"))
-            .put(MIXINS_FOLDER + "netherchested.NetherChestBlockEntityMixin", isModLoaded("netherchested"))
-            .put(MIXINS_FOLDER + "netherchested.NetherChestBlockMixin", isModLoaded("netherchested"))
-            .put(MIXINS_FOLDER + "more_chests.CustomChestBlockItemMixin", isModLoaded("more_chests"))
-            .put(MIXINS_FOLDER + "more_chests.CustomChestBlockMixin", isModLoaded("more_chests"))
-            .put(MIXINS_FOLDER + "supplementaries.AbstractPresentBlockMixin", isModLoaded("supplementaries"))
-            .put(MIXINS_FOLDER + "supplementaries.OpeneableContainerBlockEntityMixin", isModLoaded("supplementaries"))
-            .put(MIXINS_FOLDER + "supplementaries.SackBlockMixin", isModLoaded("supplementaries"))
-            .put(MIXINS_FOLDER + "supplementaries.SafeBlockMixin", isModLoaded("supplementaries"))
-            .put(MIXINS_FOLDER + "supplementaries.JarBlockTileMixin", isModLoaded("supplementaries"))
-            .put(MIXINS_FOLDER + "supplementaries.JarItemMixin", isModLoaded("supplementaries"))
-            .build();
+    private static final Map<String, Supplier<Boolean>> CONDITIONS = ImmutableMap.<String, Supplier<Boolean>>builder().build();
 
     private static Supplier<Boolean> isModLoaded(String modid) {
         return () -> FabricLoader.getInstance().isModLoaded(modid);
