@@ -34,14 +34,6 @@ allprojects {
         archivesName = rootProject.archives_base_name
     }
 
-    version = rootProject.mod_version
-    group = rootProject.maven_group
-    forge_version = rootProject.forge_version
-    minecraft_version = rootProject.minecraft_version
-    architectury_version = rootProject.architectury_version
-    pack_format_version = rootProject.pack_format_version
-    archives_base_name = rootProject.archives_base_name
-
     repositories {
         // Add repositories to retrieve artifacts from in here.
         // You should only use this when depending on other mods because
@@ -74,6 +66,10 @@ allprojects {
         maven {
             name = "Fuzs Mod Resources"
             url = "https://raw.githubusercontent.com/Fuzss/modresources/main/maven/"
+        }
+        maven {
+            name = "Infinituum Mod Resources"
+            url = "https://raw.githubusercontent.com/Infinituum17/ModResources/main/maven/"
         }
     }
 
@@ -123,6 +119,7 @@ allprojects {
                         }
                     }
 
+<<<<<<< HEAD
                     if (project.name == "forge") {
                         // Forge-Only dependencies
                         optional {
@@ -136,12 +133,15 @@ allprojects {
                         }
                     }
 
+=======
+>>>>>>> 676e997 (🔧 Changed LICENSE date, added FastConfigAPI dependency, added Config implementation, refactoring, added better tooltip when clicking, block filtering)
                     // Common dependencies
                     depends {
                         curseforge = "architectury-api"
                         modrinth = "architectury-api"
                     }
 
+<<<<<<< HEAD
                     optional {
                         curseforge = "echo-chest"
                         modrinth = "echo-chest"
@@ -155,6 +155,11 @@ allprojects {
                     optional {
                         curseforge = "supplementaries"
                         modrinth = "supplementaries"
+=======
+                    depends {
+                        curseforge = "fastconfigapi"
+                        modrinth = "fastconfigapi"
+>>>>>>> 676e997 (🔧 Changed LICENSE date, added FastConfigAPI dependency, added Config implementation, refactoring, added better tooltip when clicking, block filtering)
                     }
                 }
 

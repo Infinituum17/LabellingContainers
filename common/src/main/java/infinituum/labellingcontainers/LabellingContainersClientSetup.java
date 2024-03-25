@@ -2,8 +2,10 @@ package infinituum.labellingcontainers;
 
 import dev.architectury.event.events.client.ClientGuiEvent;
 import dev.architectury.event.events.client.ClientLifecycleEvent;
+import dev.architectury.event.events.client.ClientTooltipEvent;
 import dev.architectury.platform.Platform;
 import dev.architectury.registry.menu.MenuRegistry;
+import infinituum.labellingcontainers.events.TooltipEventHandler;
 import infinituum.labellingcontainers.guis.LabelPrinterGui;
 import infinituum.labellingcontainers.huds.HudInfoDisplay;
 import net.fabricmc.api.EnvType;
@@ -18,6 +20,8 @@ public class LabellingContainersClientSetup {
                 ClientGuiEvent.RENDER_HUD.register(new HudInfoDisplay());
                 MenuRegistry.registerScreenFactory(LABEL_PRINTER_SCREEN_HANDLER.get(), LabelPrinterGui::new);
             });
+
+            ClientTooltipEvent.ITEM.register(TooltipEventHandler::handle);
         } else {
             LOGGER.warn("Could not run Client Setup (mod is probably running on a Server-Only instance)");
         }
