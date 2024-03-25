@@ -33,3 +33,10 @@ mandatory = true
 versionRange = "[${arch_version},)"
 ordering = "AFTER"
 side = "BOTH"
+
+[[dependencies.${ modid }]]
+modId = "fastconfigapi"
+mandatory = true
+versionRange = "[${fastconfigapi_version}]"
+ordering = "AFTER"
+side = "BOTH"
