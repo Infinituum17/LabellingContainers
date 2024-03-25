@@ -41,6 +41,9 @@ dependencies {
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
     shadowCommon(project(path: ":common", configuration: "transformProductionFabric")) { transitive false }
 
+    // FastConfigAPI
+    modApi("infinituum.fastconfigapi:fastconfigapi-fabric:${rootProject.fastconfigapi_version}")
+
     // Iron Chests: Restocked
     modCompileOnly "curse.maven:resourceful-lib-570073:4851866"
     modCompileOnly "curse.maven:ironchests-498794:4638050"
@@ -96,10 +99,11 @@ dependencies {
 
 processResources {
     var rep_properties = [
-            "version"     : project.version,
-            "mc_version"  : project.minecraft_version,
-            "arch_version": project.architectury_version,
-            "modid"       : project.archives_base_name
+            "version"              : rootProject.mod_version,
+            "mc_version"           : rootProject.minecraft_version,
+            "arch_version"         : rootProject.architectury_version,
+            "modid"                : rootProject.archives_base_name,
+            "fastconfigapi_version": rootProject.fastconfigapi_version
     ]
 
     inputs.properties rep_properties
