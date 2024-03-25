@@ -38,10 +38,6 @@ dependencies {
     // FastConfigAPI
     modApi("infinituum.fastconfigapi:fastconfigapi-forge:${rootProject.fastconfigapi_version}")
 
-    // JEI
-    // def jei_version = "11.6.0.1019"
-    // modRuntimeOnly("mezz.jei:jei-${minecraft_version}-forge:${jei_version}")
-
     // Iron Chests: Restocked
     modImplementation "curse.maven:resourceful-lib-570073:4397923"
     modImplementation "curse.maven:ironchests-498794:4670973"
@@ -69,9 +65,6 @@ dependencies {
 
     // Compact Storage mod
     modImplementation "curse.maven:compactstorage-223703:4352445"
-
-    // Iron Chests (Fabric) mod
-    modImplementation "curse.maven:iron-chests-for-fabric-498534:3991296"
 
     // Supplementaries mod
     modImplementation "curse.maven:selene-499980:4983974"
