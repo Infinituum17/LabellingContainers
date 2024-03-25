@@ -21,6 +21,7 @@ public class SpanishLangProvider extends FabricLanguageProvider {
         translationBuilder.add(labelPrinterKey + ".tooltip.hidden", "(Presiona shift para más info)");
         translationBuilder.add(labelPrinterKey + ".tooltip.description", "Utiliza papel para imprimir etiquetas nuevas");
         translationBuilder.add(labelPrinterKey + ".paper.error", "¡No tienes suficiente papel!");
+        translationBuilder.add(labelPrinterKey + ".untaggable.error", "¡No puedes etiquetar este bloque!");
 
         translationBuilder.add("block.labelable", "Utilice un Etiquetador para etiquetar este bloque");
     }

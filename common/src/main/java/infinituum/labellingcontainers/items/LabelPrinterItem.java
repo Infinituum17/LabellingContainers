@@ -6,7 +6,6 @@ import infinituum.labellingcontainers.screens.LabelPrinterScreenFactory;
 import infinituum.labellingcontainers.utils.BlockEntityHelper;
 import infinituum.labellingcontainers.utils.InventoryHelper;
 import infinituum.labellingcontainers.utils.Taggable;
-import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
@@ -14,6 +13,9 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.protocol.game.ClientboundSetActionBarTextPacket;
+import net.minecraft.network.protocol.game.ClientboundSetTitleTextPacket;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
@@ -30,12 +32,14 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
+import static infinituum.labellingcontainers.LabellingContainersConfig.TAGGABLE_BLOCKS_CONFIG;
 import static net.minecraft.world.item.Items.AIR;
 
 public class LabelPrinterItem extends Item {
@@ -53,6 +57,27 @@ public class LabelPrinterItem extends Item {
         return (displayItemNbt != null) ? ItemStack.of(displayItemNbt).getItem() : ItemStack.EMPTY.getItem();
     }
 
+    private InteractionResult interactionFail(Level world, Vec3 hitPos, BlockPos pos) {
+        ((ServerLevel) world).sendParticles(ParticleTypes.SMOKE, hitPos.x(), hitPos.y(), hitPos.z(), 15, 0, 0, 0, 0.01);
+        world.playSound(null, pos, SoundEvents.FIRE_EXTINGUISH, SoundSource.BLOCKS, 0.75f, 2f);
+
+        return InteractionResult.FAIL;
+    }
+
+    private InteractionResult interactionFail(Level world, Vec3 hitPos, BlockPos pos, Player player, String errorTK) {
+        ServerPlayer serverPlayer = (ServerPlayer) player;
+        serverPlayer.connection.send(
+                new ClientboundSetActionBarTextPacket(
+                        Component.translatable(ItemRegistration.LABEL_PRINTER.get().getDescriptionId() + errorTK)
+                                .withStyle(ChatFormatting.RED)
+                )
+        );
+
+        serverPlayer.connection.send(new ClientboundSetTitleTextPacket(Component.empty()));
+
+        return interactionFail(world, hitPos, pos);
+    }
+
     @Override
     public @NotNull InteractionResult useOn(UseOnContext context) {
         Player player = context.getPlayer();
@@ -64,6 +89,11 @@ public class LabelPrinterItem extends Item {
         Level world = context.getLevel();
         ItemStack itemStack = context.getItemInHand();
         BlockState state = world.getBlockState(pos);
+
+        ResourceLocation registryName = state.getBlock().asItem().arch$registryName();
+
+        if (registryName == null) return super.useOn(context);
+
         BlockEntity blockEntity = BlockEntityHelper.locateTargetBlockEntity(world, pos, state);
 
         if (blockEntity instanceof Taggable taggable) {
@@ -72,22 +102,16 @@ public class LabelPrinterItem extends Item {
                 Item displayItem = getDisplayItem(itemStack);
                 Vec3 hitPos = context.getClickLocation();
 
+                if (TAGGABLE_BLOCKS_CONFIG.get().hasTagsLimit && !TAGGABLE_BLOCKS_CONFIG.get().hasId(registryName.toString())) {
+                    return interactionFail(world, hitPos, pos, player, ".untaggable.error");
+                }
+
                 if (!inventory.contains(Items.PAPER.getDefaultInstance()) && !player.isCreative()) {
-                    Component message = Component
-                            .translatable(ItemRegistration.LABEL_PRINTER.get().getDescriptionId() + ".paper.error")
-                            .withStyle(ChatFormatting.RED);
-                    player.sendSystemMessage(message);
-
-                    ((ServerLevel) world).sendParticles(ParticleTypes.SMOKE, hitPos.x(), hitPos.y(), hitPos.z(), 15, 0, 0, 0, 0.01);
-                    world.playSound(null, pos, SoundEvents.FIRE_EXTINGUISH, SoundSource.BLOCKS, 0.75f, 2f);
-
-                    return InteractionResult.FAIL;
+                    return interactionFail(world, hitPos, pos, player, ".paper.error");
                 }
 
                 if (taggable.labellingcontainers$getLabel().equals(label) && taggable.labellingcontainers$getDisplayItem().equals(displayItem)) {
-                    ((ServerLevel) world).sendParticles(ParticleTypes.SMOKE, hitPos.x(), hitPos.y(), hitPos.z(), 15, 0, 0, 0, 0.01);
-                    world.playSound(null, pos, SoundEvents.FIRE_EXTINGUISH, SoundSource.BLOCKS, 0.75f, 2f);
-                    return InteractionResult.FAIL;
+                    return interactionFail(world, hitPos, pos);
                 }
 
                 if (!player.isCreative()) InventoryHelper.removeOneItemFromInventory(inventory, Items.PAPER);
