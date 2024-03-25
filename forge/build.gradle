@@ -35,9 +35,12 @@ dependencies {
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
     shadowCommon(project(path: ":common", configuration: "transformProductionForge")) { transitive = false }
 
+    // FastConfigAPI
+    modApi("infinituum.fastconfigapi:fastconfigapi-forge:${rootProject.fastconfigapi_version}")
+
     // JEI
-    def jei_version = "11.6.0.297"
-    runtimeOnly("mezz.jei:jei-${minecraft_version}-forge:${jei_version}")
+    // def jei_version = "11.6.0.1019"
+    // modRuntimeOnly("mezz.jei:jei-${minecraft_version}-forge:${jei_version}")
 
     // Iron Chests: Restocked
     modImplementation "curse.maven:resourceful-lib-570073:4397923"
@@ -84,12 +87,13 @@ dependencies {
 
 processResources {
     var rep_properties = [
-            "version"            : project.version,
-            "forge_maj_version"  : ((String) project.forge_version).split("-")[1].split("\\.")[0],
-            "mc_version"         : project.minecraft_version,
-            "arch_version"       : project.architectury_version,
-            "pack_format_version": project.pack_format_version,
-            "modid"              : project.archives_base_name
+            "version"              : rootProject.mod_version,
+            "forge_maj_version"    : ((String) rootProject.forge_version).split("-")[1].split("\\.")[0],
+            "mc_version"           : rootProject.minecraft_version,
+            "arch_version"         : rootProject.architectury_version,
+            "pack_format_version"  : rootProject.pack_format_version,
+            "modid"                : rootProject.archives_base_name,
+            "fastconfigapi_version": rootProject.fastconfigapi_version
     ]
 
     inputs.properties rep_properties
