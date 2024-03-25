@@ -2,6 +2,7 @@ package infinituum.labellingcontainers.registration;
 
 import dev.architectury.event.events.common.CommandRegistrationEvent;
 import infinituum.labellingcontainers.utils.Taggable;
+import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.arguments.MessageArgument;
 import net.minecraft.commands.arguments.coordinates.Vec3Argument;
 import net.minecraft.commands.arguments.item.ItemArgument;
@@ -18,6 +19,8 @@ public class CommandRegistration {
     public static void init() {
         CommandRegistrationEvent.EVENT.register((dispatcher, registryAccess, environment) -> {
             dispatcher.register(literal("setlabel")
+                    .requires(CommandSourceStack::isPlayer)
+                    .requires(commandSourceStack -> commandSourceStack.hasPermission(2))
                     .then(argument("location", Vec3Argument.vec3())
                             .then(literal("label")
                                     .then(argument("label", MessageArgument.message()).executes(context -> {
@@ -39,6 +42,8 @@ public class CommandRegistration {
             );
 
             dispatcher.register(literal("setlabel")
+                    .requires(CommandSourceStack::isPlayer)
+                    .requires(commandSourceStack -> commandSourceStack.hasPermission(2))
                     .then(argument("location", Vec3Argument.vec3())
                             .then(literal("item")
                                     .then(argument("display-item", ItemArgument.item(registryAccess)).executes(context -> {
