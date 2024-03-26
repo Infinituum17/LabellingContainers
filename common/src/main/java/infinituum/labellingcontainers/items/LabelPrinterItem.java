@@ -102,7 +102,7 @@ public class LabelPrinterItem extends Item {
                 Item displayItem = getDisplayItem(itemStack);
                 Vec3 hitPos = context.getClickLocation();
 
-                if (TAGGABLE_BLOCKS_CONFIG.get().hasTagsLimit && !TAGGABLE_BLOCKS_CONFIG.get().hasId(registryName.toString())) {
+                if (TAGGABLE_BLOCKS_CONFIG.get().isLimited() && !TAGGABLE_BLOCKS_CONFIG.get().hasId(registryName.toString())) {
                     return interactionFail(world, hitPos, pos, player, ".untaggable.error");
                 }
 
