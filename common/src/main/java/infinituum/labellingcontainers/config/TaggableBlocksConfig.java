@@ -314,4 +314,8 @@ public class TaggableBlocksConfig {
     public void addId(String id) {
         taggableIds.add(id);
     }
+
+    public void removeId(String id) {
+        taggableIds.remove(id);
+    }
 }
