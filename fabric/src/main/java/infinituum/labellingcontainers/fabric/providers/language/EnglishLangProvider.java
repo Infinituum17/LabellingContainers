@@ -22,8 +22,12 @@ public class EnglishLangProvider extends FabricLanguageProvider {
         translationBuilder.add(labelPrinterKey + ".tooltip.display_item", "Icon: ");
         translationBuilder.add(labelPrinterKey + ".tooltip.hidden", "(Press shift for more info)");
         translationBuilder.add(labelPrinterKey + ".tooltip.description", "Uses paper to print new labels");
+        translationBuilder.add(labelPrinterKey + ".tooltip.mode", "Mode: ");
         translationBuilder.add(labelPrinterKey + ".paper.error", "You don't have enough paper!");
         translationBuilder.add(labelPrinterKey + ".untaggable.error", "You can't tag this block!");
+        translationBuilder.add(labelPrinterKey + ".mode.create", "Creation");
+        translationBuilder.add(labelPrinterKey + ".mode.copy", "Copy");
+        translationBuilder.add(labelPrinterKey + ".mode.copy.success", "Successfully Copied!");
         translationBuilder.add("command.labelconfig.addition.success", "%s was successfully added to the config!");
         translationBuilder.add("command.labelconfig.removal.success", "%s was successfully removed from the config!");
 

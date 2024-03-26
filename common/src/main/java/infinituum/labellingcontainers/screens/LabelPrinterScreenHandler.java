@@ -1,7 +1,7 @@
 package infinituum.labellingcontainers.screens;
 
+import infinituum.labellingcontainers.items.LabelPrinterItem;
 import infinituum.labellingcontainers.registration.ScreenRegistration;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.Container;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
@@ -9,6 +9,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ClickType;
 import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
@@ -24,15 +25,9 @@ public class LabelPrinterScreenHandler extends AbstractContainerMenu {
 
         checkContainerSize(inventory, 1);
 
-        CompoundTag nbt = playerInventory.getSelected().getTagElement("Contents");
+        Item displayItem = LabelPrinterItem.getDisplayItem(playerInventory.getSelected());
 
-        if (nbt != null) {
-            ItemStack items = ItemStack.of(nbt);
-
-            if (items != ItemStack.EMPTY) {
-                inventory.setItem(0, items);
-            }
-        }
+        inventory.setItem(0, displayItem.getDefaultInstance());
 
         this.inventory = inventory;
 
@@ -92,13 +87,11 @@ public class LabelPrinterScreenHandler extends AbstractContainerMenu {
     public void removed(Player player) {
         if (player.getMainHandItem() != ItemStack.EMPTY) {
             ItemStack itemStack = this.inventory.getItem(0);
-            CompoundTag nbt = new CompoundTag();
 
-            itemStack.save(nbt);
-
-            player.getMainHandItem().addTagElement("Contents", nbt);
+            if (player.getMainHandItem().getItem() instanceof LabelPrinterItem) {
+                LabelPrinterItem.setDisplayItem(player.getMainHandItem(), itemStack);
+            }
         }
-
 
         super.removed(player);
     }

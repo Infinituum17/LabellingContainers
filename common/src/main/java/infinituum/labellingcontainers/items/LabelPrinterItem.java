@@ -3,6 +3,7 @@ package infinituum.labellingcontainers.items;
 import dev.architectury.registry.menu.MenuRegistry;
 import infinituum.labellingcontainers.registration.ItemRegistration;
 import infinituum.labellingcontainers.screens.LabelPrinterScreenFactory;
+import infinituum.labellingcontainers.utils.ActionBarTextHelper;
 import infinituum.labellingcontainers.utils.BlockEntityHelper;
 import infinituum.labellingcontainers.utils.InventoryHelper;
 import infinituum.labellingcontainers.utils.Taggable;
@@ -13,8 +14,6 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.network.protocol.game.ClientboundSetActionBarTextPacket;
-import net.minecraft.network.protocol.game.ClientboundSetTitleTextPacket;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -43,75 +42,158 @@ import static infinituum.labellingcontainers.LabellingContainersConfig.TAGGABLE_
 import static net.minecraft.world.item.Items.AIR;
 
 public class LabelPrinterItem extends Item {
+
     public LabelPrinterItem(Properties settings) {
         super(settings);
     }
 
-    private String getLabel(ItemStack itemStack) {
-        CompoundTag labelNbt = itemStack.getTagElement("Label");
-        return (labelNbt != null) ? labelNbt.getString("text") : "";
+    public static String getLabel(ItemStack itemStack) {
+        CompoundTag labelTag = itemStack.getOrCreateTagElement("Label");
+
+        if (!labelTag.contains("text")) {
+            labelTag.putString("text", "");
+        }
+
+        return labelTag.getString("text");
     }
 
-    private Item getDisplayItem(ItemStack itemStack) {
-        CompoundTag displayItemNbt = itemStack.getTagElement("Contents");
-        return (displayItemNbt != null) ? ItemStack.of(displayItemNbt).getItem() : ItemStack.EMPTY.getItem();
+    public static void setLabel(ItemStack itemStack, String text) {
+        CompoundTag tag = itemStack.getOrCreateTagElement("Label");
+
+        tag.putString("text", text);
+
+        itemStack.addTagElement("Label", tag);
     }
 
-    private InteractionResult interactionFail(Level world, Vec3 hitPos, BlockPos pos) {
-        ((ServerLevel) world).sendParticles(ParticleTypes.SMOKE, hitPos.x(), hitPos.y(), hitPos.z(), 15, 0, 0, 0, 0.01);
-        world.playSound(null, pos, SoundEvents.FIRE_EXTINGUISH, SoundSource.BLOCKS, 0.75f, 2f);
+    public static Item getDisplayItem(ItemStack itemStack) {
+        CompoundTag labelTag = itemStack.getOrCreateTagElement("Label");
+
+        if (!labelTag.contains("displayItem")) {
+            labelTag.put("displayItem", ItemStack.EMPTY.save(new CompoundTag()));
+        }
+
+        return ItemStack.of(labelTag.getCompound("displayItem")).getItem();
+    }
+
+    public static void setDisplayItem(ItemStack itemStack, ItemStack itemToDisplay) {
+        CompoundTag tag = itemStack.getOrCreateTagElement("Label");
+
+        tag.put("displayItem", itemToDisplay.save(new CompoundTag()));
+
+        itemStack.addTagElement("Label", tag);
+    }
+
+    public static int getModeIndex(ItemStack itemStack) {
+        CompoundTag labelTag = itemStack.getOrCreateTagElement("Label");
+
+        if (!labelTag.contains("modeIndex")) {
+            labelTag.putInt("modeIndex", 0);
+        }
+
+        return labelTag.getInt("modeIndex");
+    }
+
+    public static LabelPrinterMode getMode(ItemStack itemStack) {
+        int i = getModeIndex(itemStack);
+
+        return LabelPrinterMode.fromIndex(i);
+    }
+
+    public static void setModeIndex(ItemStack itemStack, int modeIndex) {
+        CompoundTag tag = itemStack.getOrCreateTagElement("Label");
+
+        tag.putInt("modeIndex", modeIndex);
+
+        itemStack.addTagElement("Label", tag);
+    }
+
+    public static void setMode(ItemStack itemStack, LabelPrinterMode mode) {
+        int i = mode.ordinal();
+
+        setModeIndex(itemStack, i);
+    }
+
+    private InteractionResult interactionFail(Level level, Vec3 hitPos, BlockPos pos) {
+        ((ServerLevel) level).sendParticles(ParticleTypes.SMOKE, hitPos.x(), hitPos.y(), hitPos.z(), 15, 0, 0, 0, 0.01);
+        level.playSound(null, pos, SoundEvents.FIRE_EXTINGUISH, SoundSource.BLOCKS, 0.75f, 2f);
 
         return InteractionResult.FAIL;
     }
 
-    private InteractionResult interactionFail(Level world, Vec3 hitPos, BlockPos pos, Player player, String errorTK) {
-        ServerPlayer serverPlayer = (ServerPlayer) player;
-        serverPlayer.connection.send(
-                new ClientboundSetActionBarTextPacket(
-                        Component.translatable(ItemRegistration.LABEL_PRINTER.get().getDescriptionId() + errorTK)
-                                .withStyle(ChatFormatting.RED)
-                )
+    private InteractionResult interactionFail(Level level, Vec3 hitPos, BlockPos pos, Player player, String errorTranslationKey) {
+        ActionBarTextHelper.sendMessage(
+                (ServerPlayer) player,
+                Component
+                        .translatable(ItemRegistration.LABEL_PRINTER.get().getDescriptionId() + errorTranslationKey)
+                        .withStyle(ChatFormatting.RED)
         );
 
-        serverPlayer.connection.send(new ClientboundSetTitleTextPacket(Component.empty()));
+        return interactionFail(level, hitPos, pos);
+    }
 
-        return interactionFail(world, hitPos, pos);
+    private InteractionResult interactionSuccess(Level level, Vec3 hitPos, BlockPos pos) {
+        ((ServerLevel) level).sendParticles(ParticleTypes.END_ROD, hitPos.x(), hitPos.y(), hitPos.z(), 15, 0, 0, 0, 0.01);
+        level.playSound(null, pos, SoundEvents.NOTE_BLOCK_HARP.value(), SoundSource.BLOCKS, 0.75f, 2f);
+
+        return InteractionResult.SUCCESS;
+    }
+
+    private InteractionResult interactionSuccess(Level level, Vec3 hitPos, BlockPos pos, Player player, String successTranslationKey) {
+        ActionBarTextHelper.sendMessage(
+                (ServerPlayer) player,
+                Component
+                        .translatable(ItemRegistration.LABEL_PRINTER.get().getDescriptionId() + successTranslationKey)
+                        .withStyle(ChatFormatting.GOLD)
+        );
+
+        return interactionSuccess(level, hitPos, pos);
     }
 
     @Override
     public @NotNull InteractionResult useOn(UseOnContext context) {
+        Level level = context.getLevel();
         Player player = context.getPlayer();
 
         if (player == null) return super.useOn(context);
+        if (level.isClientSide()) return InteractionResult.SUCCESS;
 
         Inventory inventory = player.getInventory();
-        BlockPos pos = context.getClickedPos();
-        Level world = context.getLevel();
-        ItemStack itemStack = context.getItemInHand();
-        BlockState state = world.getBlockState(pos);
-
-        ResourceLocation registryName = state.getBlock().asItem().arch$registryName();
+        BlockPos clickedBlockPosition = context.getClickedPos();
+        ItemStack itemInHand = context.getItemInHand();
+        BlockState blockState = level.getBlockState(clickedBlockPosition);
+        ResourceLocation registryName = blockState.getBlock().asItem().arch$registryName();
+        Vec3 hitPosVec3 = context.getClickLocation();
 
         if (registryName == null) return super.useOn(context);
 
-        BlockEntity blockEntity = BlockEntityHelper.locateTargetBlockEntity(world, pos, state);
+        BlockEntity blockEntity = BlockEntityHelper.locateTargetBlockEntity(level, clickedBlockPosition, blockState);
 
-        if (blockEntity instanceof Taggable taggable) {
-            if (!world.isClientSide()) {
-                MutableComponent label = Component.literal(getLabel(itemStack));
-                Item displayItem = getDisplayItem(itemStack);
-                Vec3 hitPos = context.getClickLocation();
+        if (!(blockEntity instanceof Taggable)) {
+            if (player.isCrouching()) {
+                swapMode(itemInHand);
+            } else {
+                MenuRegistry.openMenu((ServerPlayer) player, new LabelPrinterScreenFactory());
+            }
+
+            return InteractionResult.SUCCESS;
+        }
+
+        switch (getMode(itemInHand)) {
+            case CREATE -> {
+                Taggable taggable = (Taggable) blockEntity;
+                MutableComponent label = Component.literal(getLabel(itemInHand));
+                Item displayItem = getDisplayItem(itemInHand);
 
                 if (TAGGABLE_BLOCKS_CONFIG.get().isLimited() && !TAGGABLE_BLOCKS_CONFIG.get().hasId(registryName.toString())) {
-                    return interactionFail(world, hitPos, pos, player, ".untaggable.error");
+                    return interactionFail(level, hitPosVec3, clickedBlockPosition, player, ".untaggable.error");
                 }
 
                 if (!inventory.contains(Items.PAPER.getDefaultInstance()) && !player.isCreative()) {
-                    return interactionFail(world, hitPos, pos, player, ".paper.error");
+                    return interactionFail(level, hitPosVec3, clickedBlockPosition, player, ".paper.error");
                 }
 
                 if (taggable.labellingcontainers$getLabel().equals(label) && taggable.labellingcontainers$getDisplayItem().equals(displayItem)) {
-                    return interactionFail(world, hitPos, pos);
+                    return interactionFail(level, hitPosVec3, clickedBlockPosition);
                 }
 
                 if (!player.isCreative()) InventoryHelper.removeOneItemFromInventory(inventory, Items.PAPER);
@@ -119,39 +201,54 @@ public class LabelPrinterItem extends Item {
                 taggable.labellingcontainers$setLabel(label, true);
                 taggable.labellingcontainers$setDisplayItem(displayItem, true);
 
-                ((ServerLevel) world).sendParticles(ParticleTypes.END_ROD, hitPos.x(), hitPos.y(), hitPos.z(), 15, 0, 0, 0, 0.01);
-                world.playSound(null, pos, SoundEvents.NOTE_BLOCK_HARP.value(), SoundSource.BLOCKS, 0.75f, 2f);
+                return interactionSuccess(level, hitPosVec3, clickedBlockPosition);
             }
+            case COPY -> {
+                Taggable taggable = (Taggable) blockEntity;
+                Component label = taggable.labellingcontainers$getLabel();
+                Item displayItem = taggable.labellingcontainers$getDisplayItem();
 
-            return InteractionResult.SUCCESS;
+                setLabel(itemInHand, label.getString());
+                setDisplayItem(itemInHand, displayItem.getDefaultInstance());
+
+                return interactionSuccess(level, hitPosVec3, clickedBlockPosition, player, ".mode.copy.success");
+            }
         }
 
         return super.useOn(context);
     }
 
     @Override
-    public @NotNull InteractionResultHolder<ItemStack> use(Level world, Player user, InteractionHand hand) {
-        if (!world.isClientSide()) {
-            MenuRegistry.openMenu((ServerPlayer) user, new LabelPrinterScreenFactory());
+    public @NotNull InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
+        if (level.isClientSide()) return super.use(level, player, hand);
+
+        if (hand == InteractionHand.MAIN_HAND) {
+            if (player.isCrouching()) {
+                swapMode(player.getItemInHand(hand));
+            } else {
+                MenuRegistry.openMenu((ServerPlayer) player, new LabelPrinterScreenFactory());
+            }
         }
 
-        return super.use(world, user, hand);
+        return super.use(level, player, hand);
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, @Nullable Level world, List<Component> tooltip, TooltipFlag context) {
+    public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag context) {
         String currentLabel = getLabel(stack);
         Item currentDisplayItem = getDisplayItem(stack);
+        int currentModeIndex = getModeIndex(stack);
 
         MutableComponent descriptionText = Component.literal("ⓘ ").withStyle(ChatFormatting.BLUE);
 
-        if (world != null && world.isClientSide() && Screen.hasShiftDown()) {
+        if (level != null && level.isClientSide() && Screen.hasShiftDown()) {
             descriptionText.append(Component.translatable(this.getDescriptionId() + ".tooltip.description").withStyle(ChatFormatting.GREEN));
         } else {
             descriptionText.append(Component.translatable(this.getDescriptionId() + ".tooltip.hidden").withStyle(ChatFormatting.GRAY));
         }
 
         tooltip.add(descriptionText);
+        tooltip.add(Component.literal(""));
 
         MutableComponent labelText = Component.literal("● ").withStyle(ChatFormatting.GRAY);
         labelText.append(Component.translatable(this.getDescriptionId() + ".tooltip.label").withStyle(ChatFormatting.GRAY));
@@ -162,7 +259,6 @@ public class LabelPrinterItem extends Item {
             labelText.append(Component.literal("\"" + currentLabel + "\"").withStyle(ChatFormatting.GOLD));
         }
 
-        tooltip.add(Component.literal(""));
         tooltip.add(labelText);
 
         MutableComponent displayItemText = Component.literal("● ").withStyle(ChatFormatting.GRAY);
@@ -176,6 +272,46 @@ public class LabelPrinterItem extends Item {
 
         tooltip.add(displayItemText);
 
-        super.appendHoverText(stack, world, tooltip, context);
+        MutableComponent modeText = Component.literal("● ").withStyle(ChatFormatting.GRAY);
+        modeText.append(Component.translatable(this.getDescriptionId() + ".tooltip.mode").withStyle(ChatFormatting.GRAY));
+
+        modeText.append(LabelPrinterMode.fromIndex(currentModeIndex).getDisplayable());
+
+        tooltip.add(modeText);
+
+        super.appendHoverText(stack, level, tooltip, context);
+    }
+
+    private void swapMode(ItemStack currentItemStack) {
+        LabelPrinterMode mode = getMode(currentItemStack);
+
+        setMode(currentItemStack, mode.swap());
+    }
+
+    public enum LabelPrinterMode {
+        CREATE(Component.translatable("item.labellingcontainers.label_printer.mode.create").withStyle(ChatFormatting.RED)),
+        COPY(Component.translatable("item.labellingcontainers.label_printer.mode.copy").withStyle(ChatFormatting.GOLD));
+
+        private final Component name;
+
+        LabelPrinterMode(Component s) {
+            this.name = s;
+        }
+
+        public static LabelPrinterMode fromIndex(int index) {
+            return LabelPrinterMode.values()[index];
+        }
+
+        public Component getDisplayable() {
+            return name;
+        }
+
+        public LabelPrinterMode swap() {
+            if (this == LabelPrinterMode.CREATE) {
+                return LabelPrinterMode.COPY;
+            } else {
+                return LabelPrinterMode.CREATE;
+            }
+        }
     }
 }
