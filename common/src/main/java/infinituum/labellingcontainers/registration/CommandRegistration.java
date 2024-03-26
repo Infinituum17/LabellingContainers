@@ -88,7 +88,35 @@ public class CommandRegistration {
                                 TAGGABLE_BLOCKS_CONFIG.get().addId(resourceLocation.toString());
                                 TAGGABLE_BLOCKS_CONFIG.writeCurrentToDisk();
 
-                                player.sendSystemMessage(Component.translatable("command.labelconfig.success", resourceLocation.toString()));
+                                player.sendSystemMessage(Component.translatable("command.labelconfig.addition.success", resourceLocation.toString()));
+
+                                return 1;
+                            })
+                    )
+            );
+
+            dispatcher.register(literal("labelconfig")
+                    .requires(commandSourceStack -> commandSourceStack.hasPermission(2))
+                    .then(literal("remove-hand")
+                            .executes(context -> {
+                                CommandSourceStack commandContext = context.getSource();
+
+                                if (commandContext == null) return 0;
+
+                                Player player = commandContext.getPlayer();
+
+                                if (player == null) return 0;
+
+                                Item item = player.getItemInHand(InteractionHand.MAIN_HAND).getItem();
+                                ResourceLocation resourceLocation = item.arch$registryName();
+
+                                if (resourceLocation == null) return 0;
+                                if (!TAGGABLE_BLOCKS_CONFIG.get().hasId(resourceLocation.toString())) return 0;
+
+                                TAGGABLE_BLOCKS_CONFIG.get().removeId(resourceLocation.toString());
+                                TAGGABLE_BLOCKS_CONFIG.writeCurrentToDisk();
+
+                                player.sendSystemMessage(Component.translatable("command.labelconfig.removal.success", resourceLocation.toString()));
 
                                 return 1;
                             })
@@ -117,7 +145,37 @@ public class CommandRegistration {
                                         TAGGABLE_BLOCKS_CONFIG.get().addId(resourceLocation.toString());
                                         TAGGABLE_BLOCKS_CONFIG.writeCurrentToDisk();
 
-                                        player.sendSystemMessage(Component.translatable("command.labelconfig.success", resourceLocation.toString()));
+                                        player.sendSystemMessage(Component.translatable("command.labelconfig.addition.success", resourceLocation.toString()));
+
+                                        return 1;
+                                    })
+                            )
+                    )
+            );
+
+            dispatcher.register(literal("labelconfig")
+                    .requires(commandSourceStack -> commandSourceStack.hasPermission(2))
+                    .then(literal("remove-item")
+                            .then(argument("item", ItemArgument.item(registryAccess))
+                                    .executes(context -> {
+                                        CommandSourceStack commandContext = context.getSource();
+                                        Item item = ItemArgument.getItem(context, "item").getItem();
+
+                                        if (commandContext == null) return 0;
+
+                                        Player player = commandContext.getPlayer();
+
+                                        if (player == null) return 0;
+
+                                        ResourceLocation resourceLocation = item.arch$registryName();
+
+                                        if (resourceLocation == null) return 0;
+                                        if (!TAGGABLE_BLOCKS_CONFIG.get().hasId(resourceLocation.toString())) return 0;
+
+                                        TAGGABLE_BLOCKS_CONFIG.get().removeId(resourceLocation.toString());
+                                        TAGGABLE_BLOCKS_CONFIG.writeCurrentToDisk();
+
+                                        player.sendSystemMessage(Component.translatable("command.labelconfig.removal.success", resourceLocation.toString()));
 
                                         return 1;
                                     })
