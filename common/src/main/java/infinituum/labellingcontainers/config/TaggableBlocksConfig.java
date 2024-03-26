@@ -10,11 +10,11 @@ public class TaggableBlocksConfig {
      * '{@code true}' if only certain blocks can be tagged, '{@code false}' otherwise<br/>
      * <b>Default</b>: {@code true}
      */
-    public boolean hasTagsLimit = true;
+    private boolean hasTagsLimit = true;
     /**
      * If {@link TaggableBlocksConfig#hasTagsLimit} is '{@code true}', then only this variable's ids are taggable
      */
-    public Set<String> taggableIds = ImmutableSet.<String>builder()
+    private Set<String> taggableIds = ImmutableSet.<String>builder()
             // Minecraft
             .add("minecraft:chest")
             .add("minecraft:furnace")
@@ -295,14 +295,23 @@ public class TaggableBlocksConfig {
             .add("sophisticatedstorage:netherite_shulker_box")
             .build();
 
-    public TaggableBlocksConfig(Set<String> taggableIds) {
+    public TaggableBlocksConfig(boolean hasTagsLimit, Set<String> taggableIds) {
+        this.hasTagsLimit = hasTagsLimit;
         this.taggableIds = taggableIds;
     }
 
     public TaggableBlocksConfig() {
     }
 
+    public boolean isLimited() {
+        return hasTagsLimit;
+    }
+
     public boolean hasId(String key) {
         return taggableIds.contains(key);
+    }
+
+    public void addId(String id) {
+        taggableIds.add(id);
     }
 }
