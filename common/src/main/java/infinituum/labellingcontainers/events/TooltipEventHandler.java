@@ -1,7 +1,8 @@
 package infinituum.labellingcontainers.events;
 
-import infinituum.labellingcontainers.utils.TaggableTooltip;
+import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
@@ -15,7 +16,10 @@ public class TooltipEventHandler {
         ResourceLocation resLoc = itemStack.getItem().arch$registryName();
 
         if (resLoc != null && TAGGABLE_BLOCKS_CONFIG.get().isLimited() && TAGGABLE_BLOCKS_CONFIG.get().hasId(resLoc.toString())) {
-            components.add(TaggableTooltip.get());
+            MutableComponent text = Component.literal("ⓘ ").withStyle(ChatFormatting.BLUE);
+            text.append(Component.translatable("block.labelable").withStyle(ChatFormatting.ITALIC).withStyle(ChatFormatting.GRAY));
+
+            components.add(text);
         }
     }
 }

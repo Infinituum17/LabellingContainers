@@ -2,6 +2,7 @@ package infinituum.labellingcontainers.guis;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import dev.architectury.networking.NetworkManager;
+import infinituum.labellingcontainers.items.LabelPrinterItem;
 import infinituum.labellingcontainers.network.Packets;
 import infinituum.labellingcontainers.screens.LabelPrinterScreenHandler;
 import io.netty.buffer.Unpooled;
@@ -10,12 +11,12 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.GameRenderer;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 
 import static infinituum.labellingcontainers.LabellingContainers.MOD_ID;
 
@@ -43,13 +44,17 @@ public class LabelPrinterGui extends AbstractContainerScreen<LabelPrinterScreenH
         this.labelField.setBordered(true);
         this.labelField.setMaxLength(50);
 
-        CompoundTag nbt = null;
+        String label = null;
 
-        if (player != null) {
-            nbt = this.player.getInventory().getSelected().getTagElement("Label");
+        if(player != null) {
+            ItemStack item = this.player.getInventory().getSelected();
+
+            if (item.getItem() instanceof LabelPrinterItem) {
+                label = LabelPrinterItem.getLabel(item);
+            }
         }
 
-        this.labelField.setValue((nbt != null) ? nbt.getString("text") : "");
+        this.labelField.setValue(label);
         this.addWidget(this.labelField);
         this.setInitialFocus(this.labelField);
         this.labelField.setEditable(true);
