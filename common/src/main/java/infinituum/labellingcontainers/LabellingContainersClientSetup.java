@@ -8,6 +8,7 @@ import dev.architectury.registry.menu.MenuRegistry;
 import infinituum.labellingcontainers.events.TooltipEventHandler;
 import infinituum.labellingcontainers.guis.LabelPrinterGui;
 import infinituum.labellingcontainers.huds.HudInfoDisplay;
+import infinituum.labellingcontainers.huds.LabelPrinterHudInfoDisplay;
 import net.fabricmc.api.EnvType;
 
 import static infinituum.labellingcontainers.LabellingContainers.LOGGER;
@@ -18,6 +19,7 @@ public class LabellingContainersClientSetup {
         if (Platform.getEnv() == EnvType.CLIENT) {
             ClientLifecycleEvent.CLIENT_SETUP.register((client) -> {
                 ClientGuiEvent.RENDER_HUD.register(new HudInfoDisplay());
+                ClientGuiEvent.RENDER_HUD.register(new LabelPrinterHudInfoDisplay());
                 MenuRegistry.registerScreenFactory(LABEL_PRINTER_SCREEN_HANDLER.get(), LabelPrinterGui::new);
             });
 
