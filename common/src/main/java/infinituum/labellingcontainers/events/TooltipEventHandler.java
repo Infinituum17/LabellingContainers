@@ -14,7 +14,7 @@ public class TooltipEventHandler {
     public static void handle(ItemStack itemStack, List<Component> components, TooltipFlag tooltipFlag) {
         ResourceLocation resLoc = itemStack.getItem().arch$registryName();
 
-        if (resLoc != null && TAGGABLE_BLOCKS_CONFIG.get().hasTagsLimit && TAGGABLE_BLOCKS_CONFIG.get().taggableIds.contains(resLoc.toString())) {
+        if (resLoc != null && TAGGABLE_BLOCKS_CONFIG.get().isLimited() && TAGGABLE_BLOCKS_CONFIG.get().hasId(resLoc.toString())) {
             components.add(TaggableTooltip.get());
         }
     }
