@@ -7,11 +7,16 @@ import net.minecraft.commands.arguments.MessageArgument;
 import net.minecraft.commands.arguments.coordinates.Vec3Argument;
 import net.minecraft.commands.arguments.item.ItemArgument;
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 
+import static infinituum.labellingcontainers.LabellingContainersConfig.TAGGABLE_BLOCKS_CONFIG;
 import static net.minecraft.commands.Commands.argument;
 import static net.minecraft.commands.Commands.literal;
 
@@ -19,7 +24,6 @@ public class CommandRegistration {
     public static void init() {
         CommandRegistrationEvent.EVENT.register((dispatcher, registryAccess, environment) -> {
             dispatcher.register(literal("setlabel")
-                    .requires(CommandSourceStack::isPlayer)
                     .requires(commandSourceStack -> commandSourceStack.hasPermission(2))
                     .then(argument("location", Vec3Argument.vec3())
                             .then(literal("label")
@@ -42,7 +46,6 @@ public class CommandRegistration {
             );
 
             dispatcher.register(literal("setlabel")
-                    .requires(CommandSourceStack::isPlayer)
                     .requires(commandSourceStack -> commandSourceStack.hasPermission(2))
                     .then(argument("location", Vec3Argument.vec3())
                             .then(literal("item")
@@ -60,6 +63,64 @@ public class CommandRegistration {
 
                                         return 1;
                                     }))
+                            )
+                    )
+            );
+
+            dispatcher.register(literal("labelconfig")
+                    .requires(commandSourceStack -> commandSourceStack.hasPermission(2))
+                    .then(literal("add-hand")
+                            .executes(context -> {
+                                CommandSourceStack commandContext = context.getSource();
+
+                                if (commandContext == null) return 0;
+
+                                Player player = commandContext.getPlayer();
+
+                                if (player == null) return 0;
+
+                                Item item = player.getItemInHand(InteractionHand.MAIN_HAND).getItem();
+                                ResourceLocation resourceLocation = item.arch$registryName();
+
+                                if (resourceLocation == null) return 0;
+                                if (TAGGABLE_BLOCKS_CONFIG.get().hasId(resourceLocation.toString())) return 0;
+
+                                TAGGABLE_BLOCKS_CONFIG.get().addId(resourceLocation.toString());
+                                TAGGABLE_BLOCKS_CONFIG.writeCurrentToDisk();
+
+                                player.sendSystemMessage(Component.translatable("command.labelconfig.success", resourceLocation.toString()));
+
+                                return 1;
+                            })
+                    )
+            );
+
+            dispatcher.register(literal("labelconfig")
+                    .requires(commandSourceStack -> commandSourceStack.hasPermission(2))
+                    .then(literal("add-item")
+                            .then(argument("item", ItemArgument.item(registryAccess))
+                                    .executes(context -> {
+                                        CommandSourceStack commandContext = context.getSource();
+                                        Item item = ItemArgument.getItem(context, "item").getItem();
+
+                                        if (commandContext == null) return 0;
+
+                                        Player player = commandContext.getPlayer();
+
+                                        if (player == null) return 0;
+
+                                        ResourceLocation resourceLocation = item.arch$registryName();
+
+                                        if (resourceLocation == null) return 0;
+                                        if (TAGGABLE_BLOCKS_CONFIG.get().hasId(resourceLocation.toString())) return 0;
+
+                                        TAGGABLE_BLOCKS_CONFIG.get().addId(resourceLocation.toString());
+                                        TAGGABLE_BLOCKS_CONFIG.writeCurrentToDisk();
+
+                                        player.sendSystemMessage(Component.translatable("command.labelconfig.success", resourceLocation.toString()));
+
+                                        return 1;
+                                    })
                             )
                     )
             );
