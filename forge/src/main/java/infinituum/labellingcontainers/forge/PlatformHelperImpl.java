@@ -1,27 +1,18 @@
 package infinituum.labellingcontainers.forge;
 
 import dev.architectury.platform.Platform;
+import infinituum.labellingcontainers.forge.handlers.ColossalChestsHandler;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import org.cyclops.colossalchests.block.ChestWall;
-import org.cyclops.colossalchests.block.ColossalChest;
 
 public class PlatformHelperImpl {
-    public static BlockEntity locateTargetBlockEntity(Level world, BlockPos blockPos) {
+    public static BlockEntity locateTargetBlockEntity(Level level, BlockPos blockPos, BlockState blockState) {
         if(Platform.isModLoaded("colossalchests")) {
-            BlockState blockState = world.getBlockState(blockPos);
-            Block block = blockState.getBlock();
-
-            if(block instanceof ChestWall && blockState.getValue(ColossalChest.ENABLED)) {
-                BlockPos corePos = ColossalChest.getCoreLocation(((ChestWall) block).getMaterial(), world, blockPos);
-
-                if(corePos != null) return world.getBlockEntity(corePos);
-            }
+            return ColossalChestsHandler.handle(level, blockPos, blockState);
         }
 
-        return world.getBlockEntity(blockPos);
+        return level.getBlockEntity(blockPos);
     }
 }

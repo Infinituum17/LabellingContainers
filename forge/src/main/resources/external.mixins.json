@@ -5,36 +5,10 @@
   "compatibilityLevel": "JAVA_17",
   "minVersion": "0.8",
   "mixins": [
-    "colossalchests.BlockEntityUncolossalChestMixin",
-    "colossalchests.ColossalChestMixin",
-    "colossalchests.UncolossalChestMixin",
-    "compact_storage.CompactBarrelBlockEntityMixin",
-    "compact_storage.CompactBarrelBlockMixin",
-    "compact_storage.CompactChestBlockEntityMixin",
-    "compact_storage.CompactChestBlockMixin",
-    "echochest.EchoChestBlockEntityMixin",
-    "echochest.EchoChestBlockMixin",
-    "ironchest.AbstractIronChestBlockEntityMixin",
-    "ironchest.AbstractIronChestBlockMixin",
-    "ironchests.GenericChestBlockEntityMixin",
-    "ironchests.GenericChestBlockMixin",
-    "more_chests.BasicChestBlockMixin",
-    "netherchested.NetherChestBlockEntityMixin",
-    "netherchested.NetherChestBlockMixin",
-    "sophisticatedstorage.LimitedBarrelBlockMixin",
-    "sophisticatedstorage.StorageBlockBaseMixin",
-    "sophisticatedstorage.StorageBlockEntityMixin",
-    "supplementaries.AbstractPresentBlockMixin",
-    "supplementaries.JarBlockTileMixin",
-    "supplementaries.JarItemMixin",
-    "supplementaries.OpeneableContainerBlockEntityMixin",
-    "supplementaries.SackBlockMixin",
-    "supplementaries.SafeBlockMixin"
+    "sophisticatedstorage.StorageBlockEntityMixin"
   ],
   "injectors": {
     "defaultRequire": 1
   },
-  "client": [
-    "colossalchests.BlockEntityColossalChestMixin"
-  ]
+  "client": []
 }

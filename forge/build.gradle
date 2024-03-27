@@ -35,43 +35,47 @@ dependencies {
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
     shadowCommon(project(path: ":common", configuration: "transformProductionForge")) { transitive = false }
 
+    // FastConfigAPI
+    modApi("infinituum.fastconfigapi:fastconfigapi-forge:${rootProject.fastconfigapi_version}")
+
     // Iron Chests: Restocked
-    modCompileOnly "curse.maven:resourceful-lib-570073:4397923"
-    modCompileOnly "curse.maven:ironchests-498794:4670973"
+    modImplementation "curse.maven:resourceful-lib-570073:4397923"
+    modImplementation "curse.maven:ironchests-498794:4670973"
 
     // Iron Chests
-    modCompileOnly "curse.maven:iron-chests-228756:3966365"
+    modImplementation "curse.maven:iron-chests-228756:3966365"
 
     // Colossal Chests
-    modCompileOnly "curse.maven:colossal-chests-237875:4502150"
+    modImplementation "curse.maven:colossal-chests-237875:4502150"
     modImplementation "curse.maven:cyclops-core-232758:5080403"
 
     // Echo Chest mod
-    modCompileOnly "curse.maven:puzzles-lib-495476:4600775"
-    modCompileOnly "curse.maven:echo-chest-857972:4538164"
+    modImplementation "curse.maven:puzzles-lib-495476:4600775"
+    modImplementation "curse.maven:echo-chest-857972:4538164"
 
     // Nether Chested mod
-    modCompileOnly "curse.maven:new-nether-chest-857971:4539463"
+    modImplementation "curse.maven:new-nether-chest-857971:4539463"
 
     // More Chests mod
-    modCompileOnly "curse.maven:quad-932715:5099002"
-    modCompileOnly "curse.maven:more-chests-737045:4199857"
+    /*
+    modImplementation "curse.maven:quad-932715:5099002"
+    modImplementation "curse.maven:more-chests-737045:4199857"
 
     // More Chests Variants mod
-    modCompileOnly "curse.maven:more-chest-variants-lieonlion-858032:4879890"
+    modImplementation "curse.maven:more-chest-variants-lieonlion-858032:4879890"
+     */
 
     // Compact Storage mod
-    modCompileOnly "curse.maven:compactstorage-223703:4352445"
-
-    // Iron Chests (Fabric) mod
-    modCompileOnly "curse.maven:iron-chests-for-fabric-498534:3991296"
+    modImplementation "curse.maven:compactstorage-223703:4352445"
 
     // Supplementaries mod
-    modCompileOnly "curse.maven:selene-499980:4983974"
-    modCompileOnly "curse.maven:supplementaries-412082:5075141"
+    /*
+    modImplementation "curse.maven:selene-499980:4983974"
+    modImplementation "curse.maven:supplementaries-412082:5075141"
 
     compileOnly(annotationProcessor("io.github.llamalad7:mixinextras-common:0.3.5"))
     implementation("io.github.llamalad7:mixinextras-forge:0.3.5")
+     */
 
     // Sophisticated Storage mod
     modImplementation "curse.maven:sophisticated-core-618298:5102974"
@@ -80,12 +84,13 @@ dependencies {
 
 processResources {
     var rep_properties = [
-            "version"            : project.version,
-            "forge_maj_version"  : ((String) project.forge_version).split("-")[1].split("\\.")[0],
-            "mc_version"         : project.minecraft_version,
-            "arch_version"       : project.architectury_version,
-            "pack_format_version": project.pack_format_version,
-            "modid"              : project.archives_base_name
+            "version"              : rootProject.mod_version,
+            "forge_maj_version"    : ((String) rootProject.forge_version).split("-")[1].split("\\.")[0],
+            "mc_version"           : rootProject.minecraft_version,
+            "arch_version"         : rootProject.architectury_version,
+            "pack_format_version"  : rootProject.pack_format_version,
+            "modid"                : rootProject.archives_base_name,
+            "fastconfigapi_version": rootProject.fastconfigapi_version
     ]
 
     inputs.properties rep_properties

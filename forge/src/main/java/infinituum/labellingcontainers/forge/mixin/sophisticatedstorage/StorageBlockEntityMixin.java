@@ -20,6 +20,12 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+/**
+ * Mixin necessary due to a different method used by Sophisticated Storage to save Tags.
+ * <br/>
+ * `saveSynchronizedData` sends data to the client and `loadSynchronizedData` reads it (on the render thread).
+ * `saveAdditional` and `load` are used only server-side.
+ */
 @Mixin(StorageBlockEntity.class)
 public class StorageBlockEntityMixin extends BlockEntity implements Taggable {
     @Unique
@@ -39,7 +45,8 @@ public class StorageBlockEntityMixin extends BlockEntity implements Taggable {
     @Unique
     private void labellingcontainers$notifyClients(BlockState oldState) {
         this.setChanged();
-        if (level != null) level.sendBlockUpdated(this.worldPosition, oldState, this.getBlockState(), Block.UPDATE_CLIENTS);
+        if (level != null)
+            level.sendBlockUpdated(this.worldPosition, oldState, this.getBlockState(), Block.UPDATE_CLIENTS);
     }
 
     @Override
@@ -48,7 +55,7 @@ public class StorageBlockEntityMixin extends BlockEntity implements Taggable {
     }
 
     @Override
-    public void labellingcontainers$setDisplayItem(Item item) {
+    public void labellingcontainers$setDisplayItem(Item item, boolean searchDoubleChest) {
         BlockState oldState = this.getBlockState();
 
         labellingcontainers$displayItem = item;
@@ -62,7 +69,7 @@ public class StorageBlockEntityMixin extends BlockEntity implements Taggable {
     }
 
     @Override
-    public void labellingcontainers$setLabel(MutableComponent newLabel) {
+    public void labellingcontainers$setLabel(MutableComponent newLabel, boolean searchDoubleChest) {
         BlockState oldState = this.getBlockState();
 
         labellingcontainers$label = newLabel;
@@ -90,3 +97,4 @@ public class StorageBlockEntityMixin extends BlockEntity implements Taggable {
         }
     }
 }
+
