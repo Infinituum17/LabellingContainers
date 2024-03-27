@@ -36,7 +36,7 @@ dependencies {
     shadowCommon(project(path: ":common", configuration: "transformProductionForge")) { transitive = false }
 
     // FastConfigAPI
-    modApi("infinituum.fastconfigapi:fastconfigapi-forge:${rootProject.fastconfigapi_version}")
+    modApi("infinituum.fastconfigapi:fastconfigapi-forge:${rootProject.minecraft_version}-${rootProject.fastconfigapi_version}")
 
     // Echo Chest mod
     modApi "fuzs.limitlesscontainers:limitlesscontainers-forge:20.4.0"
