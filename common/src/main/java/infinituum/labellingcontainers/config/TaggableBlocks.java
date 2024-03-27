@@ -5,14 +5,14 @@ import com.google.common.collect.ImmutableSet;
 import java.util.Set;
 
 
-public class TaggableBlocksConfig {
+public class TaggableBlocks {
     /**
      * '{@code true}' if only certain blocks can be tagged, '{@code false}' otherwise<br/>
      * <b>Default</b>: {@code true}
      */
     private boolean hasTagsLimit = true;
     /**
-     * If {@link TaggableBlocksConfig#hasTagsLimit} is '{@code true}', then only this variable's ids are taggable
+     * If {@link TaggableBlocks#hasTagsLimit} is '{@code true}', then only this variable's ids are taggable
      */
     private Set<String> taggableIds = ImmutableSet.<String>builder()
             // Minecraft
@@ -295,12 +295,12 @@ public class TaggableBlocksConfig {
             .add("sophisticatedstorage:netherite_shulker_box")
             .build();
 
-    public TaggableBlocksConfig(boolean hasTagsLimit, Set<String> taggableIds) {
+    public TaggableBlocks(boolean hasTagsLimit, Set<String> taggableIds) {
         this.hasTagsLimit = hasTagsLimit;
         this.taggableIds = taggableIds;
     }
 
-    public TaggableBlocksConfig() {
+    public TaggableBlocks() {
     }
 
     public boolean isLimited() {

@@ -1,20 +1,28 @@
 package infinituum.labellingcontainers.registration;
 
 import dev.architectury.event.events.common.CommandRegistrationEvent;
+import dev.architectury.networking.NetworkManager;
+import infinituum.labellingcontainers.huds.utils.HUDPositions;
+import infinituum.labellingcontainers.network.Packets;
 import infinituum.labellingcontainers.utils.Taggable;
+import io.netty.buffer.Unpooled;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.arguments.MessageArgument;
 import net.minecraft.commands.arguments.coordinates.Vec3Argument;
 import net.minecraft.commands.arguments.item.ItemArgument;
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
+
+import java.nio.charset.Charset;
 
 import static infinituum.labellingcontainers.LabellingContainersConfig.TAGGABLE_BLOCKS_CONFIG;
 import static net.minecraft.commands.Commands.argument;
@@ -180,6 +188,121 @@ public class CommandRegistration {
                                         return 1;
                                     })
                             )
+                    )
+            );
+
+            dispatcher.register(literal("labelposition")
+                    .requires(CommandSourceStack::isPlayer)
+                    .then(literal("top")
+                            .executes(context -> {
+                                CommandSourceStack sourceStack = context.getSource();
+                                ServerPlayer player = sourceStack.getPlayer();
+
+                                if (player == null) return 0;
+
+                                FriendlyByteBuf buffer = new FriendlyByteBuf(Unpooled.buffer());
+
+                                String positionString = HUDPositions.toReadable(HUDPositions.TOP);
+
+                                buffer.writeInt(positionString.length());
+                                buffer.writeCharSequence(positionString, Charset.defaultCharset());
+
+                                NetworkManager.sendToPlayer(player, Packets.PLAYER_PREFERENCES_CONFIG_UPDATE, buffer);
+
+                                return 1;
+                            })
+                    )
+            );
+
+            dispatcher.register(literal("labelposition")
+                    .requires(CommandSourceStack::isPlayer)
+                    .then(literal("top-left")
+                            .executes(context -> {
+                                CommandSourceStack sourceStack = context.getSource();
+                                ServerPlayer player = sourceStack.getPlayer();
+
+                                if (player == null) return 0;
+
+                                FriendlyByteBuf buffer = new FriendlyByteBuf(Unpooled.buffer());
+
+                                String positionString = HUDPositions.toReadable(HUDPositions.TOP_LEFT);
+
+                                buffer.writeInt(positionString.length());
+                                buffer.writeCharSequence(positionString, Charset.defaultCharset());
+
+                                NetworkManager.sendToPlayer(player, Packets.PLAYER_PREFERENCES_CONFIG_UPDATE, buffer);
+
+                                return 1;
+                            })
+                    )
+            );
+
+            dispatcher.register(literal("labelposition")
+                    .requires(CommandSourceStack::isPlayer)
+                    .then(literal("center-left")
+                            .executes(context -> {
+                                CommandSourceStack sourceStack = context.getSource();
+                                ServerPlayer player = sourceStack.getPlayer();
+
+                                if (player == null) return 0;
+
+                                FriendlyByteBuf buffer = new FriendlyByteBuf(Unpooled.buffer());
+
+                                String positionString = HUDPositions.toReadable(HUDPositions.CENTER_LEFT);
+
+                                buffer.writeInt(positionString.length());
+                                buffer.writeCharSequence(positionString, Charset.defaultCharset());
+
+                                NetworkManager.sendToPlayer(player, Packets.PLAYER_PREFERENCES_CONFIG_UPDATE, buffer);
+
+                                return 1;
+                            })
+                    )
+            );
+
+            dispatcher.register(literal("labelposition")
+                    .requires(CommandSourceStack::isPlayer)
+                    .then(literal("center-right")
+                            .executes(context -> {
+                                CommandSourceStack sourceStack = context.getSource();
+                                ServerPlayer player = sourceStack.getPlayer();
+
+                                if (player == null) return 0;
+
+                                FriendlyByteBuf buffer = new FriendlyByteBuf(Unpooled.buffer());
+
+                                String positionString = HUDPositions.toReadable(HUDPositions.CENTER_RIGHT);
+
+                                buffer.writeInt(positionString.length());
+                                buffer.writeCharSequence(positionString, Charset.defaultCharset());
+
+                                NetworkManager.sendToPlayer(player, Packets.PLAYER_PREFERENCES_CONFIG_UPDATE, buffer);
+
+                                return 1;
+                            })
+                    )
+            );
+
+            dispatcher.register(literal("labelposition")
+                    .requires(CommandSourceStack::isPlayer)
+                    .then(literal("left")
+                            .executes(context -> {
+                                CommandSourceStack sourceStack = context.getSource();
+                                ServerPlayer player = sourceStack.getPlayer();
+
+                                if (player == null) return 0;
+
+                                FriendlyByteBuf buffer = new FriendlyByteBuf(Unpooled.buffer());
+
+                                String positionString = HUDPositions.toReadable(HUDPositions.LEFT);
+
+                                buffer.writeInt(positionString.length());
+                                buffer.writeCharSequence(positionString, Charset.defaultCharset());
+
+                                NetworkManager.sendToPlayer(player, Packets.PLAYER_PREFERENCES_CONFIG_UPDATE, buffer);
+
+                                return 1;
+                            })
                     )
             );
         });
