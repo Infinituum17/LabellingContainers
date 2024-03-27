@@ -34,6 +34,9 @@ allprojects {
         archivesName = rootProject.archives_base_name
     }
 
+    version = rootProject.mod_version
+    group = rootProject.maven_group
+
     repositories {
         // Add repositories to retrieve artifacts from in here.
         // You should only use this when depending on other mods because
