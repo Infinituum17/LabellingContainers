@@ -78,6 +78,7 @@ public class CommandRegistration {
             dispatcher.register(literal("labelconfig")
                     .requires(commandSourceStack -> commandSourceStack.hasPermission(2))
                     .then(literal("add-hand")
+                            .requires(CommandSourceStack::isPlayer)
                             .executes(context -> {
                                 CommandSourceStack commandContext = context.getSource();
 
@@ -106,6 +107,7 @@ public class CommandRegistration {
             dispatcher.register(literal("labelconfig")
                     .requires(commandSourceStack -> commandSourceStack.hasPermission(2))
                     .then(literal("remove-hand")
+                            .requires(CommandSourceStack::isPlayer)
                             .executes(context -> {
                                 CommandSourceStack commandContext = context.getSource();
 
