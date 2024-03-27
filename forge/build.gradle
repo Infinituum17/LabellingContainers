@@ -36,7 +36,7 @@ dependencies {
     shadowCommon(project(path: ":common", configuration: "transformProductionForge")) { transitive = false }
 
     // FastConfigAPI
-    modApi("infinituum.fastconfigapi:fastconfigapi-forge:${rootProject.fastconfigapi_version}")
+    modApi("infinituum.fastconfigapi:fastconfigapi-forge:${rootProject.minecraft_version}-${rootProject.fastconfigapi_version}")
 
     // Iron Chests
     modCompileOnly "curse.maven:iron-chests-228756:4614846"
