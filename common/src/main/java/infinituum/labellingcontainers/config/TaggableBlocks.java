@@ -318,4 +318,12 @@ public class TaggableBlocks {
     public void removeId(String id) {
         taggableIds.remove(id);
     }
+
+    public Set<String> getIds() {
+        return this.taggableIds;
+    }
+
+    public void setIds(Set<String> set) {
+        this.taggableIds = set;
+    }
 }
