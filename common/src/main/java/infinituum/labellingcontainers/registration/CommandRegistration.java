@@ -2,7 +2,7 @@ package infinituum.labellingcontainers.registration;
 
 import dev.architectury.event.events.common.CommandRegistrationEvent;
 import dev.architectury.networking.NetworkManager;
-import infinituum.labellingcontainers.huds.utils.HUDPositions;
+import infinituum.labellingcontainers.huds.utils.HudPositions;
 import infinituum.labellingcontainers.network.Packets;
 import infinituum.labellingcontainers.utils.Taggable;
 import io.netty.buffer.Unpooled;
@@ -17,12 +17,9 @@ import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
-
-import java.nio.charset.Charset;
 
 import static infinituum.labellingcontainers.LabellingContainersConfig.TAGGABLE_BLOCKS_CONFIG;
 import static net.minecraft.commands.Commands.argument;
@@ -84,7 +81,7 @@ public class CommandRegistration {
 
                                 if (commandContext == null) return 0;
 
-                                Player player = commandContext.getPlayer();
+                                ServerPlayer player = commandContext.getPlayer();
 
                                 if (player == null) return 0;
 
@@ -96,6 +93,12 @@ public class CommandRegistration {
 
                                 TAGGABLE_BLOCKS_CONFIG.get().addId(resourceLocation.toString());
                                 TAGGABLE_BLOCKS_CONFIG.writeCurrentToDisk();
+
+                                FriendlyByteBuf buffer = new FriendlyByteBuf(Unpooled.buffer());
+
+                                buffer.writeUtf(resourceLocation.toString());
+
+                                NetworkManager.sendToPlayer(player, Packets.ADD_ONE_TAGGABLE_BLOCKS_CONFIG, buffer);
 
                                 player.sendSystemMessage(Component.translatable("command.labelconfig.addition.success", resourceLocation.toString()));
 
@@ -113,7 +116,7 @@ public class CommandRegistration {
 
                                 if (commandContext == null) return 0;
 
-                                Player player = commandContext.getPlayer();
+                                ServerPlayer player = commandContext.getPlayer();
 
                                 if (player == null) return 0;
 
@@ -125,6 +128,12 @@ public class CommandRegistration {
 
                                 TAGGABLE_BLOCKS_CONFIG.get().removeId(resourceLocation.toString());
                                 TAGGABLE_BLOCKS_CONFIG.writeCurrentToDisk();
+
+                                FriendlyByteBuf buffer = new FriendlyByteBuf(Unpooled.buffer());
+
+                                buffer.writeUtf(resourceLocation.toString());
+
+                                NetworkManager.sendToPlayer(player, Packets.REMOVE_ONE_TAGGABLE_BLOCKS_CONFIG, buffer);
 
                                 player.sendSystemMessage(Component.translatable("command.labelconfig.removal.success", resourceLocation.toString()));
 
@@ -143,7 +152,7 @@ public class CommandRegistration {
 
                                         if (commandContext == null) return 0;
 
-                                        Player player = commandContext.getPlayer();
+                                        ServerPlayer player = commandContext.getPlayer();
 
                                         if (player == null) return 0;
 
@@ -154,6 +163,12 @@ public class CommandRegistration {
 
                                         TAGGABLE_BLOCKS_CONFIG.get().addId(resourceLocation.toString());
                                         TAGGABLE_BLOCKS_CONFIG.writeCurrentToDisk();
+
+                                        FriendlyByteBuf buffer = new FriendlyByteBuf(Unpooled.buffer());
+
+                                        buffer.writeUtf(resourceLocation.toString());
+
+                                        NetworkManager.sendToPlayer(player, Packets.ADD_ONE_TAGGABLE_BLOCKS_CONFIG, buffer);
 
                                         player.sendSystemMessage(Component.translatable("command.labelconfig.addition.success", resourceLocation.toString()));
 
@@ -173,7 +188,7 @@ public class CommandRegistration {
 
                                         if (commandContext == null) return 0;
 
-                                        Player player = commandContext.getPlayer();
+                                        ServerPlayer player = commandContext.getPlayer();
 
                                         if (player == null) return 0;
 
@@ -184,6 +199,12 @@ public class CommandRegistration {
 
                                         TAGGABLE_BLOCKS_CONFIG.get().removeId(resourceLocation.toString());
                                         TAGGABLE_BLOCKS_CONFIG.writeCurrentToDisk();
+
+                                        FriendlyByteBuf buffer = new FriendlyByteBuf(Unpooled.buffer());
+
+                                        buffer.writeUtf(resourceLocation.toString());
+
+                                        NetworkManager.sendToPlayer(player, Packets.REMOVE_ONE_TAGGABLE_BLOCKS_CONFIG, buffer);
 
                                         player.sendSystemMessage(Component.translatable("command.labelconfig.removal.success", resourceLocation.toString()));
 
@@ -204,12 +225,9 @@ public class CommandRegistration {
 
                                 FriendlyByteBuf buffer = new FriendlyByteBuf(Unpooled.buffer());
 
-                                String positionString = HUDPositions.toReadable(HUDPositions.TOP);
+                                buffer.writeUtf(HudPositions.toReadable(HudPositions.TOP));
 
-                                buffer.writeInt(positionString.length());
-                                buffer.writeCharSequence(positionString, Charset.defaultCharset());
-
-                                NetworkManager.sendToPlayer(player, Packets.PLAYER_PREFERENCES_CONFIG_UPDATE, buffer);
+                                NetworkManager.sendToPlayer(player, Packets.SEND_PLAYER_PREFERENCES_CONFIG_UPDATE, buffer);
 
                                 return 1;
                             })
@@ -227,12 +245,9 @@ public class CommandRegistration {
 
                                 FriendlyByteBuf buffer = new FriendlyByteBuf(Unpooled.buffer());
 
-                                String positionString = HUDPositions.toReadable(HUDPositions.TOP_LEFT);
+                                buffer.writeUtf(HudPositions.toReadable(HudPositions.TOP_LEFT));
 
-                                buffer.writeInt(positionString.length());
-                                buffer.writeCharSequence(positionString, Charset.defaultCharset());
-
-                                NetworkManager.sendToPlayer(player, Packets.PLAYER_PREFERENCES_CONFIG_UPDATE, buffer);
+                                NetworkManager.sendToPlayer(player, Packets.SEND_PLAYER_PREFERENCES_CONFIG_UPDATE, buffer);
 
                                 return 1;
                             })
@@ -250,12 +265,9 @@ public class CommandRegistration {
 
                                 FriendlyByteBuf buffer = new FriendlyByteBuf(Unpooled.buffer());
 
-                                String positionString = HUDPositions.toReadable(HUDPositions.CENTER_LEFT);
+                                buffer.writeUtf(HudPositions.toReadable(HudPositions.CENTER_LEFT));
 
-                                buffer.writeInt(positionString.length());
-                                buffer.writeCharSequence(positionString, Charset.defaultCharset());
-
-                                NetworkManager.sendToPlayer(player, Packets.PLAYER_PREFERENCES_CONFIG_UPDATE, buffer);
+                                NetworkManager.sendToPlayer(player, Packets.SEND_PLAYER_PREFERENCES_CONFIG_UPDATE, buffer);
 
                                 return 1;
                             })
@@ -273,12 +285,9 @@ public class CommandRegistration {
 
                                 FriendlyByteBuf buffer = new FriendlyByteBuf(Unpooled.buffer());
 
-                                String positionString = HUDPositions.toReadable(HUDPositions.CENTER_RIGHT);
+                                buffer.writeUtf(HudPositions.toReadable(HudPositions.CENTER_RIGHT));
 
-                                buffer.writeInt(positionString.length());
-                                buffer.writeCharSequence(positionString, Charset.defaultCharset());
-
-                                NetworkManager.sendToPlayer(player, Packets.PLAYER_PREFERENCES_CONFIG_UPDATE, buffer);
+                                NetworkManager.sendToPlayer(player, Packets.SEND_PLAYER_PREFERENCES_CONFIG_UPDATE, buffer);
 
                                 return 1;
                             })
@@ -296,12 +305,9 @@ public class CommandRegistration {
 
                                 FriendlyByteBuf buffer = new FriendlyByteBuf(Unpooled.buffer());
 
-                                String positionString = HUDPositions.toReadable(HUDPositions.LEFT);
+                                buffer.writeUtf(HudPositions.toReadable(HudPositions.LEFT));
 
-                                buffer.writeInt(positionString.length());
-                                buffer.writeCharSequence(positionString, Charset.defaultCharset());
-
-                                NetworkManager.sendToPlayer(player, Packets.PLAYER_PREFERENCES_CONFIG_UPDATE, buffer);
+                                NetworkManager.sendToPlayer(player, Packets.SEND_PLAYER_PREFERENCES_CONFIG_UPDATE, buffer);
 
                                 return 1;
                             })
