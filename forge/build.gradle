@@ -57,21 +57,25 @@ dependencies {
     modImplementation "curse.maven:new-nether-chest-857971:4539463"
 
     // More Chests mod
+    /*
     modImplementation "curse.maven:quad-932715:5099002"
     modImplementation "curse.maven:more-chests-737045:4199857"
 
     // More Chests Variants mod
     modImplementation "curse.maven:more-chest-variants-lieonlion-858032:4879890"
+     */
 
     // Compact Storage mod
     modImplementation "curse.maven:compactstorage-223703:4352445"
 
     // Supplementaries mod
+    /*
     modImplementation "curse.maven:selene-499980:4983974"
     modImplementation "curse.maven:supplementaries-412082:5075141"
 
     compileOnly(annotationProcessor("io.github.llamalad7:mixinextras-common:0.3.5"))
     implementation("io.github.llamalad7:mixinextras-forge:0.3.5")
+     */
 
     // Sophisticated Storage mod
     modImplementation "curse.maven:sophisticated-core-618298:5102974"
