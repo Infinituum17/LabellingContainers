@@ -1,9 +1,9 @@
 package infinituum.labellingcontainers.config;
 
-import infinituum.labellingcontainers.huds.utils.HUDPositions;
+import infinituum.labellingcontainers.huds.utils.HudPositions;
 
 public class PlayerPreferences {
-    private String hudPosition = HUDPositions.toReadable(HUDPositions.getDefault());
+    private String hudPosition = HudPositions.toReadable(HudPositions.getDefault());
 
     public PlayerPreferences() {
     }
@@ -11,11 +11,11 @@ public class PlayerPreferences {
     public PlayerPreferences(int hudPosition) {
     }
 
-    public HUDPositions getHUDPosition() {
-        return HUDPositions.fromReadable(this.hudPosition);
+    public HudPositions getHUDPosition() {
+        return HudPositions.fromReadable(this.hudPosition);
     }
 
-    public void setHudPosition(HUDPositions position) {
-        this.hudPosition = HUDPositions.toReadable(position);
+    public void setHudPosition(HudPositions position) {
+        this.hudPosition = HudPositions.toReadable(position);
     }
 }
