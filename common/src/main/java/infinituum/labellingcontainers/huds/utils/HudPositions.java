@@ -1,6 +1,5 @@
 package infinituum.labellingcontainers.huds.utils;
 
-import com.mojang.blaze3d.vertex.PoseStack;
 import infinituum.labellingcontainers.utils.Taggable;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -75,7 +74,7 @@ public enum HudPositions {
     }
 
     @Environment(EnvType.CLIENT)
-    public void render(Minecraft client, GuiGraphics context, Taggable taggable) {
+    public void render(Minecraft client, GuiGraphics graphics, Taggable taggable) {
         if (client.level == null) return;
 
         int width = client.getWindow().getGuiScaledWidth();
@@ -89,12 +88,12 @@ public enum HudPositions {
         Pair<Integer, Integer> itemCoords = this.computeItemCoords(width, height, client.font.lineHeight, label, labelWidth);
         Pair<Integer, Integer> labelCoords = this.computeLabelCoords(width, height, client.font.lineHeight, label, labelWidth);
 
-        context.pose().pushPose();
+        graphics.pose().pushPose();
 
-        context.renderItem(new ItemStack(displayItem), itemCoords.getA(), itemCoords.getB());
-        context.drawString(client.font, label, labelCoords.getA(), labelCoords.getB(), 0xFFFFFFFF);
+        graphics.renderItem(new ItemStack(displayItem), itemCoords.getA(), itemCoords.getB());
+        graphics.drawString(client.font, label, labelCoords.getA(), labelCoords.getB(), 0xFFFFFFFF);
 
-        context.pose().popPose();
+        graphics.pose().popPose();
     }
 
     public interface ScreenCoordsFunc {
