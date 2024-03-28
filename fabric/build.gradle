@@ -42,7 +42,7 @@ dependencies {
     shadowCommon(project(path: ":common", configuration: "transformProductionFabric")) { transitive false }
 
     // FastConfigAPI
-    modApi("infinituum.fastconfigapi:fastconfigapi-fabric:${rootProject.fastconfigapi_version}")
+    modApi("infinituum.fastconfigapi:fastconfigapi-fabric:${rootProject.minecraft_version}-${rootProject.fastconfigapi_version}")
 
     // JEI
     def jei_version = "11.6.0.1019"
