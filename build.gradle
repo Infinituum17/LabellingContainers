@@ -85,7 +85,6 @@ allprojects {
         withSourcesJar()
     }
 
-
     if ((project.name == "fabric" || project.name == "forge") && project.version != "0.0.0") {
         unifiedPublishing {
             project {
@@ -110,59 +109,17 @@ allprojects {
                             curseforge = "fabric-api"
                             modrinth = "fabric-api"
                         }
-
-                        optional {
-                            curseforge = "more-chests"
-                            modrinth = "more-chests"
-                        }
-
-                        optional {
-                            curseforge = "mythicmetals-decorations"
-                            modrinth = "mythicmetals-decorations"
-                        }
                     }
 
-<<<<<<< HEAD
-                    if (project.name == "forge") {
-                        // Forge-Only dependencies
-                        optional {
-                            curseforge = "colossal-chests"
-                            modrinth = "colossal-chests"
-                        }
-
-                        optional {
-                            curseforge = "iron-chests"
-                            modrinth = "iron-chests"
-                        }
-                    }
-
-=======
->>>>>>> 676e997 (🔧 Changed LICENSE date, added FastConfigAPI dependency, added Config implementation, refactoring, added better tooltip when clicking, block filtering)
                     // Common dependencies
                     depends {
                         curseforge = "architectury-api"
                         modrinth = "architectury-api"
                     }
 
-<<<<<<< HEAD
-                    optional {
-                        curseforge = "echo-chest"
-                        modrinth = "echo-chest"
-                    }
-
-                    optional {
-                        curseforge = "new-nether-chest"
-                        modrinth = "new-nether-chest"
-                    }
-
-                    optional {
-                        curseforge = "supplementaries"
-                        modrinth = "supplementaries"
-=======
                     depends {
                         curseforge = "fastconfigapi"
                         modrinth = "fastconfigapi"
->>>>>>> 676e997 (🔧 Changed LICENSE date, added FastConfigAPI dependency, added Config implementation, refactoring, added better tooltip when clicking, block filtering)
                     }
                 }
 

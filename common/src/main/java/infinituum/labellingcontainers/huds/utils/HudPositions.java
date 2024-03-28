@@ -91,7 +91,7 @@ public enum HudPositions {
 
         context.pushPose();
 
-        client.getItemRenderer().renderGuiItem(new ItemStack(displayItem), itemCoords.getA(), itemCoords.getB());
+        client.getItemRenderer().renderGuiItem(context, new ItemStack(displayItem), itemCoords.getA(), itemCoords.getB());
         GuiComponent.drawString(context, client.font, label, labelCoords.getA(), labelCoords.getB(), 0xFFFFFFFF);
 
         context.popPose();
