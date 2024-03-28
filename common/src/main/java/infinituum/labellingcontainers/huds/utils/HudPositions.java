@@ -5,7 +5,7 @@ import infinituum.labellingcontainers.utils.Taggable;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiComponent;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -75,7 +75,7 @@ public enum HudPositions {
     }
 
     @Environment(EnvType.CLIENT)
-    public void render(Minecraft client, PoseStack context, Taggable taggable) {
+    public void render(Minecraft client, GuiGraphics context, Taggable taggable) {
         if (client.level == null) return;
 
         int width = client.getWindow().getGuiScaledWidth();
@@ -89,12 +89,12 @@ public enum HudPositions {
         Pair<Integer, Integer> itemCoords = this.computeItemCoords(width, height, client.font.lineHeight, label, labelWidth);
         Pair<Integer, Integer> labelCoords = this.computeLabelCoords(width, height, client.font.lineHeight, label, labelWidth);
 
-        context.pushPose();
+        context.pose().pushPose();
 
-        client.getItemRenderer().renderGuiItem(new ItemStack(displayItem), itemCoords.getA(), itemCoords.getB());
-        GuiComponent.drawString(context, client.font, label, labelCoords.getA(), labelCoords.getB(), 0xFFFFFFFF);
+        context.renderItem(new ItemStack(displayItem), itemCoords.getA(), itemCoords.getB());
+        context.drawString(client.font, label, labelCoords.getA(), labelCoords.getB(), 0xFFFFFFFF);
 
-        context.popPose();
+        context.pose().popPose();
     }
 
     public interface ScreenCoordsFunc {

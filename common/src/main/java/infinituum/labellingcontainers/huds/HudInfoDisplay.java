@@ -31,7 +31,7 @@ public class HudInfoDisplay implements RenderHud {
         if (blockEntity instanceof Taggable taggable) {
             HudPositions position = PLAYER_PREFERENCES_CONFIG.get().getHUDPosition();
 
-            position.render(client, context.pose(), taggable);
+            position.render(client, context, taggable);
         }
     }
 }
