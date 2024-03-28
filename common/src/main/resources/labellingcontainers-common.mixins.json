@@ -4,12 +4,7 @@
   "compatibilityLevel": "JAVA_17",
   "minVersion": "0.8",
   "mixins": [
-    "minecraft.BarrelBlockEntityMixin",
-    "minecraft.BarrelBlockMixin",
-    "minecraft.ChestBlockEntityMixin",
-    "minecraft.ChestBlockMixin",
-    "minecraft.ShulkerBoxBlockEntityMixin",
-    "minecraft.ShulkerBoxBlockMixin"
+    "minecraft.BlockEntityMixin"
   ],
   "injectors": {
     "defaultRequire": 1

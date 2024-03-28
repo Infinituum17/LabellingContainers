@@ -36,11 +36,6 @@ allprojects {
 
     version = rootProject.mod_version
     group = rootProject.maven_group
-    forge_version = rootProject.forge_version
-    minecraft_version = rootProject.minecraft_version
-    architectury_version = rootProject.architectury_version
-    pack_format_version = rootProject.pack_format_version
-    archives_base_name = rootProject.archives_base_name
 
     repositories {
         // Add repositories to retrieve artifacts from in here.
@@ -75,6 +70,10 @@ allprojects {
             name = "Fuzs Mod Resources"
             url = "https://raw.githubusercontent.com/Fuzss/modresources/main/maven/"
         }
+        maven {
+            name = "Infinituum Mod Resources"
+            url = "https://raw.githubusercontent.com/Infinituum17/ModResources/main/maven/"
+        }
     }
 
     tasks.withType(JavaCompile) {
@@ -85,7 +84,6 @@ allprojects {
     java {
         withSourcesJar()
     }
-
 
     if ((project.name == "fabric" || project.name == "forge") && project.version != "0.0.0") {
         unifiedPublishing {
@@ -111,29 +109,6 @@ allprojects {
                             curseforge = "fabric-api"
                             modrinth = "fabric-api"
                         }
-
-                        optional {
-                            curseforge = "more-chests"
-                            modrinth = "more-chests"
-                        }
-
-                        optional {
-                            curseforge = "mythicmetals-decorations"
-                            modrinth = "mythicmetals-decorations"
-                        }
-                    }
-
-                    if (project.name == "forge") {
-                        // Forge-Only dependencies
-                        optional {
-                            curseforge = "colossal-chests"
-                            modrinth = "colossal-chests"
-                        }
-
-                        optional {
-                            curseforge = "iron-chests"
-                            modrinth = "iron-chests"
-                        }
                     }
 
                     // Common dependencies
@@ -142,19 +117,9 @@ allprojects {
                         modrinth = "architectury-api"
                     }
 
-                    optional {
-                        curseforge = "echo-chest"
-                        modrinth = "echo-chest"
-                    }
-
-                    optional {
-                        curseforge = "new-nether-chest"
-                        modrinth = "new-nether-chest"
-                    }
-
-                    optional {
-                        curseforge = "supplementaries"
-                        modrinth = "supplementaries"
+                    depends {
+                        curseforge = "fastconfigapi"
+                        modrinth = "fastconfigapi"
                     }
                 }
 

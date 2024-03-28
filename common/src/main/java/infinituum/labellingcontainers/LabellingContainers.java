@@ -10,14 +10,18 @@ import org.slf4j.LoggerFactory;
 public class LabellingContainers {
     public static final String MOD_ID = "labellingcontainers";
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
-    
+
     public static void init() {
         LOGGER.info("Initializing mod...");
+
         CommandRegistration.init();
         ItemRegistration.init();
         ScreenRegistration.init();
         EventHandlersRegistration.init();
 
-        LabellingContainersClientSetup.init();
+        LabellingContainersSetup.initServer();
+        LabellingContainersSetup.initClient();
+
+        LabellingContainersConfig.commonInit();
     }
 }
