@@ -36,11 +36,6 @@ allprojects {
 
     version = rootProject.mod_version
     group = rootProject.maven_group
-    forge_version = rootProject.forge_version
-    minecraft_version = rootProject.minecraft_version
-    architectury_version = rootProject.architectury_version
-    pack_format_version = rootProject.pack_format_version
-    archives_base_name = rootProject.archives_base_name
 
     repositories {
         // Add repositories to retrieve artifacts from in here.
@@ -74,6 +69,11 @@ allprojects {
         maven {
             name = "Fuzs Mod Resources"
             url = "https://raw.githubusercontent.com/Fuzss/modresources/main/maven/"
+        }
+
+        maven {
+            name = "Infinituum Mod Resources"
+            url = "https://raw.githubusercontent.com/Infinituum17/ModResources/main/maven/"
         }
     }
 
@@ -113,38 +113,15 @@ allprojects {
                         }
                     }
 
-                    if (project.name == "forge") {
-                        // Forge-Only dependencies
-                        optional {
-                            curseforge = "colossal-chests"
-                            modrinth = "colossal-chests"
-                        }
-                    }
-
                     // Common dependencies
                     depends {
                         curseforge = "architectury-api"
                         modrinth = "architectury-api"
                     }
 
-                    optional {
-                        curseforge = "compactstorage"
-                        modrinth = "compact_storage"
-                    }
-
-                    optional {
-                        curseforge = "echo-chest"
-                        modrinth = "echo-chest"
-                    }
-
-                    optional {
-                        curseforge = "new-nether-chest"
-                        modrinth = "new-nether-chest"
-                    }
-
-                    optional {
-                        curseforge = "more-chests"
-                        modrinth = "more-chests"
+                    depends {
+                        curseforge = "fastconfigapi"
+                        modrinth = "fastconfigapi"
                     }
                 }
 

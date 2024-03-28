@@ -4,24 +4,9 @@
   "plugin": "infinituum.labellingcontainers.forge.utils.ConditionalLoaderMixinPlugin",
   "compatibilityLevel": "JAVA_17",
   "minVersion": "0.8",
-  "mixins": [
-    "colossalchests.BlockEntityUncolossalChestMixin",
-    "colossalchests.ColossalChestMixin",
-    "colossalchests.UncolossalChestMixin",
-    "compact_storage.CompactBarrelBlockEntityMixin",
-    "compact_storage.CompactBarrelBlockMixin",
-    "compact_storage.CompactChestBlockEntityMixin",
-    "compact_storage.CompactChestBlockMixin",
-    "echochest.EchoChestBlockEntityMixin",
-    "echochest.EchoChestBlockMixin",
-    "more_chests.BasicChestBlockMixin",
-    "netherchested.NetherChestBlockEntityMixin",
-    "netherchested.NetherChestBlockMixin"
-  ],
+  "mixins": [],
   "injectors": {
     "defaultRequire": 1
   },
-  "client": [
-    "colossalchests.BlockEntityColossalChestMixin"
-  ]
+  "client": []
 }

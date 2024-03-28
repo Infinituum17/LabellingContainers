@@ -13,19 +13,7 @@ import java.util.function.Supplier;
 
 public final class ConditionalLoaderMixinPlugin implements IMixinConfigPlugin {
     private static final String MIXINS_FOLDER = "infinituum.labellingcontainers.fabric.mixin.";
-    private static final Map<String, Supplier<Boolean>> CONDITIONS = ImmutableMap.<String, Supplier<Boolean>>builder()
-            .put(MIXINS_FOLDER + "mythicmetals_decorations.MythicChestBlockMixin", isModLoaded("mythicmetals_decorations"))
-            .put(MIXINS_FOLDER + "mythicmetals_decorations.MythicChestBlockEntityMixin", isModLoaded("mythicmetals_decorations"))
-            .put(MIXINS_FOLDER + "echochest.EchoChestBlockEntityMixin", isModLoaded("echochest"))
-            .put(MIXINS_FOLDER + "echochest.EchoChestBlockMixin", isModLoaded("echochest"))
-            .put(MIXINS_FOLDER + "netherchested.NetherChestBlockEntityMixin", isModLoaded("netherchested"))
-            .put(MIXINS_FOLDER + "netherchested.NetherChestBlockMixin", isModLoaded("netherchested"))
-            .put(MIXINS_FOLDER + "more_chests.BasicChestBlockMixin", isModLoaded("more_chests"))
-            .put(MIXINS_FOLDER + "compact_storage.CompactChestBlockMixin", isModLoaded("compact_storage"))
-            .put(MIXINS_FOLDER + "compact_storage.CompactBarrelBlockMixin", isModLoaded("compact_storage"))
-            .put(MIXINS_FOLDER + "compact_storage.CompactChestBlockEntityMixin", isModLoaded("compact_storage"))
-            .put(MIXINS_FOLDER + "compact_storage.CompactBarrelBlockEntityMixin", isModLoaded("compact_storage"))
-            .build();
+    private static final Map<String, Supplier<Boolean>> CONDITIONS = ImmutableMap.<String, Supplier<Boolean>>builder().build();
 
     private static Supplier<Boolean> isModLoaded(String modid) {
         return () -> FabricLoader.getInstance().isModLoaded(modid);

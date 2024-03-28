@@ -18,6 +18,9 @@ public class LabellingContainers {
         ScreenRegistration.init();
         EventHandlersRegistration.init();
 
-        LabellingContainersClientSetup.init();
+        LabellingContainersSetup.initServer();
+        LabellingContainersSetup.initClient();
+
+        LabellingContainersConfig.commonInit();
     }
 }
