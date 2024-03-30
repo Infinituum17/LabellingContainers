@@ -24,7 +24,7 @@ dependencies {
     shadowCommon(project(path: ":common", configuration: "transformProductionNeoForge")) { transitive = false }
 
     // FastConfigAPI
-    modApi("infinituum.fastconfigapi:fastconfigapi-forge:${rootProject.minecraft_version}-${rootProject.fastconfigapi_version}")
+    modApi("infinituum.fastconfigapi:fastconfigapi-neoforge:${rootProject.minecraft_version}-${rootProject.fastconfigapi_version}")
 
     // Echo Chest mod
     modImplementation "curse.maven:puzzles-lib-495476:5132274"
