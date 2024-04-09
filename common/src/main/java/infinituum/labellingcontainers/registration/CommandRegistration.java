@@ -1,5 +1,6 @@
 package infinituum.labellingcontainers.registration;
 
+import com.mojang.brigadier.context.CommandContext;
 import dev.architectury.event.events.common.CommandRegistrationEvent;
 import dev.architectury.networking.NetworkManager;
 import infinituum.labellingcontainers.huds.utils.HudPositions;
@@ -88,21 +89,7 @@ public class CommandRegistration {
                                 Item item = player.getItemInHand(InteractionHand.MAIN_HAND).getItem();
                                 ResourceLocation resourceLocation = item.arch$registryName();
 
-                                if (resourceLocation == null) return 0;
-                                if (TAGGABLE_BLOCKS_CONFIG.get().hasId(resourceLocation.toString())) return 0;
-
-                                TAGGABLE_BLOCKS_CONFIG.get().addId(resourceLocation.toString());
-                                TAGGABLE_BLOCKS_CONFIG.writeCurrentToDisk();
-
-                                FriendlyByteBuf buffer = new FriendlyByteBuf(Unpooled.buffer());
-
-                                buffer.writeUtf(resourceLocation.toString());
-
-                                NetworkManager.sendToPlayer(player, Packets.ADD_ONE_TAGGABLE_BLOCKS_CONFIG, buffer);
-
-                                player.sendSystemMessage(Component.translatable("command.labelconfig.addition.success", resourceLocation.toString()));
-
-                                return 1;
+                                return addId(context, resourceLocation);
                             })
                     )
             );
@@ -123,21 +110,7 @@ public class CommandRegistration {
                                 Item item = player.getItemInHand(InteractionHand.MAIN_HAND).getItem();
                                 ResourceLocation resourceLocation = item.arch$registryName();
 
-                                if (resourceLocation == null) return 0;
-                                if (!TAGGABLE_BLOCKS_CONFIG.get().hasId(resourceLocation.toString())) return 0;
-
-                                TAGGABLE_BLOCKS_CONFIG.get().removeId(resourceLocation.toString());
-                                TAGGABLE_BLOCKS_CONFIG.writeCurrentToDisk();
-
-                                FriendlyByteBuf buffer = new FriendlyByteBuf(Unpooled.buffer());
-
-                                buffer.writeUtf(resourceLocation.toString());
-
-                                NetworkManager.sendToPlayer(player, Packets.REMOVE_ONE_TAGGABLE_BLOCKS_CONFIG, buffer);
-
-                                player.sendSystemMessage(Component.translatable("command.labelconfig.removal.success", resourceLocation.toString()));
-
-                                return 1;
+                                return removeId(context, resourceLocation);
                             })
                     )
             );
@@ -158,21 +131,7 @@ public class CommandRegistration {
 
                                         ResourceLocation resourceLocation = item.arch$registryName();
 
-                                        if (resourceLocation == null) return 0;
-                                        if (TAGGABLE_BLOCKS_CONFIG.get().hasId(resourceLocation.toString())) return 0;
-
-                                        TAGGABLE_BLOCKS_CONFIG.get().addId(resourceLocation.toString());
-                                        TAGGABLE_BLOCKS_CONFIG.writeCurrentToDisk();
-
-                                        FriendlyByteBuf buffer = new FriendlyByteBuf(Unpooled.buffer());
-
-                                        buffer.writeUtf(resourceLocation.toString());
-
-                                        NetworkManager.sendToPlayer(player, Packets.ADD_ONE_TAGGABLE_BLOCKS_CONFIG, buffer);
-
-                                        player.sendSystemMessage(Component.translatable("command.labelconfig.addition.success", resourceLocation.toString()));
-
-                                        return 1;
+                                        return addId(context, resourceLocation);
                                     })
                             )
                     )
@@ -194,21 +153,47 @@ public class CommandRegistration {
 
                                         ResourceLocation resourceLocation = item.arch$registryName();
 
-                                        if (resourceLocation == null) return 0;
-                                        if (!TAGGABLE_BLOCKS_CONFIG.get().hasId(resourceLocation.toString())) return 0;
+                                        return removeId(context, resourceLocation);
+                                    })
+                            )
+                    )
+            );
 
-                                        TAGGABLE_BLOCKS_CONFIG.get().removeId(resourceLocation.toString());
-                                        TAGGABLE_BLOCKS_CONFIG.writeCurrentToDisk();
+            dispatcher.register(literal("labelconfig")
+                    .requires(commandSourceStack -> commandSourceStack.hasPermission(2))
+                    .then(literal("add-tag")
+                            .then(argument("tag", MessageArgument.message())
+                                    .executes(context -> {
+                                        CommandSourceStack commandContext = context.getSource();
+                                        String tag = MessageArgument.getMessage(context, "tag").getString();
 
-                                        FriendlyByteBuf buffer = new FriendlyByteBuf(Unpooled.buffer());
+                                        if (commandContext == null) return 0;
 
-                                        buffer.writeUtf(resourceLocation.toString());
+                                        ServerPlayer player = commandContext.getPlayer();
 
-                                        NetworkManager.sendToPlayer(player, Packets.REMOVE_ONE_TAGGABLE_BLOCKS_CONFIG, buffer);
+                                        if (player == null) return 0;
 
-                                        player.sendSystemMessage(Component.translatable("command.labelconfig.removal.success", resourceLocation.toString()));
+                                        return addTag(context, tag);
+                                    })
+                            )
+                    )
+            );
 
-                                        return 1;
+            dispatcher.register(literal("labelconfig")
+                    .requires(commandSourceStack -> commandSourceStack.hasPermission(2))
+                    .then(literal("remove-tag")
+                            .then(argument("item", MessageArgument.message())
+                                    .executes(context -> {
+                                        CommandSourceStack commandContext = context.getSource();
+                                        String tag = MessageArgument.getMessage(context, "item").getString();
+
+                                        if (commandContext == null) return 0;
+
+                                        ServerPlayer player = commandContext.getPlayer();
+
+                                        if (player == null) return 0;
+
+                                        return removeTag(context, tag);
                                     })
                             )
                     )
@@ -217,102 +202,138 @@ public class CommandRegistration {
             dispatcher.register(literal("labelposition")
                     .requires(CommandSourceStack::isPlayer)
                     .then(literal("top")
-                            .executes(context -> {
-                                CommandSourceStack sourceStack = context.getSource();
-                                ServerPlayer player = sourceStack.getPlayer();
-
-                                if (player == null) return 0;
-
-                                FriendlyByteBuf buffer = new FriendlyByteBuf(Unpooled.buffer());
-
-                                buffer.writeUtf(HudPositions.toReadable(HudPositions.TOP));
-
-                                NetworkManager.sendToPlayer(player, Packets.SEND_PLAYER_PREFERENCES_CONFIG_UPDATE, buffer);
-
-                                return 1;
-                            })
-                    )
-            );
+                            .executes(context -> setLabelPosition(context, HudPositions.TOP))));
 
             dispatcher.register(literal("labelposition")
                     .requires(CommandSourceStack::isPlayer)
                     .then(literal("top-left")
-                            .executes(context -> {
-                                CommandSourceStack sourceStack = context.getSource();
-                                ServerPlayer player = sourceStack.getPlayer();
-
-                                if (player == null) return 0;
-
-                                FriendlyByteBuf buffer = new FriendlyByteBuf(Unpooled.buffer());
-
-                                buffer.writeUtf(HudPositions.toReadable(HudPositions.TOP_LEFT));
-
-                                NetworkManager.sendToPlayer(player, Packets.SEND_PLAYER_PREFERENCES_CONFIG_UPDATE, buffer);
-
-                                return 1;
-                            })
-                    )
-            );
+                            .executes(context -> setLabelPosition(context, HudPositions.TOP_LEFT))));
 
             dispatcher.register(literal("labelposition")
                     .requires(CommandSourceStack::isPlayer)
                     .then(literal("center-left")
-                            .executes(context -> {
-                                CommandSourceStack sourceStack = context.getSource();
-                                ServerPlayer player = sourceStack.getPlayer();
-
-                                if (player == null) return 0;
-
-                                FriendlyByteBuf buffer = new FriendlyByteBuf(Unpooled.buffer());
-
-                                buffer.writeUtf(HudPositions.toReadable(HudPositions.CENTER_LEFT));
-
-                                NetworkManager.sendToPlayer(player, Packets.SEND_PLAYER_PREFERENCES_CONFIG_UPDATE, buffer);
-
-                                return 1;
-                            })
-                    )
-            );
+                            .executes(context -> setLabelPosition(context, HudPositions.CENTER_LEFT))));
 
             dispatcher.register(literal("labelposition")
                     .requires(CommandSourceStack::isPlayer)
                     .then(literal("center-right")
-                            .executes(context -> {
-                                CommandSourceStack sourceStack = context.getSource();
-                                ServerPlayer player = sourceStack.getPlayer();
-
-                                if (player == null) return 0;
-
-                                FriendlyByteBuf buffer = new FriendlyByteBuf(Unpooled.buffer());
-
-                                buffer.writeUtf(HudPositions.toReadable(HudPositions.CENTER_RIGHT));
-
-                                NetworkManager.sendToPlayer(player, Packets.SEND_PLAYER_PREFERENCES_CONFIG_UPDATE, buffer);
-
-                                return 1;
-                            })
-                    )
-            );
+                            .executes(context -> setLabelPosition(context, HudPositions.CENTER_RIGHT))));
 
             dispatcher.register(literal("labelposition")
                     .requires(CommandSourceStack::isPlayer)
                     .then(literal("left")
-                            .executes(context -> {
-                                CommandSourceStack sourceStack = context.getSource();
-                                ServerPlayer player = sourceStack.getPlayer();
-
-                                if (player == null) return 0;
-
-                                FriendlyByteBuf buffer = new FriendlyByteBuf(Unpooled.buffer());
-
-                                buffer.writeUtf(HudPositions.toReadable(HudPositions.LEFT));
-
-                                NetworkManager.sendToPlayer(player, Packets.SEND_PLAYER_PREFERENCES_CONFIG_UPDATE, buffer);
-
-                                return 1;
-                            })
-                    )
-            );
+                            .executes(context -> setLabelPosition(context, HudPositions.LEFT))));
         });
+    }
+
+    private static int setLabelPosition(CommandContext<CommandSourceStack> context, HudPositions position) {
+        CommandSourceStack sourceStack = context.getSource();
+        ServerPlayer player = sourceStack.getPlayer();
+
+        if (player == null) return 0;
+
+        FriendlyByteBuf buffer = new FriendlyByteBuf(Unpooled.buffer());
+
+        buffer.writeUtf(HudPositions.toReadable(position));
+
+        NetworkManager.sendToPlayer(player, Packets.S2C_PREFERENCES_CONFIG_UPDATE, buffer);
+
+        return 1;
+    }
+
+    private static int addId(CommandContext<CommandSourceStack> context, ResourceLocation resourceLocation) {
+        CommandSourceStack commandContext = context.getSource();
+
+        if (commandContext == null) return 0;
+
+        ServerPlayer player = commandContext.getPlayer();
+
+        if (player == null || resourceLocation == null) return 0;
+        if (TAGGABLE_BLOCKS_CONFIG.getConfig().has(resourceLocation.toString())) return 0;
+
+        TAGGABLE_BLOCKS_CONFIG.getConfig().addId(resourceLocation.toString());
+        TAGGABLE_BLOCKS_CONFIG.saveCurrent();
+
+        FriendlyByteBuf buffer = new FriendlyByteBuf(Unpooled.buffer());
+
+        buffer.writeUtf(resourceLocation.toString());
+
+        NetworkManager.sendToPlayer(player, Packets.S2C_ADD_ID_TAGGABLE_BLOCKS_CONFIG, buffer);
+
+        player.sendSystemMessage(Component.translatable("command.labelconfig.addition.success", resourceLocation.toString()));
+
+        return 1;
+    }
+
+    private static int removeId(CommandContext<CommandSourceStack> context, ResourceLocation resourceLocation) {
+        CommandSourceStack commandContext = context.getSource();
+
+        if (commandContext == null) return 0;
+
+        ServerPlayer player = commandContext.getPlayer();
+
+        if (player == null || resourceLocation == null) return 0;
+        if (!TAGGABLE_BLOCKS_CONFIG.getConfig().has(resourceLocation.toString())) return 0;
+
+        TAGGABLE_BLOCKS_CONFIG.getConfig().removeId(resourceLocation.toString());
+        TAGGABLE_BLOCKS_CONFIG.saveCurrent();
+
+        FriendlyByteBuf buffer = new FriendlyByteBuf(Unpooled.buffer());
+
+        buffer.writeUtf(resourceLocation.toString());
+
+        NetworkManager.sendToPlayer(player, Packets.S2C_REMOVE_ID_TAGGABLE_BLOCKS_CONFIG, buffer);
+
+        player.sendSystemMessage(Component.translatable("command.labelconfig.removal.success", resourceLocation.toString()));
+
+        return 1;
+    }
+
+    private static int addTag(CommandContext<CommandSourceStack> context, String tag) {
+        CommandSourceStack commandContext = context.getSource();
+
+        if (commandContext == null) return 0;
+
+        ServerPlayer player = commandContext.getPlayer();
+
+        if (player == null || tag == null) return 0;
+        if (TAGGABLE_BLOCKS_CONFIG.getConfig().has(tag)) return 0;
+
+        TAGGABLE_BLOCKS_CONFIG.getConfig().addTag(tag);
+        TAGGABLE_BLOCKS_CONFIG.saveCurrent();
+
+        FriendlyByteBuf buffer = new FriendlyByteBuf(Unpooled.buffer());
+
+        buffer.writeUtf(tag);
+
+        NetworkManager.sendToPlayer(player, Packets.S2C_ADD_TAG_TAGGABLE_BLOCKS_CONFIG, buffer);
+
+        player.sendSystemMessage(Component.translatable("command.labelconfig.addition.success", tag));
+
+        return 1;
+    }
+
+    private static int removeTag(CommandContext<CommandSourceStack> context, String tag) {
+        CommandSourceStack commandContext = context.getSource();
+
+        if (commandContext == null) return 0;
+
+        ServerPlayer player = commandContext.getPlayer();
+
+        if (player == null || tag == null) return 0;
+        if (!TAGGABLE_BLOCKS_CONFIG.getConfig().has(tag)) return 0;
+
+        TAGGABLE_BLOCKS_CONFIG.getConfig().removeTag(tag);
+        TAGGABLE_BLOCKS_CONFIG.saveCurrent();
+
+        FriendlyByteBuf buffer = new FriendlyByteBuf(Unpooled.buffer());
+
+        buffer.writeUtf(tag);
+
+        NetworkManager.sendToPlayer(player, Packets.S2C_REMOVE_TAG_TAGGABLE_BLOCKS_CONFIG, buffer);
+
+        player.sendSystemMessage(Component.translatable("command.labelconfig.removal.success", tag));
+
+        return 1;
     }
 }
