@@ -5,12 +5,6 @@ import infinituum.labellingcontainers.huds.utils.HudPositions;
 public class PlayerPreferences {
     private String hudPosition = HudPositions.toReadable(HudPositions.getDefault());
 
-    public PlayerPreferences() {
-    }
-
-    public PlayerPreferences(int hudPosition) {
-    }
-
     public HudPositions getHUDPosition() {
         return HudPositions.fromReadable(this.hudPosition);
     }
