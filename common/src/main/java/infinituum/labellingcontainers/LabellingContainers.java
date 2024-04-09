@@ -1,7 +1,6 @@
 package infinituum.labellingcontainers;
 
 import infinituum.labellingcontainers.registration.CommandRegistration;
-import infinituum.labellingcontainers.registration.EventHandlersRegistration;
 import infinituum.labellingcontainers.registration.ItemRegistration;
 import infinituum.labellingcontainers.registration.ScreenRegistration;
 import org.slf4j.Logger;
@@ -17,7 +16,6 @@ public class LabellingContainers {
         CommandRegistration.init();
         ItemRegistration.init();
         ScreenRegistration.init();
-        EventHandlersRegistration.init();
 
         LabellingContainersSetup.initServer();
         LabellingContainersSetup.initClient();
