@@ -1,6 +1,7 @@
 package infinituum.labellingcontainers.items;
 
 import dev.architectury.registry.menu.MenuRegistry;
+import infinituum.labellingcontainers.config.TaggableBlocks;
 import infinituum.labellingcontainers.registration.ItemRegistration;
 import infinituum.labellingcontainers.screens.LabelPrinterScreenFactory;
 import infinituum.labellingcontainers.utils.ActionBarTextHelper;
@@ -168,7 +169,7 @@ public class LabelPrinterItem extends Item {
 
         BlockEntity blockEntity = BlockEntityHelper.locateTargetBlockEntity(level, clickedBlockPosition, blockState);
 
-        if (!(blockEntity instanceof Taggable)) {
+        if (!(blockEntity instanceof Taggable taggable)) {
             if (player.isCrouching()) {
                 swapMode(itemInHand);
             } else {
@@ -178,13 +179,17 @@ public class LabelPrinterItem extends Item {
             return InteractionResult.SUCCESS;
         }
 
+        MutableComponent printerLabel = Component.literal(getLabel(itemInHand));
+        Item printerDisplayItem = getDisplayItem(itemInHand);
+
+        Component blockLabel = taggable.labellingcontainers$getLabel();
+        Item blockDisplayItem = taggable.labellingcontainers$getDisplayItem();
+
         switch (getMode(itemInHand)) {
             case CREATE -> {
-                Taggable taggable = (Taggable) blockEntity;
-                MutableComponent label = Component.literal(getLabel(itemInHand));
-                Item displayItem = getDisplayItem(itemInHand);
+                TaggableBlocks config = TAGGABLE_BLOCKS_CONFIG.getConfig();
 
-                if (TAGGABLE_BLOCKS_CONFIG.get().isLimited() && !TAGGABLE_BLOCKS_CONFIG.get().hasId(registryName.toString())) {
+                if (config.isLimited() && !(config.has(registryName.toString()) || config.hasAnyTag(blockState.getTags()))) {
                     return interactionFail(level, hitPosVec3, clickedBlockPosition, player, ".untaggable.error");
                 }
 
@@ -192,24 +197,24 @@ public class LabelPrinterItem extends Item {
                     return interactionFail(level, hitPosVec3, clickedBlockPosition, player, ".paper.error");
                 }
 
-                if (taggable.labellingcontainers$getLabel().equals(label) && taggable.labellingcontainers$getDisplayItem().equals(displayItem)) {
+                if (blockLabel.equals(printerLabel) && blockDisplayItem.equals(printerDisplayItem)) {
                     return interactionFail(level, hitPosVec3, clickedBlockPosition);
                 }
 
                 if (!player.isCreative()) InventoryHelper.removeOneItemFromInventory(inventory, Items.PAPER);
 
-                taggable.labellingcontainers$setLabel(label, true);
-                taggable.labellingcontainers$setDisplayItem(displayItem, true);
+                taggable.labellingcontainers$setLabel(printerLabel, true);
+                taggable.labellingcontainers$setDisplayItem(printerDisplayItem, true);
 
                 return interactionSuccess(level, hitPosVec3, clickedBlockPosition);
             }
             case COPY -> {
-                Taggable taggable = (Taggable) blockEntity;
-                Component label = taggable.labellingcontainers$getLabel();
-                Item displayItem = taggable.labellingcontainers$getDisplayItem();
+                if (blockLabel.equals(printerLabel) && blockDisplayItem.equals(printerDisplayItem)) {
+                    return interactionFail(level, hitPosVec3, clickedBlockPosition);
+                }
 
-                setLabel(itemInHand, label.getString());
-                setDisplayItem(itemInHand, displayItem.getDefaultInstance());
+                setLabel(itemInHand, blockLabel.getString());
+                setDisplayItem(itemInHand, blockDisplayItem.getDefaultInstance());
 
                 return interactionSuccess(level, hitPosVec3, clickedBlockPosition, player, ".mode.copy.success");
             }
