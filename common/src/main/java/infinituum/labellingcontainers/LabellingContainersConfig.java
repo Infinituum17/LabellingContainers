@@ -17,7 +17,7 @@ public class LabellingContainersConfig {
     public static FastConfigFile<TaggableBlocks> TAGGABLE_BLOCKS_CONFIG;
 
     public static void commonInit() {
-        TAGGABLE_BLOCKS_CONFIG = MOD_CONFIG.getConfigFile(TaggableBlocks.class);
+        TAGGABLE_BLOCKS_CONFIG = MOD_CONFIG.getConfigFile(new TaggableBlocks());
     }
 
     @Environment(EnvType.CLIENT)
@@ -25,6 +25,6 @@ public class LabellingContainersConfig {
 
     @Environment(EnvType.CLIENT)
     public static void initClient() {
-        PLAYER_PREFERENCES_CONFIG = MOD_CONFIG.getConfigFile(PlayerPreferences.class);
+        PLAYER_PREFERENCES_CONFIG = MOD_CONFIG.getConfigFile(new PlayerPreferences());
     }
 }

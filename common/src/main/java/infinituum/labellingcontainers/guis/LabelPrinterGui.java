@@ -83,7 +83,7 @@ public class LabelPrinterGui extends AbstractContainerScreen<LabelPrinterScreenH
 
         buffer.writeUtf(this.labelField.getValue());
 
-        NetworkManager.sendToServer(Packets.LABEL_UPDATE_PACKET_ID, buffer);
+        NetworkManager.sendToServer(Packets.C2S_LABEL_PRINTER_SAVE, buffer);
 
         super.onClose();
     }
