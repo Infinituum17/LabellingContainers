@@ -96,7 +96,6 @@ public class LabellingContainersSetup {
                 player -> NetworkManager.sendToServer(Packets.C2S_REQUEST_TAGGABLE_BLOCKS_CONFIG, new FriendlyByteBuf(Unpooled.buffer())));
     }
 
-    // TODO: Test
     @Environment(EnvType.CLIENT)
     public static void clientRegisterNetworkReceivers() {
         NetworkManager.registerReceiver(NetworkManager.s2c(), Packets.S2C_PREFERENCES_CONFIG_UPDATE, (buf, context) -> {
