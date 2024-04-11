@@ -46,7 +46,8 @@ processResources {
             "mc_version"         : rootProject.minecraft_version,
             "arch_version"       : rootProject.architectury_version,
             "pack_format_version": rootProject.pack_format_version,
-            "modid"              : rootProject.archives_base_name
+            "modid"              : rootProject.archives_base_name,
+            "fastconfigapi_version": rootProject.fastconfigapi_version
     ]
 
     inputs.properties rep_properties
