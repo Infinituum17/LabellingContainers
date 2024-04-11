@@ -67,12 +67,12 @@ dependencies {
     compileOnly(annotationProcessor("io.github.llamalad7:mixinextras-common:0.3.5"))
     implementation("io.github.llamalad7:mixinextras-forge:0.3.5")
 
-    modImplementation "curse.maven:selene-499980:5146536"
-    modImplementation "curse.maven:supplementaries-412082:5147148"
+    modImplementation "curse.maven:selene-499980:5254462"
+    modImplementation "curse.maven:supplementaries-412082:5225134"
 
     // Sophisticated Storage mod
-    modImplementation "curse.maven:sophisticated-core-618298:5102975"
-    modImplementation "curse.maven:sophisticated-storage-619320:5104313"
+    modImplementation "curse.maven:sophisticated-core-618298:5242817"
+    modImplementation "curse.maven:sophisticated-storage-619320:5242858"
 
     // Farmer's delight
     modImplementation "curse.maven:farmers-delight-398521:5051242"

@@ -93,11 +93,13 @@ dependencies {
     modCompileOnly "curse.maven:compactstorage-223703:4689301"
 
     // Supplementaries mod
-    modImplementation "curse.maven:selene-499980:5146530"
-    modImplementation "curse.maven:supplementaries-412082:5147147"
+    // modImplementation "curse.maven:selene-499980:5146530"
+    // modImplementation "curse.maven:supplementaries-412082:5147147"
 
     // Farmer's delight refabricated
-    modImplementation "curse.maven:farmers-delight-refabricated-993166:5247768"
+    modImplementation("vectorwing:FarmersDelight-Refabricated:1.20.1-2.0.12") {
+        exclude(group: "net.fabricmc")
+    }
 }
 
 processResources {
