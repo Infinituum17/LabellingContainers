@@ -185,10 +185,10 @@ public class LabelPrinterItem extends Item {
         Component blockLabel = taggable.labellingcontainers$getLabel();
         Item blockDisplayItem = taggable.labellingcontainers$getDisplayItem();
 
+        TaggableBlocks config = TAGGABLE_BLOCKS_CONFIG.getConfig();
+
         switch (getMode(itemInHand)) {
             case CREATE -> {
-                TaggableBlocks config = TAGGABLE_BLOCKS_CONFIG.getConfig();
-
                 if (config.isLimited() && !(config.has(registryName.toString()) || config.hasAnyTag(blockState.getTags()))) {
                     return interactionFail(level, hitPosVec3, clickedBlockPosition, player, ".untaggable.error");
                 }
@@ -209,6 +209,10 @@ public class LabelPrinterItem extends Item {
                 return interactionSuccess(level, hitPosVec3, clickedBlockPosition);
             }
             case COPY -> {
+                if (config.isLimited() && !(config.has(registryName.toString()) || config.hasAnyTag(blockState.getTags()))) {
+                    return interactionFail(level, hitPosVec3, clickedBlockPosition, player, ".mode.copy.error");
+                }
+
                 if (blockLabel.equals(printerLabel) && blockDisplayItem.equals(printerDisplayItem)) {
                     return interactionFail(level, hitPosVec3, clickedBlockPosition);
                 }
