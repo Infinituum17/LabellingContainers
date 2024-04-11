@@ -159,6 +159,17 @@ public class TaggableBlocks {
             .add("mythicmetals_decorations:star_platinum_chest")
             .add("mythicmetals_decorations:steel_chest")
             .add("mythicmetals_decorations:stormyx_chest")
+            // Farmer's Delight
+            .add("farmersdelight:acacia_cabinet")
+            .add("farmersdelight:birch_cabinet")
+            .add("farmersdelight:crimson_cabinet")
+            .add("farmersdelight:dark_oak_cabinet")
+            .add("farmersdelight:jungle_cabinet")
+            .add("farmersdelight:mangrove_cabinet")
+            .add("farmersdelight:oak_cabinet")
+            .add("farmersdelight:spruce_cabinet")
+            .add("farmersdelight:warped_cabinet")
+            .add("farmersdelight:basket")
             .build();
     /**
      * If {@link TaggableBlocks#hasTagsLimit} is '{@code true}', then only this variable's tags are taggable
