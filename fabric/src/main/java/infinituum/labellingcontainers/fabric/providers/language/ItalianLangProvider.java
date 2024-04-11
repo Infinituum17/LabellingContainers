@@ -26,6 +26,7 @@ public class ItalianLangProvider extends FabricLanguageProvider {
         translationBuilder.add(labelPrinterKey + ".mode.create", "Creazione");
         translationBuilder.add(labelPrinterKey + ".mode.copy", "Copia");
         translationBuilder.add(labelPrinterKey + ".mode.copy.success", "Copiato con Successo!");
+        translationBuilder.add(labelPrinterKey + ".mode.copy.error", "Non puoi copiare l'etichetta di questo blocco!");
         translationBuilder.add("command.labelconfig.addition.success", "%s è stato aggiunto al config con successo!");
         translationBuilder.add("command.labelconfig.removal.success", "%s è stato rimosso dal config con successo!");
 
