@@ -29,6 +29,6 @@
     "fabric": "*",
     "minecraft": ">=${mc_version}",
     "architectury": ">=${arch_version}",
-    "fastconfigapi": "${fastconfigapi_version}"
+    "fastconfigapi": ">=${fastconfigapi_version}"
   }
 }
