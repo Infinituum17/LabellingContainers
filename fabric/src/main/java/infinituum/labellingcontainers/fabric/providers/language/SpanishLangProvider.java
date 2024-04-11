@@ -26,6 +26,7 @@ public class SpanishLangProvider extends FabricLanguageProvider {
         translationBuilder.add(labelPrinterKey + ".mode.create", "Creación");
         translationBuilder.add(labelPrinterKey + ".mode.copy", "Copia");
         translationBuilder.add(labelPrinterKey + ".mode.copy.success", "Copiado Exitosamente!");
+        translationBuilder.add(labelPrinterKey + ".mode.copy.error", "¡No puedes copiar la etiqueta de este bloque!");
         translationBuilder.add("command.labelconfig.addition.success", "¡%s se agregó exitosamente a la configuración!");
         translationBuilder.add("command.labelconfig.removal.success", "¡%s fue eliminado exitosamente de la configuración!");
 
