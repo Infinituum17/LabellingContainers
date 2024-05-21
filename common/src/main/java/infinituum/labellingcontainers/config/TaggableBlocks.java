@@ -169,6 +169,8 @@ public class TaggableBlocks {
             .add("farmersdelight:oak_cabinet")
             .add("farmersdelight:spruce_cabinet")
             .add("farmersdelight:warped_cabinet")
+            .add("farmersdelight:bamboo_cabinet")
+            .add("farmersdelight:cherry_cabinet")
             .add("farmersdelight:basket")
             .build();
     /**
