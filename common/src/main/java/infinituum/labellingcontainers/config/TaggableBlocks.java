@@ -136,6 +136,8 @@ public class TaggableBlocks {
             .add("sophisticatedstorage:netherite_shulker_box")
             // Farmer's Delight
             .add("farmersdelight:acacia_cabinet")
+            .add("farmersdelight:bamboo_cabinet")
+            .add("farmersdelight:cherry_cabinet")
             .add("farmersdelight:birch_cabinet")
             .add("farmersdelight:crimson_cabinet")
             .add("farmersdelight:dark_oak_cabinet")
