@@ -12,7 +12,9 @@ public class ReloadCommandHandler {
     public static EventResult handle(@NotNull CommandPerformEvent commandPerformEvent) {
         ImmutableStringReader reader = commandPerformEvent.getResults().getReader();
 
-        if (reader.getRead().split(" ")[0].equals("reload")) {
+        if (!reader.canRead()) return EventResult.pass();
+
+        if (reader.getString().split(" ")[0].equals("reload")) {
             TAGGABLE_BLOCKS_CONFIG.reloadConfig();
 
             LOGGER.info("Reloading configs...");
