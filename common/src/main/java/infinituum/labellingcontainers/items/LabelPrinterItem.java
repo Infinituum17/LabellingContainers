@@ -15,6 +15,8 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -124,8 +126,7 @@ public class LabelPrinterItem extends Item {
     private InteractionResult interactionFail(Level level, Vec3 hitPos, BlockPos pos, Player player, String errorTranslationKey) {
         ActionBarTextHelper.sendMessage(
                 (ServerPlayer) player,
-                Component
-                        .translatable(ItemRegistration.LABEL_PRINTER.get().getDescriptionId() + errorTranslationKey)
+                new TranslatableComponent(ItemRegistration.LABEL_PRINTER.get().getDescriptionId() + errorTranslationKey)
                         .withStyle(ChatFormatting.RED)
         );
 
@@ -142,8 +143,7 @@ public class LabelPrinterItem extends Item {
     private InteractionResult interactionSuccess(Level level, Vec3 hitPos, BlockPos pos, Player player, String successTranslationKey) {
         ActionBarTextHelper.sendMessage(
                 (ServerPlayer) player,
-                Component
-                        .translatable(ItemRegistration.LABEL_PRINTER.get().getDescriptionId() + successTranslationKey)
+                new TranslatableComponent(ItemRegistration.LABEL_PRINTER.get().getDescriptionId() + successTranslationKey)
                         .withStyle(ChatFormatting.GOLD)
         );
 
@@ -179,7 +179,7 @@ public class LabelPrinterItem extends Item {
             return InteractionResult.SUCCESS;
         }
 
-        MutableComponent printerLabel = Component.literal(getLabel(itemInHand));
+        MutableComponent printerLabel = new TextComponent(getLabel(itemInHand));
         Item printerDisplayItem = getDisplayItem(itemInHand);
 
         Component blockLabel = taggable.labellingcontainers$getLabel();
@@ -248,41 +248,41 @@ public class LabelPrinterItem extends Item {
         Item currentDisplayItem = getDisplayItem(stack);
         int currentModeIndex = getModeIndex(stack);
 
-        MutableComponent descriptionText = Component.literal("ⓘ ").withStyle(ChatFormatting.BLUE);
+        MutableComponent descriptionText = new TextComponent("ⓘ ").withStyle(ChatFormatting.BLUE);
 
         if (level != null && level.isClientSide() && Screen.hasShiftDown()) {
-            descriptionText.append(Component.translatable(this.getDescriptionId() + ".tooltip.description").withStyle(ChatFormatting.GREEN));
+            descriptionText.append(new TranslatableComponent(this.getDescriptionId() + ".tooltip.description").withStyle(ChatFormatting.GREEN));
         } else {
-            descriptionText.append(Component.translatable(this.getDescriptionId() + ".tooltip.hidden").withStyle(ChatFormatting.GRAY));
+            descriptionText.append(new TranslatableComponent(this.getDescriptionId() + ".tooltip.hidden").withStyle(ChatFormatting.GRAY));
         }
 
         tooltip.add(descriptionText);
-        tooltip.add(Component.literal(""));
+        tooltip.add(new TextComponent(""));
 
-        MutableComponent labelText = Component.literal("● ").withStyle(ChatFormatting.GRAY);
-        labelText.append(Component.translatable(this.getDescriptionId() + ".tooltip.label").withStyle(ChatFormatting.GRAY));
+        MutableComponent labelText = new TextComponent("● ").withStyle(ChatFormatting.GRAY);
+        labelText.append(new TranslatableComponent(this.getDescriptionId() + ".tooltip.label").withStyle(ChatFormatting.GRAY));
 
         if (currentLabel.isEmpty()) {
-            labelText.append(Component.translatable(this.getDescriptionId() + ".tooltip.none").withStyle(ChatFormatting.DARK_RED));
+            labelText.append(new TranslatableComponent(this.getDescriptionId() + ".tooltip.none").withStyle(ChatFormatting.DARK_RED));
         } else {
-            labelText.append(Component.literal("\"" + currentLabel + "\"").withStyle(ChatFormatting.GOLD));
+            labelText.append(new TextComponent("\"" + currentLabel + "\"").withStyle(ChatFormatting.GOLD));
         }
 
         tooltip.add(labelText);
 
-        MutableComponent displayItemText = Component.literal("● ").withStyle(ChatFormatting.GRAY);
-        displayItemText.append(Component.translatable(this.getDescriptionId() + ".tooltip.display_item").withStyle(ChatFormatting.GRAY));
+        MutableComponent displayItemText = new TextComponent("● ").withStyle(ChatFormatting.GRAY);
+        displayItemText.append(new TranslatableComponent(this.getDescriptionId() + ".tooltip.display_item").withStyle(ChatFormatting.GRAY));
 
         if (currentDisplayItem.equals(AIR)) {
-            displayItemText.append(Component.translatable(this.getDescriptionId() + ".tooltip.none").withStyle(ChatFormatting.DARK_RED));
+            displayItemText.append(new TranslatableComponent(this.getDescriptionId() + ".tooltip.none").withStyle(ChatFormatting.DARK_RED));
         } else {
             displayItemText.append(currentDisplayItem.getDescription().copy().withStyle(ChatFormatting.AQUA));
         }
 
         tooltip.add(displayItemText);
 
-        MutableComponent modeText = Component.literal("● ").withStyle(ChatFormatting.GRAY);
-        modeText.append(Component.translatable(this.getDescriptionId() + ".tooltip.mode").withStyle(ChatFormatting.GRAY));
+        MutableComponent modeText = new TextComponent("● ").withStyle(ChatFormatting.GRAY);
+        modeText.append(new TranslatableComponent(this.getDescriptionId() + ".tooltip.mode").withStyle(ChatFormatting.GRAY));
 
         modeText.append(LabelPrinterMode.fromIndex(currentModeIndex).getDisplayable());
 
@@ -298,8 +298,8 @@ public class LabelPrinterItem extends Item {
     }
 
     public enum LabelPrinterMode {
-        CREATE(Component.translatable("item.labellingcontainers.label_printer.mode.create").withStyle(ChatFormatting.RED)),
-        COPY(Component.translatable("item.labellingcontainers.label_printer.mode.copy").withStyle(ChatFormatting.GOLD));
+        CREATE(new TranslatableComponent("item.labellingcontainers.label_printer.mode.create").withStyle(ChatFormatting.RED)),
+        COPY(new TranslatableComponent("item.labellingcontainers.label_printer.mode.copy").withStyle(ChatFormatting.GOLD));
 
         private final Component name;
 

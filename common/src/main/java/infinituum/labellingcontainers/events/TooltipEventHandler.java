@@ -4,6 +4,8 @@ import infinituum.labellingcontainers.config.TaggableBlocks;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
@@ -25,8 +27,9 @@ public class TooltipEventHandler {
         BlockState blockState = block.defaultBlockState();
 
         if (config.isLimited() && (config.has(resLoc.toString()) || config.hasAnyTag(blockState.getTags()))) {
-            MutableComponent text = Component.literal("ⓘ ").withStyle(ChatFormatting.BLUE);
-            text.append(Component.translatable("block.labelable").withStyle(ChatFormatting.ITALIC).withStyle(ChatFormatting.GRAY));
+
+            MutableComponent text = new TextComponent("ⓘ ").withStyle(ChatFormatting.BLUE);
+            text.append(new TranslatableComponent("block.labelable").withStyle(ChatFormatting.ITALIC).withStyle(ChatFormatting.GRAY));
 
             components.add(text);
         }

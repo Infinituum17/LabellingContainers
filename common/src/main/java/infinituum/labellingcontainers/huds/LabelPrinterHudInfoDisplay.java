@@ -6,6 +6,7 @@ import infinituum.labellingcontainers.items.LabelPrinterItem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.item.ItemStack;
 
@@ -22,8 +23,7 @@ public class LabelPrinterHudInfoDisplay implements RenderHud {
             int fontHeight = client.font.lineHeight;
             int padding = 2;
 
-            Component mode = Component
-                    .translatable("item.labellingcontainers.label_printer.tooltip.mode")
+            Component mode = new TranslatableComponent("item.labellingcontainers.label_printer.tooltip.mode")
                     .append(LabelPrinterItem.getMode(itemInHand).getDisplayable());
 
             matrices.pushPose();

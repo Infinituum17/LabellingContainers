@@ -45,6 +45,7 @@ dependencies {
     modApi("infinituum.fastconfigapi:fastconfigapi-fabric:${rootProject.minecraft_version}-${rootProject.fastconfigapi_version}")
 
     // JEI
+    /*
     def jei_version = "11.6.0.1019"
     modRuntimeOnly("mezz.jei:jei-${minecraft_version}-fabric:${jei_version}")
 
@@ -81,6 +82,7 @@ dependencies {
     // Supplementaries mod
     modImplementation "curse.maven:selene-499980:4983975"
     modImplementation "curse.maven:supplementaries-412082:5116485"
+     */
 }
 
 processResources {

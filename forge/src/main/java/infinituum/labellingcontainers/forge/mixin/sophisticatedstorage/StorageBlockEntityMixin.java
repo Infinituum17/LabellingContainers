@@ -5,6 +5,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -29,7 +30,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(StorageBlockEntity.class)
 public class StorageBlockEntityMixin extends BlockEntity implements Taggable {
     @Unique
-    private MutableComponent labellingcontainers$label = Component.literal("");
+    private MutableComponent labellingcontainers$label = new TextComponent("");
     @Unique
     private Item labellingcontainers$displayItem = Items.AIR;
 

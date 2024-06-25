@@ -13,6 +13,7 @@ import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -36,7 +37,7 @@ public class LabelPrinterGui extends AbstractContainerScreen<LabelPrinterScreenH
         int paddingTop = 7;
         int x = width / 2 - paddingLeft;
         int y = (height / 2) - (imageHeight / 3) + paddingTop;
-        this.labelField = new EditBox(this.font, x, y, 96, 16, Component.literal(""));
+        this.labelField = new EditBox(this.font, x, y, 96, 16, new TextComponent(""));
 
         this.labelField.setCanLoseFocus(false);
         this.labelField.setTextColor(-1);

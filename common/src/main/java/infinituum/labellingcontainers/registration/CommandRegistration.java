@@ -1,6 +1,7 @@
 package infinituum.labellingcontainers.registration;
 
 import com.mojang.brigadier.context.CommandContext;
+import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import dev.architectury.event.events.common.CommandRegistrationEvent;
 import dev.architectury.networking.NetworkManager;
 import infinituum.labellingcontainers.huds.utils.HudPositions;
@@ -13,8 +14,8 @@ import net.minecraft.commands.arguments.coordinates.Vec3Argument;
 import net.minecraft.commands.arguments.item.ItemArgument;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
@@ -28,7 +29,7 @@ import static net.minecraft.commands.Commands.literal;
 
 public class CommandRegistration {
     public static void init() {
-        CommandRegistrationEvent.EVENT.register((dispatcher, registryAccess, environment) -> {
+        CommandRegistrationEvent.EVENT.register((dispatcher, commandSelection) -> {
             dispatcher.register(literal("setlabel")
                     .requires(commandSourceStack -> commandSourceStack.hasPermission(2))
                     .then(argument("location", Vec3Argument.vec3())
@@ -55,7 +56,7 @@ public class CommandRegistration {
                     .requires(commandSourceStack -> commandSourceStack.hasPermission(2))
                     .then(argument("location", Vec3Argument.vec3())
                             .then(literal("item")
-                                    .then(argument("display-item", ItemArgument.item(registryAccess)).executes(context -> {
+                                    .then(argument("display-item", ItemArgument.item()).executes(context -> {
                                         BlockPos pos = Vec3Argument.getCoordinates(context, "location").getBlockPos(context.getSource());
                                         Item item = ItemArgument.getItem(context, "display-item").getItem();
 
@@ -76,15 +77,20 @@ public class CommandRegistration {
             dispatcher.register(literal("labelconfig")
                     .requires(commandSourceStack -> commandSourceStack.hasPermission(2))
                     .then(literal("add-hand")
-                            .requires(CommandSourceStack::isPlayer)
+                            .requires(commandSourceStack -> {
+                                try {
+                                    commandSourceStack.getPlayerOrException();
+                                    return true;
+                                } catch (CommandSyntaxException e) {
+                                    return false;
+                                }
+                            })
                             .executes(context -> {
                                 CommandSourceStack commandContext = context.getSource();
 
                                 if (commandContext == null) return 0;
 
-                                ServerPlayer player = commandContext.getPlayer();
-
-                                if (player == null) return 0;
+                                ServerPlayer player = commandContext.getPlayerOrException();
 
                                 Item item = player.getItemInHand(InteractionHand.MAIN_HAND).getItem();
                                 ResourceLocation resourceLocation = item.arch$registryName();
@@ -97,15 +103,20 @@ public class CommandRegistration {
             dispatcher.register(literal("labelconfig")
                     .requires(commandSourceStack -> commandSourceStack.hasPermission(2))
                     .then(literal("remove-hand")
-                            .requires(CommandSourceStack::isPlayer)
+                            .requires(commandSourceStack -> {
+                                try {
+                                    commandSourceStack.getPlayerOrException();
+                                    return true;
+                                } catch (CommandSyntaxException e) {
+                                    return false;
+                                }
+                            })
                             .executes(context -> {
                                 CommandSourceStack commandContext = context.getSource();
 
                                 if (commandContext == null) return 0;
 
-                                ServerPlayer player = commandContext.getPlayer();
-
-                                if (player == null) return 0;
+                                ServerPlayer player = commandContext.getPlayerOrException();
 
                                 Item item = player.getItemInHand(InteractionHand.MAIN_HAND).getItem();
                                 ResourceLocation resourceLocation = item.arch$registryName();
@@ -118,16 +129,12 @@ public class CommandRegistration {
             dispatcher.register(literal("labelconfig")
                     .requires(commandSourceStack -> commandSourceStack.hasPermission(2))
                     .then(literal("add-item")
-                            .then(argument("item", ItemArgument.item(registryAccess))
+                            .then(argument("item", ItemArgument.item())
                                     .executes(context -> {
                                         CommandSourceStack commandContext = context.getSource();
                                         Item item = ItemArgument.getItem(context, "item").getItem();
 
                                         if (commandContext == null) return 0;
-
-                                        ServerPlayer player = commandContext.getPlayer();
-
-                                        if (player == null) return 0;
 
                                         ResourceLocation resourceLocation = item.arch$registryName();
 
@@ -140,16 +147,12 @@ public class CommandRegistration {
             dispatcher.register(literal("labelconfig")
                     .requires(commandSourceStack -> commandSourceStack.hasPermission(2))
                     .then(literal("remove-item")
-                            .then(argument("item", ItemArgument.item(registryAccess))
+                            .then(argument("item", ItemArgument.item())
                                     .executes(context -> {
                                         CommandSourceStack commandContext = context.getSource();
                                         Item item = ItemArgument.getItem(context, "item").getItem();
 
                                         if (commandContext == null) return 0;
-
-                                        ServerPlayer player = commandContext.getPlayer();
-
-                                        if (player == null) return 0;
 
                                         ResourceLocation resourceLocation = item.arch$registryName();
 
@@ -169,10 +172,6 @@ public class CommandRegistration {
 
                                         if (commandContext == null) return 0;
 
-                                        ServerPlayer player = commandContext.getPlayer();
-
-                                        if (player == null) return 0;
-
                                         return addTag(context, tag);
                                     })
                             )
@@ -189,10 +188,6 @@ public class CommandRegistration {
 
                                         if (commandContext == null) return 0;
 
-                                        ServerPlayer player = commandContext.getPlayer();
-
-                                        if (player == null) return 0;
-
                                         return removeTag(context, tag);
                                     })
                             )
@@ -200,27 +195,62 @@ public class CommandRegistration {
             );
 
             dispatcher.register(literal("labelposition")
-                    .requires(CommandSourceStack::isPlayer)
+                    .requires(commandSourceStack -> {
+                        try {
+                            commandSourceStack.getPlayerOrException();
+                            return true;
+                        } catch (CommandSyntaxException e) {
+                            return false;
+                        }
+                    })
                     .then(literal("top")
                             .executes(context -> setLabelPosition(context, HudPositions.TOP))));
 
             dispatcher.register(literal("labelposition")
-                    .requires(CommandSourceStack::isPlayer)
+                    .requires(commandSourceStack -> {
+                        try {
+                            commandSourceStack.getPlayerOrException();
+                            return true;
+                        } catch (CommandSyntaxException e) {
+                            return false;
+                        }
+                    })
                     .then(literal("top-left")
                             .executes(context -> setLabelPosition(context, HudPositions.TOP_LEFT))));
 
             dispatcher.register(literal("labelposition")
-                    .requires(CommandSourceStack::isPlayer)
+                    .requires(commandSourceStack -> {
+                        try {
+                            commandSourceStack.getPlayerOrException();
+                            return true;
+                        } catch (CommandSyntaxException e) {
+                            return false;
+                        }
+                    })
                     .then(literal("center-left")
                             .executes(context -> setLabelPosition(context, HudPositions.CENTER_LEFT))));
 
             dispatcher.register(literal("labelposition")
-                    .requires(CommandSourceStack::isPlayer)
+                    .requires(commandSourceStack -> {
+                        try {
+                            commandSourceStack.getPlayerOrException();
+                            return true;
+                        } catch (CommandSyntaxException e) {
+                            return false;
+                        }
+                    })
                     .then(literal("center-right")
                             .executes(context -> setLabelPosition(context, HudPositions.CENTER_RIGHT))));
 
             dispatcher.register(literal("labelposition")
-                    .requires(CommandSourceStack::isPlayer)
+                    .requires(commandSourceStack -> {
+                        try {
+                            commandSourceStack.getPlayerOrException();
+                            return true;
+                        } catch (CommandSyntaxException e) {
+                            return false;
+                        }
+                    })
                     .then(literal("left")
                             .executes(context -> setLabelPosition(context, HudPositions.LEFT))));
         });
@@ -228,9 +258,13 @@ public class CommandRegistration {
 
     private static int setLabelPosition(CommandContext<CommandSourceStack> context, HudPositions position) {
         CommandSourceStack sourceStack = context.getSource();
-        ServerPlayer player = sourceStack.getPlayer();
+        ServerPlayer player;
 
-        if (player == null) return 0;
+        try {
+            player = sourceStack.getPlayerOrException();
+        } catch (CommandSyntaxException e) {
+            return 0;
+        }
 
         FriendlyByteBuf buffer = new FriendlyByteBuf(Unpooled.buffer());
 
@@ -242,13 +276,20 @@ public class CommandRegistration {
     }
 
     private static int addId(CommandContext<CommandSourceStack> context, ResourceLocation resourceLocation) {
-        CommandSourceStack commandContext = context.getSource();
+        if (resourceLocation == null) return 0;
 
-        if (commandContext == null) return 0;
+        CommandSourceStack sourceStack = context.getSource();
 
-        ServerPlayer player = commandContext.getPlayer();
+        if (sourceStack == null) return 0;
 
-        if (player == null || resourceLocation == null) return 0;
+        ServerPlayer player;
+
+        try {
+            player = sourceStack.getPlayerOrException();
+        } catch (CommandSyntaxException e) {
+            return 0;
+        }
+
         if (TAGGABLE_BLOCKS_CONFIG.getConfig().has(resourceLocation.toString())) return 0;
 
         TAGGABLE_BLOCKS_CONFIG.getConfig().addId(resourceLocation.toString());
@@ -260,19 +301,25 @@ public class CommandRegistration {
 
         NetworkManager.sendToPlayer(player, Packets.S2C_ADD_ID_TAGGABLE_BLOCKS_CONFIG, buffer);
 
-        player.sendSystemMessage(Component.translatable("command.labelconfig.addition.success", resourceLocation.toString()));
+        player.sendMessage(new TranslatableComponent("command.labelconfig.addition.success", resourceLocation.toString()), player.getUUID());
 
         return 1;
     }
 
     private static int removeId(CommandContext<CommandSourceStack> context, ResourceLocation resourceLocation) {
-        CommandSourceStack commandContext = context.getSource();
+        CommandSourceStack sourceStack = context.getSource();
 
-        if (commandContext == null) return 0;
+        if (sourceStack == null) return 0;
 
-        ServerPlayer player = commandContext.getPlayer();
+        ServerPlayer player;
 
-        if (player == null || resourceLocation == null) return 0;
+        try {
+            player = sourceStack.getPlayerOrException();
+        } catch (CommandSyntaxException e) {
+            return 0;
+        }
+
+        if (resourceLocation == null) return 0;
         if (!TAGGABLE_BLOCKS_CONFIG.getConfig().has(resourceLocation.toString())) return 0;
 
         TAGGABLE_BLOCKS_CONFIG.getConfig().removeId(resourceLocation.toString());
@@ -284,19 +331,25 @@ public class CommandRegistration {
 
         NetworkManager.sendToPlayer(player, Packets.S2C_REMOVE_ID_TAGGABLE_BLOCKS_CONFIG, buffer);
 
-        player.sendSystemMessage(Component.translatable("command.labelconfig.removal.success", resourceLocation.toString()));
+        player.sendMessage(new TranslatableComponent("command.labelconfig.removal.success", resourceLocation.toString()), player.getUUID());
 
         return 1;
     }
 
     private static int addTag(CommandContext<CommandSourceStack> context, String tag) {
-        CommandSourceStack commandContext = context.getSource();
+        CommandSourceStack sourceStack = context.getSource();
 
-        if (commandContext == null) return 0;
+        if (sourceStack == null) return 0;
 
-        ServerPlayer player = commandContext.getPlayer();
+        ServerPlayer player;
 
-        if (player == null || tag == null) return 0;
+        try {
+            player = sourceStack.getPlayerOrException();
+        } catch (CommandSyntaxException e) {
+            return 0;
+        }
+
+        if (tag == null) return 0;
         if (TAGGABLE_BLOCKS_CONFIG.getConfig().has(tag)) return 0;
 
         TAGGABLE_BLOCKS_CONFIG.getConfig().addTag(tag);
@@ -308,19 +361,25 @@ public class CommandRegistration {
 
         NetworkManager.sendToPlayer(player, Packets.S2C_ADD_TAG_TAGGABLE_BLOCKS_CONFIG, buffer);
 
-        player.sendSystemMessage(Component.translatable("command.labelconfig.addition.success", tag));
+        player.sendMessage(new TranslatableComponent("command.labelconfig.addition.success", tag), player.getUUID());
 
         return 1;
     }
 
     private static int removeTag(CommandContext<CommandSourceStack> context, String tag) {
-        CommandSourceStack commandContext = context.getSource();
+        CommandSourceStack sourceStack = context.getSource();
 
-        if (commandContext == null) return 0;
+        if (sourceStack == null) return 0;
 
-        ServerPlayer player = commandContext.getPlayer();
+        ServerPlayer player;
 
-        if (player == null || tag == null) return 0;
+        try {
+            player = sourceStack.getPlayerOrException();
+        } catch (CommandSyntaxException e) {
+            return 0;
+        }
+
+        if (tag == null) return 0;
         if (!TAGGABLE_BLOCKS_CONFIG.getConfig().has(tag)) return 0;
 
         TAGGABLE_BLOCKS_CONFIG.getConfig().removeTag(tag);
@@ -332,7 +391,7 @@ public class CommandRegistration {
 
         NetworkManager.sendToPlayer(player, Packets.S2C_REMOVE_TAG_TAGGABLE_BLOCKS_CONFIG, buffer);
 
-        player.sendSystemMessage(Component.translatable("command.labelconfig.removal.success", tag));
+        player.sendMessage(new TranslatableComponent("command.labelconfig.removal.success", tag), player.getUUID());
 
         return 1;
     }
