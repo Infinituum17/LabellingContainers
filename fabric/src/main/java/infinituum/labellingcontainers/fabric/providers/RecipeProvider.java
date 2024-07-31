@@ -13,7 +13,7 @@ import java.util.function.Consumer;
 
 import static infinituum.labellingcontainers.registration.ItemRegistration.LABEL_PRINTER;
 
-public class RecipeProvider extends FabricRecipeProvider {
+public final class RecipeProvider extends FabricRecipeProvider {
 
     public RecipeProvider(FabricDataOutput output) {
         super(output);

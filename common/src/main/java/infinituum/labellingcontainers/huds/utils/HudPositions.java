@@ -75,7 +75,9 @@ public enum HudPositions {
 
     @Environment(EnvType.CLIENT)
     public void render(Minecraft client, GuiGraphics graphics, Taggable taggable) {
-        if (client.level == null) return;
+        if (client.level == null) {
+            return;
+        }
 
         int width = client.getWindow().getGuiScaledWidth();
         int height = client.getWindow().getGuiScaledHeight();

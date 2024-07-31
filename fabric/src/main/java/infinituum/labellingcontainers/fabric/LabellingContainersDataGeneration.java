@@ -12,7 +12,7 @@ import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import java.util.List;
 import java.util.function.Consumer;
 
-public class LabellingContainersDataGeneration implements DataGeneratorEntrypoint {
+public final class LabellingContainersDataGeneration implements DataGeneratorEntrypoint {
     @Override
     public void onInitializeDataGenerator(FabricDataGenerator fabricDataGenerator) {
         FabricDataGenerator.Pack pack = fabricDataGenerator.createPack();

@@ -46,7 +46,7 @@ public class LabelPrinterGui extends AbstractContainerScreen<LabelPrinterScreenH
 
         String label = null;
 
-        if(player != null) {
+        if (player != null) {
             ItemStack item = this.player.getInventory().getSelected();
 
             if (item.getItem() instanceof LabelPrinterItem) {
@@ -63,7 +63,9 @@ public class LabelPrinterGui extends AbstractContainerScreen<LabelPrinterScreenH
     @Override
     protected void containerTick() {
         super.containerTick();
-        if (this.labelField == null) setup();
+        if (this.labelField == null) {
+            setup();
+        }
     }
 
     @Override
@@ -112,7 +114,9 @@ public class LabelPrinterGui extends AbstractContainerScreen<LabelPrinterScreenH
 
     @Override
     public void render(GuiGraphics context, int mouseX, int mouseY, float delta) {
-        if (this.labelField == null) setup();
+        if (this.labelField == null) {
+            setup();
+        }
         renderBackground(context);
         super.render(context, mouseX, mouseY, delta);
         renderForeground(context, mouseX, mouseY, delta);

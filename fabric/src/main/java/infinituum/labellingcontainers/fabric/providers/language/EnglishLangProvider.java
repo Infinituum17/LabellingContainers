@@ -5,7 +5,7 @@ import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
 
 import static infinituum.labellingcontainers.registration.ItemRegistration.LABEL_PRINTER;
 
-public class EnglishLangProvider extends FabricLanguageProvider {
+public final class EnglishLangProvider extends FabricLanguageProvider {
     public EnglishLangProvider(FabricDataOutput dataOutput) {
         super(dataOutput);
     }
@@ -24,7 +24,7 @@ public class EnglishLangProvider extends FabricLanguageProvider {
         translationBuilder.add(labelPrinterKey + ".tooltip.description", "Uses paper to print new labels");
         translationBuilder.add(labelPrinterKey + ".tooltip.mode", "Mode: ");
         translationBuilder.add(labelPrinterKey + ".paper.error", "You don't have enough paper!");
-        translationBuilder.add(labelPrinterKey + ".untaggable.error", "You can't tag this block!");
+        translationBuilder.add(labelPrinterKey + ".untaggable.error", "You can't add a label to this block!");
         translationBuilder.add(labelPrinterKey + ".mode.create", "Creation");
         translationBuilder.add(labelPrinterKey + ".mode.copy", "Copy");
         translationBuilder.add(labelPrinterKey + ".mode.copy.success", "Successfully Copied!");

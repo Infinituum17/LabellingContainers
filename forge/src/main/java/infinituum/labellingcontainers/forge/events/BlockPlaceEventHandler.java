@@ -8,10 +8,12 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
 @Mod.EventBusSubscriber
-public class BlockPlaceEventHandler {
+public final class BlockPlaceEventHandler {
     @SubscribeEvent
     public static void handle(BlockEvent.EntityPlaceEvent event) {
-        if (event.getLevel().isClientSide()) return;
+        if (event.getLevel().isClientSide()) {
+            return;
+        }
 
         if (event.getEntity() instanceof Player player) {
             InheritTagAction.handle(player, (Level) event.getLevel(), event.getPos(), event.getPlacedBlock());

@@ -10,7 +10,7 @@ import net.minecraft.world.inventory.MenuType;
 
 import static infinituum.labellingcontainers.LabellingContainers.MOD_ID;
 
-public class ScreenRegistration {
+public final class ScreenRegistration {
     public static final DeferredRegister<MenuType<?>> MENUS = DeferredRegister.create(MOD_ID, Registries.MENU);
 
     public static void init() {

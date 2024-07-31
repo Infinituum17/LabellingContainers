@@ -12,7 +12,9 @@ public class LabelPrinterHudInfoDisplay implements RenderHud {
     @Override
     public void renderHud(GuiGraphics graphics, float tickDelta) {
         Minecraft client = Minecraft.getInstance();
-        if (client.screen != null || client.player == null) return;
+        if (client.screen != null || client.player == null) {
+            return;
+        }
 
         ItemStack itemInHand = client.player.getItemInHand(InteractionHand.MAIN_HAND);
 

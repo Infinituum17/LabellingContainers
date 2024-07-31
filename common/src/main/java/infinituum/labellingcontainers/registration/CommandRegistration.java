@@ -26,7 +26,7 @@ import static infinituum.labellingcontainers.LabellingContainersConfig.TAGGABLE_
 import static net.minecraft.commands.Commands.argument;
 import static net.minecraft.commands.Commands.literal;
 
-public class CommandRegistration {
+public final class CommandRegistration {
     public static void init() {
         CommandRegistrationEvent.EVENT.register((dispatcher, registryAccess, environment) -> {
             dispatcher.register(literal("setlabel")
@@ -37,9 +37,9 @@ public class CommandRegistration {
                                         BlockPos pos = Vec3Argument.getCoordinates(context, "location").getBlockPos(context.getSource());
                                         MutableComponent label = MessageArgument.getMessage(context, "label").copy();
 
-                                        Level world = context.getSource().getLevel();
+                                        Level level = context.getSource().getLevel();
 
-                                        BlockEntity be = world.getBlockEntity(pos);
+                                        BlockEntity be = level.getBlockEntity(pos);
 
                                         if (be instanceof Taggable labelable) {
                                             labelable.labellingcontainers$setLabel(label, true);
@@ -59,9 +59,9 @@ public class CommandRegistration {
                                         BlockPos pos = Vec3Argument.getCoordinates(context, "location").getBlockPos(context.getSource());
                                         Item item = ItemArgument.getItem(context, "display-item").getItem();
 
-                                        Level world = context.getSource().getLevel();
+                                        Level level = context.getSource().getLevel();
 
-                                        BlockEntity be = world.getBlockEntity(pos);
+                                        BlockEntity be = level.getBlockEntity(pos);
 
                                         if (be instanceof Taggable labelable) {
                                             labelable.labellingcontainers$setDisplayItem(item, true);
@@ -80,11 +80,15 @@ public class CommandRegistration {
                             .executes(context -> {
                                 CommandSourceStack commandContext = context.getSource();
 
-                                if (commandContext == null) return 0;
+                                if (commandContext == null) {
+                                    return 0;
+                                }
 
                                 ServerPlayer player = commandContext.getPlayer();
 
-                                if (player == null) return 0;
+                                if (player == null) {
+                                    return 0;
+                                }
 
                                 Item item = player.getItemInHand(InteractionHand.MAIN_HAND).getItem();
                                 ResourceLocation resourceLocation = item.arch$registryName();
@@ -101,11 +105,15 @@ public class CommandRegistration {
                             .executes(context -> {
                                 CommandSourceStack commandContext = context.getSource();
 
-                                if (commandContext == null) return 0;
+                                if (commandContext == null) {
+                                    return 0;
+                                }
 
                                 ServerPlayer player = commandContext.getPlayer();
 
-                                if (player == null) return 0;
+                                if (player == null) {
+                                    return 0;
+                                }
 
                                 Item item = player.getItemInHand(InteractionHand.MAIN_HAND).getItem();
                                 ResourceLocation resourceLocation = item.arch$registryName();
@@ -123,11 +131,15 @@ public class CommandRegistration {
                                         CommandSourceStack commandContext = context.getSource();
                                         Item item = ItemArgument.getItem(context, "item").getItem();
 
-                                        if (commandContext == null) return 0;
+                                        if (commandContext == null) {
+                                            return 0;
+                                        }
 
                                         ServerPlayer player = commandContext.getPlayer();
 
-                                        if (player == null) return 0;
+                                        if (player == null) {
+                                            return 0;
+                                        }
 
                                         ResourceLocation resourceLocation = item.arch$registryName();
 
@@ -145,11 +157,15 @@ public class CommandRegistration {
                                         CommandSourceStack commandContext = context.getSource();
                                         Item item = ItemArgument.getItem(context, "item").getItem();
 
-                                        if (commandContext == null) return 0;
+                                        if (commandContext == null) {
+                                            return 0;
+                                        }
 
                                         ServerPlayer player = commandContext.getPlayer();
 
-                                        if (player == null) return 0;
+                                        if (player == null) {
+                                            return 0;
+                                        }
 
                                         ResourceLocation resourceLocation = item.arch$registryName();
 
@@ -167,11 +183,15 @@ public class CommandRegistration {
                                         CommandSourceStack commandContext = context.getSource();
                                         String tag = MessageArgument.getMessage(context, "tag").getString();
 
-                                        if (commandContext == null) return 0;
+                                        if (commandContext == null) {
+                                            return 0;
+                                        }
 
                                         ServerPlayer player = commandContext.getPlayer();
 
-                                        if (player == null) return 0;
+                                        if (player == null) {
+                                            return 0;
+                                        }
 
                                         return addTag(context, tag);
                                     })
@@ -187,11 +207,15 @@ public class CommandRegistration {
                                         CommandSourceStack commandContext = context.getSource();
                                         String tag = MessageArgument.getMessage(context, "item").getString();
 
-                                        if (commandContext == null) return 0;
+                                        if (commandContext == null) {
+                                            return 0;
+                                        }
 
                                         ServerPlayer player = commandContext.getPlayer();
 
-                                        if (player == null) return 0;
+                                        if (player == null) {
+                                            return 0;
+                                        }
 
                                         return removeTag(context, tag);
                                     })
@@ -230,7 +254,9 @@ public class CommandRegistration {
         CommandSourceStack sourceStack = context.getSource();
         ServerPlayer player = sourceStack.getPlayer();
 
-        if (player == null) return 0;
+        if (player == null) {
+            return 0;
+        }
 
         FriendlyByteBuf buffer = new FriendlyByteBuf(Unpooled.buffer());
 
@@ -244,12 +270,18 @@ public class CommandRegistration {
     private static int addId(CommandContext<CommandSourceStack> context, ResourceLocation resourceLocation) {
         CommandSourceStack commandContext = context.getSource();
 
-        if (commandContext == null) return 0;
+        if (commandContext == null) {
+            return 0;
+        }
 
         ServerPlayer player = commandContext.getPlayer();
 
-        if (player == null || resourceLocation == null) return 0;
-        if (TAGGABLE_BLOCKS_CONFIG.getConfig().has(resourceLocation.toString())) return 0;
+        if (player == null || resourceLocation == null) {
+            return 0;
+        }
+        if (TAGGABLE_BLOCKS_CONFIG.getConfig().has(resourceLocation.toString())) {
+            return 0;
+        }
 
         TAGGABLE_BLOCKS_CONFIG.getConfig().addId(resourceLocation.toString());
         TAGGABLE_BLOCKS_CONFIG.saveCurrent();
@@ -268,12 +300,18 @@ public class CommandRegistration {
     private static int removeId(CommandContext<CommandSourceStack> context, ResourceLocation resourceLocation) {
         CommandSourceStack commandContext = context.getSource();
 
-        if (commandContext == null) return 0;
+        if (commandContext == null) {
+            return 0;
+        }
 
         ServerPlayer player = commandContext.getPlayer();
 
-        if (player == null || resourceLocation == null) return 0;
-        if (!TAGGABLE_BLOCKS_CONFIG.getConfig().has(resourceLocation.toString())) return 0;
+        if (player == null || resourceLocation == null) {
+            return 0;
+        }
+        if (!TAGGABLE_BLOCKS_CONFIG.getConfig().has(resourceLocation.toString())) {
+            return 0;
+        }
 
         TAGGABLE_BLOCKS_CONFIG.getConfig().removeId(resourceLocation.toString());
         TAGGABLE_BLOCKS_CONFIG.saveCurrent();
@@ -292,12 +330,18 @@ public class CommandRegistration {
     private static int addTag(CommandContext<CommandSourceStack> context, String tag) {
         CommandSourceStack commandContext = context.getSource();
 
-        if (commandContext == null) return 0;
+        if (commandContext == null) {
+            return 0;
+        }
 
         ServerPlayer player = commandContext.getPlayer();
 
-        if (player == null || tag == null) return 0;
-        if (TAGGABLE_BLOCKS_CONFIG.getConfig().has(tag)) return 0;
+        if (player == null || tag == null) {
+            return 0;
+        }
+        if (TAGGABLE_BLOCKS_CONFIG.getConfig().has(tag)) {
+            return 0;
+        }
 
         TAGGABLE_BLOCKS_CONFIG.getConfig().addTag(tag);
         TAGGABLE_BLOCKS_CONFIG.saveCurrent();
@@ -316,12 +360,18 @@ public class CommandRegistration {
     private static int removeTag(CommandContext<CommandSourceStack> context, String tag) {
         CommandSourceStack commandContext = context.getSource();
 
-        if (commandContext == null) return 0;
+        if (commandContext == null) {
+            return 0;
+        }
 
         ServerPlayer player = commandContext.getPlayer();
 
-        if (player == null || tag == null) return 0;
-        if (!TAGGABLE_BLOCKS_CONFIG.getConfig().has(tag)) return 0;
+        if (player == null || tag == null) {
+            return 0;
+        }
+        if (!TAGGABLE_BLOCKS_CONFIG.getConfig().has(tag)) {
+            return 0;
+        }
 
         TAGGABLE_BLOCKS_CONFIG.getConfig().removeTag(tag);
         TAGGABLE_BLOCKS_CONFIG.saveCurrent();

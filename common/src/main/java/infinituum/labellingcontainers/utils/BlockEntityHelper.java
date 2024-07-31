@@ -21,19 +21,23 @@ public final class BlockEntityHelper {
 
         if (block instanceof AbstractChestBlock<?>) {
             return getConnectedChest(level, pos, state);
-        } else {
-            return PlatformHelper.locateTargetBlockEntity(level, pos, state);
         }
+
+        return PlatformHelper.locateTargetBlockEntity(level, pos, state);
     }
 
     public static BlockEntity getConnectedChest(Level level, BlockPos pos, BlockState state) {
         Optional<ChestType> optType = state.getOptionalValue(ChestBlock.TYPE);
 
-        if (optType.isEmpty()) return level.getBlockEntity(pos);
+        if (optType.isEmpty()) {
+            return level.getBlockEntity(pos);
+        }
 
         ChestType chestType = optType.get();
 
-        if (chestType == ChestType.SINGLE) return level.getBlockEntity(pos);
+        if (chestType == ChestType.SINGLE) {
+            return level.getBlockEntity(pos);
+        }
 
         Direction facingDirection = state.getValue(ChestBlock.FACING);
         BlockPos neighbourPosition = pos.relative(chestType == ChestType.LEFT ? facingDirection.getClockWise() : facingDirection.getCounterClockWise());
@@ -43,5 +47,11 @@ public final class BlockEntityHelper {
         }
 
         return level.getBlockEntity(pos);
+    }
+
+    public interface BlockEntityLocatorHandler {
+        static BlockEntity handle(Level level, BlockPos blockPos, BlockState blockState) {
+            return level.getBlockEntity(blockPos);
+        }
     }
 }
