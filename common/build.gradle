@@ -6,11 +6,9 @@ loom {
     accessWidenerPath = file("src/main/resources/labellingcontainers.accesswidener")
 }
 
-def generatedResources = file("src/main/generated")
-
 sourceSets {
     main {
-        resources.srcDir generatedResources
+        resources.srcDir file("src/main/generated")
     }
 }
 

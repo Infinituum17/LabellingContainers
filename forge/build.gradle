@@ -54,11 +54,11 @@ dependencies {
         exclude group: "fuzs.puzzleslib"
     }
 
-    modCompileOnly "curse.maven:puzzles-lib-495476:5112685"
+    modImplementation "curse.maven:puzzles-lib-495476:5112685"
     modCompileOnly "curse.maven:echo-chest-857972:4613440"
 
     // Nether Chested mod
-    modCompileOnly "curse.maven:new-nether-chest-857971:4614038"
+    modImplementation "curse.maven:new-nether-chest-857971:4614038"
 
     // Compact Storage mod
     modCompileOnly "curse.maven:compactstorage-223703:4732852"

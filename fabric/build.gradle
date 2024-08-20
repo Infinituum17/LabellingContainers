@@ -93,13 +93,16 @@ dependencies {
     modCompileOnly "curse.maven:compactstorage-223703:4689301"
 
     // Supplementaries mod
-    // modImplementation "curse.maven:selene-499980:5146530"
-    // modImplementation "curse.maven:supplementaries-412082:5147147"
+    modCompileOnly "curse.maven:selene-499980:5146530"
+    modCompileOnly "curse.maven:supplementaries-412082:5147147"
 
     // Farmer's delight refabricated
-    modImplementation("vectorwing:FarmersDelight-Refabricated:1.20.1-2.0.12") {
+    modCompileOnly("vectorwing:FarmersDelight-Refabricated:1.20.1-2.0.12") {
         exclude(group: "net.fabricmc")
     }
+
+    // Reinforced Chests
+    modCompileOnly "curse.maven:reinforced-chests-529873:4594775"
 }
 
 processResources {
