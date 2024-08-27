@@ -27,26 +27,29 @@ dependencies {
     modApi("infinituum.fastconfigapi:fastconfigapi-neoforge:${rootProject.minecraft_version}-${rootProject.fastconfigapi_version}")
 
     // Echo Chest mod
-    modImplementation "curse.maven:puzzles-lib-495476:5132274"
-    modImplementation "curse.maven:echo-chest-857972:5096977"
+    modImplementation "curse.maven:puzzles-lib-495476:5666187"
+    modImplementation "curse.maven:echo-chest-857972:5627764"
 
     // Nether Chested mod
-    modApi "fuzs.limitlesscontainers:limitlesscontainers-neoforge:20.4.0"
-    modImplementation "curse.maven:forge-config-api-port-fabric-547434:5051716"
-    modImplementation "curse.maven:new-nether-chest-857971:5097133"
+    modApi "fuzs.limitlesscontainers:limitlesscontainers-neoforge:21.0.0"
+    modImplementation "curse.maven:forge-config-api-port-fabric-547434:5605613"
+    modImplementation "curse.maven:new-nether-chest-857971:5627776"
 
-    // Compact Storage mod
-    modImplementation "curse.maven:compactstorage-223703:5136771"
+    // Sophisticated Storage
+    modImplementation "curse.maven:sophisticated-storage-619320:5646596"
+
+    // Colossal Chests
+    modImplementation "curse.maven:colossal-chests-237875:5537801"
 }
 
 processResources {
     var rep_properties = [
-            "version"            : rootProject.version,
-            "neoforge_version"   : rootProject.neoforge_version,
-            "mc_version"         : rootProject.minecraft_version,
-            "arch_version"       : rootProject.architectury_version,
-            "pack_format_version": rootProject.pack_format_version,
-            "modid"              : rootProject.archives_base_name,
+            "version"              : rootProject.version,
+            "neoforge_version"     : rootProject.neoforge_version,
+            "mc_version"           : rootProject.minecraft_version,
+            "arch_version"         : rootProject.architectury_version,
+            "pack_format_version"  : rootProject.pack_format_version,
+            "modid"                : rootProject.archives_base_name,
             "fastconfigapi_version": rootProject.fastconfigapi_version
     ]
 
@@ -94,11 +97,4 @@ publishing {
     repositories {
         // Add repositories to publish to here.
     }
-}
-
-// TODO: Remove this when it's *probably* fixed with the new Loom version.
-sourceSets.each {
-    def dir = layout.buildDirectory.dir("sourcesSets/$it.name")
-    it.output.resourcesDir = dir
-    it.java.destinationDirectory = dir
 }

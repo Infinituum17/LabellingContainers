@@ -32,7 +32,7 @@ import static infinituum.labellingcontainers.LabellingContainersConfig.PLAYER_PR
 import static infinituum.labellingcontainers.LabellingContainersConfig.TAGGABLE_BLOCKS_CONFIG;
 import static infinituum.labellingcontainers.registration.ScreenRegistration.LABEL_PRINTER_SCREEN_HANDLER;
 
-public class LabellingContainersSetup {
+public final class LabellingContainersSetup {
     public static void initClient() {
         if (Platform.getEnv() == EnvType.CLIENT) {
             ClientLifecycleEvent.CLIENT_SETUP.register((client) -> {

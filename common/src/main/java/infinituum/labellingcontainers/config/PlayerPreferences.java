@@ -2,7 +2,7 @@ package infinituum.labellingcontainers.config;
 
 import infinituum.labellingcontainers.huds.utils.HudPositions;
 
-public class PlayerPreferences {
+public final class PlayerPreferences {
     private String hudPosition = HudPositions.toReadable(HudPositions.getDefault());
 
     public HudPositions getHUDPosition() {

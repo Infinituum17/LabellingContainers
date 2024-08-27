@@ -8,10 +8,12 @@ import net.neoforged.fml.common.Mod;
 import net.neoforged.neoforge.event.level.BlockEvent;
 
 @Mod.EventBusSubscriber
-public class BlockPlaceEventHandler {
+public final class BlockPlaceEventHandler {
     @SubscribeEvent
     public static void handle(BlockEvent.EntityPlaceEvent event) {
-        if (event.getLevel().isClientSide()) return;
+        if (event.getLevel().isClientSide()) {
+            return;
+        }
 
         if (event.getEntity() instanceof Player player) {
             InheritTagAction.handle(player, (Level) event.getLevel(), event.getPos(), event.getPlacedBlock());

@@ -21,14 +21,6 @@ subprojects {
         // The following line declares the mojmap mappings, you may use other mappings as well
         mappings loom.officialMojangMappings()
         // The following line declares the yarn mappings you may select this one as well.
-
-        // Remove when this isn't needed anymore
-        //  * Forces a patch in yarn mappings to fix errors with forge. Previously here:
-        //  * mappings "net.fabricmc:yarn:${rootProject.minecraft_version}+build.${rootProject.yarn_build}:v2"
-        /*mappings loom.layered {
-            it.mappings "net.fabricmc:yarn:${rootProject.minecraft_version}+build.${rootProject.yarn_build}:v2"
-            it.mappings "dev.architectury:yarn-mappings-patch-forge:1.20.3+build.1"
-        }*/
     }
 }
 
@@ -86,7 +78,7 @@ allprojects {
 
     tasks.withType(JavaCompile) {
         options.encoding = "UTF-8"
-        options.release = 17
+        options.release = 21
     }
 
     java {

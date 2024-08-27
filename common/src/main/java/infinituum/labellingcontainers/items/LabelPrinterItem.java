@@ -1,7 +1,7 @@
 package infinituum.labellingcontainers.items;
 
 import dev.architectury.registry.menu.MenuRegistry;
-import infinituum.labellingcontainers.config.TaggableBlocks;
+import infinituum.labellingcontainers.config.CompatibleContainers;
 import infinituum.labellingcontainers.registration.ItemRegistration;
 import infinituum.labellingcontainers.screens.LabelPrinterScreenFactory;
 import infinituum.labellingcontainers.utils.ActionBarTextHelper;
@@ -155,8 +155,12 @@ public class LabelPrinterItem extends Item {
         Level level = context.getLevel();
         Player player = context.getPlayer();
 
-        if (player == null) return super.useOn(context);
-        if (level.isClientSide()) return InteractionResult.SUCCESS;
+        if (player == null) {
+            return super.useOn(context);
+        }
+        if (level.isClientSide()) {
+            return InteractionResult.SUCCESS;
+        }
 
         Inventory inventory = player.getInventory();
         BlockPos clickedBlockPosition = context.getClickedPos();
@@ -165,7 +169,9 @@ public class LabelPrinterItem extends Item {
         ResourceLocation registryName = blockState.getBlock().asItem().arch$registryName();
         Vec3 hitPosVec3 = context.getClickLocation();
 
-        if (registryName == null) return super.useOn(context);
+        if (registryName == null) {
+            return super.useOn(context);
+        }
 
         BlockEntity blockEntity = BlockEntityHelper.locateTargetBlockEntity(level, clickedBlockPosition, blockState);
 
@@ -185,7 +191,9 @@ public class LabelPrinterItem extends Item {
         Component blockLabel = taggable.labellingcontainers$getLabel();
         Item blockDisplayItem = taggable.labellingcontainers$getDisplayItem();
 
-        TaggableBlocks config = TAGGABLE_BLOCKS_CONFIG.getConfig();
+        CompatibleContainers config = TAGGABLE_BLOCKS_CONFIG.getConfig();
+
+        final boolean dataIsEqual = blockLabel.equals(printerLabel) && blockDisplayItem.equals(printerDisplayItem);
 
         switch (getMode(itemInHand)) {
             case CREATE -> {
@@ -197,11 +205,13 @@ public class LabelPrinterItem extends Item {
                     return interactionFail(level, hitPosVec3, clickedBlockPosition, player, ".paper.error");
                 }
 
-                if (blockLabel.equals(printerLabel) && blockDisplayItem.equals(printerDisplayItem)) {
+                if (dataIsEqual) {
                     return interactionFail(level, hitPosVec3, clickedBlockPosition);
                 }
 
-                if (!player.isCreative()) InventoryHelper.removeOneItemFromInventory(inventory, Items.PAPER);
+                if (!player.isCreative()) {
+                    InventoryHelper.removeOneItemFromInventory(inventory, Items.PAPER);
+                }
 
                 taggable.labellingcontainers$setLabel(printerLabel, true);
                 taggable.labellingcontainers$setDisplayItem(printerDisplayItem, true);
@@ -213,7 +223,7 @@ public class LabelPrinterItem extends Item {
                     return interactionFail(level, hitPosVec3, clickedBlockPosition, player, ".mode.copy.error");
                 }
 
-                if (blockLabel.equals(printerLabel) && blockDisplayItem.equals(printerDisplayItem)) {
+                if (dataIsEqual) {
                     return interactionFail(level, hitPosVec3, clickedBlockPosition);
                 }
 
@@ -229,7 +239,9 @@ public class LabelPrinterItem extends Item {
 
     @Override
     public @NotNull InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
-        if (level.isClientSide()) return super.use(level, player, hand);
+        if (level.isClientSide()) {
+            return super.use(level, player, hand);
+        }
 
         if (hand == InteractionHand.MAIN_HAND) {
             if (player.isCrouching()) {

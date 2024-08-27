@@ -1,6 +1,6 @@
 package infinituum.labellingcontainers.events;
 
-import infinituum.labellingcontainers.config.TaggableBlocks;
+import infinituum.labellingcontainers.config.CompatibleContainers;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -14,13 +14,15 @@ import java.util.List;
 
 import static infinituum.labellingcontainers.LabellingContainersConfig.TAGGABLE_BLOCKS_CONFIG;
 
-public class TooltipEventHandler {
+public final class TooltipEventHandler {
     public static void handle(ItemStack itemStack, List<Component> components, TooltipFlag tooltipFlag) {
         ResourceLocation resLoc = itemStack.getItem().arch$registryName();
 
-        if (resLoc == null) return;
+        if (resLoc == null) {
+            return;
+        }
 
-        TaggableBlocks config = TAGGABLE_BLOCKS_CONFIG.getConfig();
+        CompatibleContainers config = TAGGABLE_BLOCKS_CONFIG.getConfig();
         Block block = Block.byItem(itemStack.getItem());
         BlockState blockState = block.defaultBlockState();
 

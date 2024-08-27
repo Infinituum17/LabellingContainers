@@ -17,14 +17,20 @@ public class HudInfoDisplay implements RenderHud {
     @Override
     public void renderHud(GuiGraphics graphics, float tickDelta) {
         Minecraft client = Minecraft.getInstance();
-        if (client.screen != null) return;
+        if (client.screen != null) {
+            return;
+        }
 
         HitResult hit = client.hitResult;
-        if (hit == null || hit.getType() != HitResult.Type.BLOCK) return;
+        if (hit == null || hit.getType() != HitResult.Type.BLOCK) {
+            return;
+        }
 
         BlockHitResult blockHit = (BlockHitResult) hit;
         BlockPos blockPos = blockHit.getBlockPos();
-        if (client.level == null) return;
+        if (client.level == null) {
+            return;
+        }
 
         BlockEntity blockEntity = BlockEntityHelper.locateTargetBlockEntity(client.level, blockPos, client.level.getBlockState(blockPos));
 

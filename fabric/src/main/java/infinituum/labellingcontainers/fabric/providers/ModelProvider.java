@@ -8,7 +8,7 @@ import net.minecraft.data.models.model.ModelTemplates;
 
 import static infinituum.labellingcontainers.registration.ItemRegistration.LABEL_PRINTER;
 
-public class ModelProvider extends FabricModelProvider {
+public final class ModelProvider extends FabricModelProvider {
     public ModelProvider(FabricDataOutput output) {
         super(output);
     }

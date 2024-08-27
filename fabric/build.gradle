@@ -44,7 +44,7 @@ dependencies {
     // FastConfigAPI
     modApi("infinituum.fastconfigapi:fastconfigapi-fabric:${rootProject.minecraft_version}-${rootProject.fastconfigapi_version}")
 
-    def ccapiVersion = "5.2.0"
+    def ccapiVersion = "6.1.1"
 
     // Echo chest mod
     modImplementation "dev.onyxstudios.cardinal-components-api:cardinal-components-block:${ccapiVersion}"
@@ -54,20 +54,20 @@ dependencies {
     implementation 'com.electronwill.night-config:toml:3.6.5'
 
     // From: https://github.com/Fuzss/modresources/tree/main/maven
-    modApi "fuzs.limitlesscontainers:limitlesscontainers-fabric:20.4.0"
-    modImplementation "curse.maven:puzzles-lib-495476:5131377"
-    modImplementation "curse.maven:forge-config-api-port-fabric-547434:5051714"
+    modApi "fuzs.limitlesscontainers:limitlesscontainers-fabric:21.0.0"
+    modImplementation "curse.maven:puzzles-lib-495476:5666186"
+    modImplementation "curse.maven:forge-config-api-port-fabric-547434:5605610"
 
-    modImplementation "curse.maven:echo-chest-857972:5096975"
+    modImplementation "curse.maven:echo-chest-857972:5627763"
 
     // Nether Chested mod
-    modImplementation "curse.maven:new-nether-chest-857971:5080412"
+    modImplementation "curse.maven:new-nether-chest-857971:5627775"
 
     // More Chests mod
-    modImplementation "curse.maven:more-chests-737045:4978687"
+    // modImplementation "curse.maven:more-chests-737045:4978687"
 
     // Compact Storage mod
-    modImplementation "curse.maven:compactstorage-223703:5136769"
+    // modImplementation "curse.maven:compactstorage-223703:5136769"
 }
 
 processResources {

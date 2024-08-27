@@ -37,7 +37,7 @@ side = "BOTH"
 [[dependencies.${ modid }]]
 modId = "fastconfigapi"
 type = "required"
-versionRange = "[${fastconfigapi_version},)"
+versionRange = "[${fastconfigapi_version}]"
 ordering = "AFTER"
 side = "BOTH"
 

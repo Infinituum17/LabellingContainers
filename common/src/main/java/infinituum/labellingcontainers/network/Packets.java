@@ -4,7 +4,7 @@ import net.minecraft.resources.ResourceLocation;
 
 import static infinituum.labellingcontainers.LabellingContainers.MOD_ID;
 
-public class Packets {
+public final class Packets {
     // C2S
     public static final ResourceLocation C2S_LABEL_PRINTER_SAVE = new ResourceLocation(MOD_ID, "label_printer_save_packet");
     public static final ResourceLocation C2S_REQUEST_TAGGABLE_BLOCKS_CONFIG = new ResourceLocation(MOD_ID, "request_taggable_blocks_config_packet");

@@ -35,6 +35,7 @@ dependencies {
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
     shadowCommon(project(path: ":common", configuration: "transformProductionForge")) { transitive = false }
 
+    /*
     // FastConfigAPI
     modApi("infinituum.fastconfigapi:fastconfigapi-forge:${rootProject.minecraft_version}-${rootProject.fastconfigapi_version}")
 
@@ -49,6 +50,7 @@ dependencies {
 
     // Compact Storage mod
     modImplementation "curse.maven:compactstorage-223703:5136777"
+     */
 }
 
 processResources {
@@ -106,11 +108,4 @@ publishing {
     repositories {
         // Add repositories to publish to here.
     }
-}
-
-// TODO: Remove this when it's *probably* fixed with the new Loom version.
-sourceSets.each {
-    def dir = layout.buildDirectory.dir("sourcesSets/$it.name")
-    it.output.resourcesDir = dir
-    it.java.destinationDirectory = dir
 }
