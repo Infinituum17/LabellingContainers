@@ -44,30 +44,65 @@ dependencies {
     // FastConfigAPI
     modApi("infinituum.fastconfigapi:fastconfigapi-fabric:${rootProject.minecraft_version}-${rootProject.fastconfigapi_version}")
 
-    def ccapiVersion = "6.1.1"
+    // Iron Chests: Restocked
+    modCompileOnly "curse.maven:resourceful-lib-570073:4851866"
+    modCompileOnly "curse.maven:ironchests-498794:4638050"
+
+    // Mythic Metals Decorations
+    def ccapiVersion = "5.2.0"
+    def mixinextrasVersion = "0.2.0"
+    def aeaVersion = "1.4.0+1.20.0"
+    def cpapiVersion = "1.0.0"
+    def bejVersion = "1.2.2"
+
+    modCompileOnly "dev.onyxstudios.cardinal-components-api:cardinal-components-base:${ccapiVersion}"
+    modCompileOnly "dev.onyxstudios.cardinal-components-api:cardinal-components-entity:${ccapiVersion}"
+    modCompileOnly "io.github.llamalad7:mixinextras-fabric:${mixinextrasVersion}"
+    modCompileOnly "maven.modrinth:additionalentityattributes:${aeaVersion}"
+    modCompileOnly "eu.pb4:common-protection-api:${cpapiVersion}"
+
+    implementation "blue.endless:jankson:${bejVersion}"
+
+    modCompileOnly "curse.maven:owo-lib-532610:4749199"
+    modCompileOnly "curse.maven:cloth-config-348521:4633442"
+    modCompileOnly "curse.maven:mythicmetals-410127:4644233"
+    modCompileOnly "curse.maven:alloy-forgery-438718:4644228"
+    modCompileOnly "curse.maven:mythicmetals-decorations-552128:4580007"
 
     // Echo chest mod
-    modImplementation "dev.onyxstudios.cardinal-components-api:cardinal-components-block:${ccapiVersion}"
-    modImplementation "dev.onyxstudios.cardinal-components-api:cardinal-components-chunk:${ccapiVersion}"
-    modImplementation "dev.onyxstudios.cardinal-components-api:cardinal-components-world:${ccapiVersion}"
+    modCompileOnly "dev.onyxstudios.cardinal-components-api:cardinal-components-block:${ccapiVersion}"
+    modCompileOnly "dev.onyxstudios.cardinal-components-api:cardinal-components-chunk:${ccapiVersion}"
+    modCompileOnly "dev.onyxstudios.cardinal-components-api:cardinal-components-world:${ccapiVersion}"
     implementation 'com.electronwill.night-config:core:3.6.5'
     implementation 'com.electronwill.night-config:toml:3.6.5'
 
     // From: https://github.com/Fuzss/modresources/tree/main/maven
-    modApi "fuzs.limitlesscontainers:limitlesscontainers-fabric:21.0.0"
-    modImplementation "curse.maven:puzzles-lib-495476:5666186"
-    modImplementation "curse.maven:forge-config-api-port-fabric-547434:5605610"
+    modApi "fuzs.puzzlesapi:puzzlesapi-fabric:8.1.5"
+    modCompileOnly "curse.maven:forge-config-api-port-fabric-547434:4583000"
 
-    modImplementation "curse.maven:echo-chest-857972:5627763"
+    modCompileOnly "curse.maven:puzzles-lib-495476:5112686"
+    modCompileOnly "curse.maven:echo-chest-857972:4613441"
 
     // Nether Chested mod
-    modImplementation "curse.maven:new-nether-chest-857971:5627775"
+    modCompileOnly "curse.maven:new-nether-chest-857971:5056973"
 
     // More Chests mod
-    // modImplementation "curse.maven:more-chests-737045:4978687"
+    modCompileOnly "curse.maven:more-chests-737045:4978614"
 
     // Compact Storage mod
-    // modImplementation "curse.maven:compactstorage-223703:5136769"
+    modCompileOnly "curse.maven:compactstorage-223703:4689301"
+
+    // Supplementaries mod
+    modCompileOnly "curse.maven:selene-499980:5146530"
+    modCompileOnly "curse.maven:supplementaries-412082:5147147"
+
+    // Farmer's delight refabricated
+    modCompileOnly("vectorwing:FarmersDelight-Refabricated:1.20.1-2.0.12") {
+        exclude(group: "net.fabricmc")
+    }
+
+    // Reinforced Chests
+    modCompileOnly "curse.maven:reinforced-chests-529873:4594775"
 }
 
 processResources {

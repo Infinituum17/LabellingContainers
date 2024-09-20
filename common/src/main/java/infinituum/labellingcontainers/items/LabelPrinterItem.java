@@ -194,7 +194,7 @@ public class LabelPrinterItem extends Item {
         CompatibleContainers config = TAGGABLE_BLOCKS_CONFIG.getConfig();
 
         final boolean dataIsEqual = blockLabel.equals(printerLabel) && blockDisplayItem.equals(printerDisplayItem);
-
+        
         switch (getMode(itemInHand)) {
             case CREATE -> {
                 if (config.isLimited() && !(config.has(registryName.toString()) || config.hasAnyTag(blockState.getTags()))) {

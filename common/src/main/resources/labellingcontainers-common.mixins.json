@@ -1,12 +1,12 @@
 {
-    "required": true,
-    "package": "infinituum.labellingcontainers.mixin",
-    "compatibilityLevel": "JAVA_21",
-    "minVersion": "0.8",
-    "mixins": [
-        "minecraft.BlockEntityMixin"
-    ],
-    "injectors": {
-        "defaultRequire": 1
-    }
+  "required": true,
+  "package": "infinituum.labellingcontainers.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "minVersion": "0.8",
+  "mixins": [
+    "minecraft.BlockEntityMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
 }

@@ -118,6 +118,7 @@ public class LabelPrinterGui extends AbstractContainerScreen<LabelPrinterScreenH
             setup();
         }
         renderBackground(context, mouseX, mouseY, delta);
+        
         super.render(context, mouseX, mouseY, delta);
         renderForeground(context, mouseX, mouseY, delta);
         renderTooltip(context, mouseX, mouseY);

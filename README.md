@@ -16,8 +16,7 @@ This mod adds a **Label printer** which is an item that can set a label and an i
 
 ## Printing labels:
 
-To use the **Label Printer**, _right-click_ while holding it, and it'll open a menu
-where you can set your icon and
+To use the **Label Printer**, _right-click_ while holding it, and it'll open a menu where you can set your icon and
 label. Finally, have **paper** in your inventory and _shift-right-click_ a chest or compatible container to set them.
 
 ## Copying labels from existing ones:
@@ -87,4 +86,3 @@ Examples:
   ```minecraft
   /labelconfig remove-hand
   ```
-  

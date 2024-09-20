@@ -47,3 +47,4 @@ replay_*.log
 .architectury-transformer/
 
 changelog.md
+**/libs/

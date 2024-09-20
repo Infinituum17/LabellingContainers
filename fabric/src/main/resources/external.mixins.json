@@ -1,13 +1,13 @@
 {
-    "required": false,
-    "package": "infinituum.labellingcontainers.fabric.mixin",
-    "plugin": "infinituum.labellingcontainers.fabric.utils.ConditionalLoaderMixinPlugin",
-    "compatibilityLevel": "JAVA_21",
-    "minVersion": "0.8",
-    "mixins": [
-        "BlockItemMixin"
-    ],
-    "injectors": {
-        "defaultRequire": 1
-    }
+  "required": false,
+  "package": "infinituum.labellingcontainers.fabric.mixin",
+  "plugin": "infinituum.labellingcontainers.fabric.utils.ConditionalLoaderMixinPlugin",
+  "compatibilityLevel": "JAVA_17",
+  "minVersion": "0.8",
+  "mixins": [
+    "BlockItemMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
 }

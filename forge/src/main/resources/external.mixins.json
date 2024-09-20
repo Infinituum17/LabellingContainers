@@ -1,12 +1,15 @@
 {
-  "required": false,
-  "package": "infinituum.labellingcontainers.forge.mixin",
-  "plugin": "infinituum.labellingcontainers.forge.utils.ConditionalLoaderMixinPlugin",
-  "compatibilityLevel": "JAVA_17",
-  "minVersion": "0.8",
-  "mixins": [],
-  "injectors": {
-    "defaultRequire": 1
-  },
-  "client": []
+    "required": false,
+    "package": "infinituum.labellingcontainers.forge.mixin",
+    "plugin": "infinituum.labellingcontainers.forge.utils.ConditionalLoaderMixinPlugin",
+    "compatibilityLevel": "JAVA_17",
+    "minVersion": "0.8",
+    "mixins": [
+        "fantasyfurniture.BaseBlockEntityMixin",
+        "sophisticatedstorage.StorageBlockEntityMixin"
+    ],
+    "injectors": {
+        "defaultRequire": 1
+    },
+    "client": []
 }
