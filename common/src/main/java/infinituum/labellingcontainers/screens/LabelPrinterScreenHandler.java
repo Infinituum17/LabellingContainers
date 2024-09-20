@@ -13,7 +13,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
-public class LabelPrinterScreenHandler extends AbstractContainerMenu {
+public final class LabelPrinterScreenHandler extends AbstractContainerMenu {
     private final Container inventory;
 
     public LabelPrinterScreenHandler(int syncId, Inventory playerInventory) {
@@ -74,13 +74,16 @@ public class LabelPrinterScreenHandler extends AbstractContainerMenu {
                 if (!inPlayerInventory) {
                     this.setItem(slotIndex, this.incrementStateId(), ItemStack.EMPTY);
                 } else {
-                    if (slot.hasItem())
+                    if (slot.hasItem()) {
                         this.setItem(0, this.incrementStateId(), new ItemStack(slot.getItem().getItem()));
+                    }
                 }
             }
         }
 
-        if (inPlayerInventory) super.clicked(slotIndex, button, actionType, player);
+        if (inPlayerInventory) {
+            super.clicked(slotIndex, button, actionType, player);
+        }
     }
 
     @Override

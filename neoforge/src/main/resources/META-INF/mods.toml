@@ -1,40 +1,40 @@
 modLoader = "javafml"
-loaderVersion = "[1,)"
+loaderVersion = "[${loader_version},)"
 issueTrackerURL = "https://github.com/Infinituum17/LabellingContainers/issues"
 license = "MIT"
 
 [[mods]]
-modId = "${modid}"
+modId = "labellingcontainers"
 version = "${version}"
 displayName = "Labelling Containers"
 authors = "Infinituum"
 description = '''
 This mod helps you organize the content of your chests and other containers by assigning them a name, and without using annoying signs
 '''
-logoFile = "assets/${modid}/icon.png"
+logoFile = "assets/labellingcontainers/icon.png"
 
-[[dependencies.${ modid }]]
+[[dependencies.labellingcontainers]]
 modId = "neoforge"
-type="required"
-versionRange = "[${neoforge_version},)"
+type = "required"
+versionRange = "[${neoforge_base_version},)"
 ordering = "NONE"
 side = "BOTH"
 
-[[dependencies.${ modid }]]
+[[dependencies.labellingcontainers]]
 modId = "minecraft"
-type="required"
-versionRange = "[${mc_version},)"
+type = "required"
+versionRange = "[${minecraft_version},)"
 ordering = "NONE"
 side = "BOTH"
 
-[[dependencies.${ modid }]]
+[[dependencies.labellingcontainers]]
 modId = "architectury"
-type="required"
-versionRange = "[${arch_version},)"
+type = "required"
+versionRange = "[${architectury_api_version},)"
 ordering = "AFTER"
 side = "BOTH"
 
-[[dependencies.${ modid }]]
+[[dependencies.labellingcontainers]]
 modId = "fastconfigapi"
 type = "required"
 versionRange = "[${fastconfigapi_version}]"

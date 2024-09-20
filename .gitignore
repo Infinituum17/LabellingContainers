@@ -42,7 +42,9 @@ replay_*.log
 
 # other
 **/*.png
+**/*.log
 **/.cache/
+logs/
 
 .architectury-transformer/
 
