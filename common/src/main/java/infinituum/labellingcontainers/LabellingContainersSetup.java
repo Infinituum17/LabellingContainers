@@ -4,11 +4,12 @@ import dev.architectury.event.events.client.ClientGuiEvent;
 import dev.architectury.event.events.client.ClientLifecycleEvent;
 import dev.architectury.event.events.client.ClientPlayerEvent;
 import dev.architectury.event.events.client.ClientTooltipEvent;
-import dev.architectury.event.events.common.CommandPerformEvent;
 import dev.architectury.networking.NetworkManager;
 import dev.architectury.platform.Platform;
 import dev.architectury.registry.menu.MenuRegistry;
-import infinituum.labellingcontainers.events.ReloadCommandHandler;
+import infinituum.fastconfigapi.FastConfigs;
+import infinituum.labellingcontainers.config.CompatibleContainers;
+import infinituum.labellingcontainers.config.PlayerPreferences;
 import infinituum.labellingcontainers.events.TooltipEventHandler;
 import infinituum.labellingcontainers.guis.LabelPrinterGui;
 import infinituum.labellingcontainers.huds.HudInfoDisplay;
@@ -28,16 +29,12 @@ import java.util.HashSet;
 import java.util.Set;
 
 import static infinituum.labellingcontainers.LabellingContainers.LOGGER;
-import static infinituum.labellingcontainers.LabellingContainersConfig.PLAYER_PREFERENCES_CONFIG;
-import static infinituum.labellingcontainers.LabellingContainersConfig.TAGGABLE_BLOCKS_CONFIG;
 import static infinituum.labellingcontainers.registration.ScreenRegistration.LABEL_PRINTER_SCREEN_HANDLER;
 
 public final class LabellingContainersSetup {
     public static void initClient() {
         if (Platform.getEnv() == EnvType.CLIENT) {
             ClientLifecycleEvent.CLIENT_SETUP.register((client) -> {
-                LabellingContainersConfig.initClient();
-
                 clientRegisterScreens();
                 clientRegisterEvents();
                 clientRegisterNetworkReceivers();
@@ -49,15 +46,15 @@ public final class LabellingContainersSetup {
 
     public static void initServer() {
         serverRegisterNetworkReceivers();
-
-        CommandPerformEvent.EVENT.register(ReloadCommandHandler::handle);
     }
 
     public static void serverRegisterNetworkReceivers() {
         NetworkManager.registerReceiver(NetworkManager.c2s(), Packets.C2S_REQUEST_TAGGABLE_BLOCKS_CONFIG, (buf, context) -> {
+            CompatibleContainers config = FastConfigs.get(CompatibleContainers.class);
+
             FriendlyByteBuf buffer = new FriendlyByteBuf(Unpooled.buffer());
-            Set<String> ids = TAGGABLE_BLOCKS_CONFIG.getConfig().getIds();
-            Set<String> tags = TAGGABLE_BLOCKS_CONFIG.getConfig().getTags();
+            Set<String> ids = config.getIds();
+            Set<String> tags = config.getTags();
 
             buffer.writeInt(ids.size());
             ids.forEach(buffer::writeUtf);
@@ -98,42 +95,43 @@ public final class LabellingContainersSetup {
 
     @Environment(EnvType.CLIENT)
     public static void clientRegisterNetworkReceivers() {
-        NetworkManager.registerReceiver(NetworkManager.s2c(), Packets.S2C_PREFERENCES_CONFIG_UPDATE, (buf, context) -> {
-            String ordinalHud = buf.readUtf();
+        NetworkManager.registerReceiver(NetworkManager.s2c(), Packets.S2C_PREFERENCES_CONFIG_UPDATE,
+                (buf, context) -> FastConfigs.editAndSave(PlayerPreferences.class, config -> {
+                    String ordinalHud = buf.readUtf();
 
-            PLAYER_PREFERENCES_CONFIG.getConfig().setHudPosition(HudPositions.fromReadable(ordinalHud));
-            PLAYER_PREFERENCES_CONFIG.saveCurrent();
-        });
+                    config.setHudPosition(HudPositions.fromReadable(ordinalHud));
+                }));
 
-        NetworkManager.registerReceiver(NetworkManager.s2c(), Packets.S2C_SYNC_TAGGABLE_BLOCKS_CONFIG, (buf, context) -> {
-            int idsSize = buf.readInt();
-            Set<String> ids = new HashSet<>();
+        NetworkManager.registerReceiver(NetworkManager.s2c(), Packets.S2C_SYNC_TAGGABLE_BLOCKS_CONFIG,
+                (buf, context) -> FastConfigs.editAndSave(CompatibleContainers.class, config -> {
+                    int idsSize = buf.readInt();
+                    Set<String> ids = new HashSet<>();
 
-            for (int i = 0; i < idsSize; i++) {
-                ids.add(buf.readUtf());
-            }
+                    for (int i = 0; i < idsSize; i++) {
+                        ids.add(buf.readUtf());
+                    }
 
-            int tagsSize = buf.readInt();
-            Set<String> tags = new HashSet<>();
+                    int tagsSize = buf.readInt();
+                    Set<String> tags = new HashSet<>();
 
-            for (int i = 0; i < tagsSize; i++) {
-                tags.add(buf.readUtf());
-            }
+                    for (int i = 0; i < tagsSize; i++) {
+                        tags.add(buf.readUtf());
+                    }
 
-            TAGGABLE_BLOCKS_CONFIG.getConfig().setIds(ids);
-            TAGGABLE_BLOCKS_CONFIG.getConfig().setTags(tags);
-        });
+                    config.setIds(ids);
+                    config.setTags(tags);
+                }));
 
         NetworkManager.registerReceiver(NetworkManager.s2c(), Packets.S2C_ADD_ID_TAGGABLE_BLOCKS_CONFIG,
-                (buf, context) -> TAGGABLE_BLOCKS_CONFIG.getConfig().addId(buf.readUtf()));
+                (buf, context) -> FastConfigs.editAndSave(CompatibleContainers.class, config -> config.addId(buf.readUtf())));
 
         NetworkManager.registerReceiver(NetworkManager.s2c(), Packets.S2C_REMOVE_ID_TAGGABLE_BLOCKS_CONFIG,
-                (buf, context) -> TAGGABLE_BLOCKS_CONFIG.getConfig().removeId(buf.readUtf()));
+                (buf, context) -> FastConfigs.editAndSave(CompatibleContainers.class, config -> config.removeId(buf.readUtf())));
 
         NetworkManager.registerReceiver(NetworkManager.s2c(), Packets.S2C_ADD_TAG_TAGGABLE_BLOCKS_CONFIG,
-                (buf, context) -> TAGGABLE_BLOCKS_CONFIG.getConfig().addTag(buf.readUtf()));
+                (buf, context) -> FastConfigs.editAndSave(CompatibleContainers.class, config -> config.addTag(buf.readUtf())));
 
         NetworkManager.registerReceiver(NetworkManager.s2c(), Packets.S2C_REMOVE_TAG_TAGGABLE_BLOCKS_CONFIG,
-                (buf, context) -> TAGGABLE_BLOCKS_CONFIG.getConfig().removeTag(buf.readUtf()));
+                (buf, context) -> FastConfigs.editAndSave(CompatibleContainers.class, config -> config.removeTag(buf.readUtf())));
     }
 }

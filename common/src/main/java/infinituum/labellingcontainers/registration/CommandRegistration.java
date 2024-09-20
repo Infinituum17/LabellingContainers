@@ -3,6 +3,9 @@ package infinituum.labellingcontainers.registration;
 import com.mojang.brigadier.context.CommandContext;
 import dev.architectury.event.events.common.CommandRegistrationEvent;
 import dev.architectury.networking.NetworkManager;
+import infinituum.fastconfigapi.FastConfigs;
+import infinituum.fastconfigapi.api.FastConfigFile;
+import infinituum.labellingcontainers.config.CompatibleContainers;
 import infinituum.labellingcontainers.huds.utils.HudPositions;
 import infinituum.labellingcontainers.network.Packets;
 import infinituum.labellingcontainers.utils.Taggable;
@@ -22,7 +25,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 
-import static infinituum.labellingcontainers.LabellingContainersConfig.TAGGABLE_BLOCKS_CONFIG;
 import static net.minecraft.commands.Commands.argument;
 import static net.minecraft.commands.Commands.literal;
 
@@ -279,12 +281,16 @@ public final class CommandRegistration {
         if (player == null || resourceLocation == null) {
             return 0;
         }
-        if (TAGGABLE_BLOCKS_CONFIG.getConfig().has(resourceLocation.toString())) {
+
+        FastConfigFile<CompatibleContainers> configFile = FastConfigs.getFile(CompatibleContainers.class);
+        CompatibleContainers config = configFile.getInstance();
+
+        if (config.has(resourceLocation.toString())) {
             return 0;
         }
 
-        TAGGABLE_BLOCKS_CONFIG.getConfig().addId(resourceLocation.toString());
-        TAGGABLE_BLOCKS_CONFIG.saveCurrent();
+        config.addId(resourceLocation.toString());
+        configFile.save();
 
         FriendlyByteBuf buffer = new FriendlyByteBuf(Unpooled.buffer());
 
@@ -309,12 +315,16 @@ public final class CommandRegistration {
         if (player == null || resourceLocation == null) {
             return 0;
         }
-        if (!TAGGABLE_BLOCKS_CONFIG.getConfig().has(resourceLocation.toString())) {
+
+        FastConfigFile<CompatibleContainers> configFile = FastConfigs.getFile(CompatibleContainers.class);
+        CompatibleContainers config = configFile.getInstance();
+
+        if (!config.has(resourceLocation.toString())) {
             return 0;
         }
 
-        TAGGABLE_BLOCKS_CONFIG.getConfig().removeId(resourceLocation.toString());
-        TAGGABLE_BLOCKS_CONFIG.saveCurrent();
+        config.removeId(resourceLocation.toString());
+        configFile.save();
 
         FriendlyByteBuf buffer = new FriendlyByteBuf(Unpooled.buffer());
 
@@ -339,12 +349,16 @@ public final class CommandRegistration {
         if (player == null || tag == null) {
             return 0;
         }
-        if (TAGGABLE_BLOCKS_CONFIG.getConfig().has(tag)) {
+
+        FastConfigFile<CompatibleContainers> configFile = FastConfigs.getFile(CompatibleContainers.class);
+        CompatibleContainers config = configFile.getInstance();
+
+        if (config.has(tag)) {
             return 0;
         }
 
-        TAGGABLE_BLOCKS_CONFIG.getConfig().addTag(tag);
-        TAGGABLE_BLOCKS_CONFIG.saveCurrent();
+        config.addTag(tag);
+        configFile.save();
 
         FriendlyByteBuf buffer = new FriendlyByteBuf(Unpooled.buffer());
 
@@ -369,12 +383,16 @@ public final class CommandRegistration {
         if (player == null || tag == null) {
             return 0;
         }
-        if (!TAGGABLE_BLOCKS_CONFIG.getConfig().has(tag)) {
+
+        FastConfigFile<CompatibleContainers> configFile = FastConfigs.getFile(CompatibleContainers.class);
+        CompatibleContainers config = configFile.getInstance();
+
+        if (!config.has(tag)) {
             return 0;
         }
 
-        TAGGABLE_BLOCKS_CONFIG.getConfig().removeTag(tag);
-        TAGGABLE_BLOCKS_CONFIG.saveCurrent();
+        config.removeTag(tag);
+        configFile.save();
 
         FriendlyByteBuf buffer = new FriendlyByteBuf(Unpooled.buffer());
 

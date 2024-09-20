@@ -21,7 +21,5 @@ public final class LabellingContainers {
 
         LabellingContainersSetup.initServer();
         LabellingContainersSetup.initClient();
-
-        LabellingContainersConfig.commonInit();
     }
 }

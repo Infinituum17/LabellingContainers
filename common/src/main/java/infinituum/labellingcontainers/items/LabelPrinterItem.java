@@ -1,6 +1,7 @@
 package infinituum.labellingcontainers.items;
 
 import dev.architectury.registry.menu.MenuRegistry;
+import infinituum.fastconfigapi.FastConfigs;
 import infinituum.labellingcontainers.config.CompatibleContainers;
 import infinituum.labellingcontainers.registration.ItemRegistration;
 import infinituum.labellingcontainers.screens.LabelPrinterScreenFactory;
@@ -39,7 +40,6 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-import static infinituum.labellingcontainers.LabellingContainersConfig.TAGGABLE_BLOCKS_CONFIG;
 import static net.minecraft.world.item.Items.AIR;
 
 public class LabelPrinterItem extends Item {
@@ -191,10 +191,10 @@ public class LabelPrinterItem extends Item {
         Component blockLabel = taggable.labellingcontainers$getLabel();
         Item blockDisplayItem = taggable.labellingcontainers$getDisplayItem();
 
-        CompatibleContainers config = TAGGABLE_BLOCKS_CONFIG.getConfig();
+        CompatibleContainers config = FastConfigs.get(CompatibleContainers.class);
 
         final boolean dataIsEqual = blockLabel.equals(printerLabel) && blockDisplayItem.equals(printerDisplayItem);
-        
+
         switch (getMode(itemInHand)) {
             case CREATE -> {
                 if (config.isLimited() && !(config.has(registryName.toString()) || config.hasAnyTag(blockState.getTags()))) {

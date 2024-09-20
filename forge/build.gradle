@@ -37,6 +37,8 @@ dependencies {
 
     // FastConfigAPI
     modApi("infinituum.fastconfigapi:fastconfigapi-forge:${rootProject.minecraft_version}-${rootProject.fastconfigapi_version}")
+    forgeRuntimeLibrary 'com.moandjiezana.toml:toml4j:0.7.2'
+    modApi("infinituum.void_lib:void_lib-forge:${rootProject.minecraft_version}-${rootProject.void_lib_version}")
 
     // Iron Chests: Restocked
     modCompileOnly "curse.maven:resourceful-lib-570073:4973823"
@@ -64,8 +66,8 @@ dependencies {
     modCompileOnly "curse.maven:compactstorage-223703:4732852"
 
     // Supplementaries mod
-    compileOnly(annotationProcessor("io.github.llamalad7:mixinextras-common:0.3.5"))
-    implementation("io.github.llamalad7:mixinextras-forge:0.3.5")
+    compileOnly(annotationProcessor("io.github.llamalad7:mixinextras-common:0.4.1"))
+    implementation("io.github.llamalad7:mixinextras-forge:0.4.1")
 
     modCompileOnly "curse.maven:selene-499980:5254462"
     modCompileOnly "curse.maven:supplementaries-412082:5225134"

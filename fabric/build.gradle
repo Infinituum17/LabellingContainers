@@ -43,6 +43,7 @@ dependencies {
 
     // FastConfigAPI
     modApi("infinituum.fastconfigapi:fastconfigapi-fabric:${rootProject.minecraft_version}-${rootProject.fastconfigapi_version}")
+    modApi("infinituum.void_lib:void_lib-fabric:${rootProject.minecraft_version}-${rootProject.void_lib_version}")
 
     // Iron Chests: Restocked
     modCompileOnly "curse.maven:resourceful-lib-570073:4851866"
