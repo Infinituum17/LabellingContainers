@@ -47,10 +47,11 @@ dependencies {
     // modCompileOnly "curse.maven:new-nether-chest-857971:5627776"
 
     // Sophisticated Storage
-    // modCompileOnly "curse.maven:sophisticated-storage-619320:5646596"
+    modCompileOnly "curse.maven:sophisticated-storage-619320:5741329"
 
     // Colossal Chests
-    // modCompileOnly "curse.maven:colossal-chests-237875:5537801"
+    modCompileOnly "curse.maven:cyclops-core-232758:5583764"
+    modCompileOnly "curse.maven:colossal-chests-237875:5536699"
 }
 
 processResources {

@@ -1,18 +1,17 @@
 package infinituum.labellingcontainers.items;
 
 import dev.architectury.registry.menu.MenuRegistry;
+import infinituum.fastconfigapi.FastConfigs;
 import infinituum.labellingcontainers.config.CompatibleContainers;
+import infinituum.labellingcontainers.registration.DataComponentRegistration;
 import infinituum.labellingcontainers.registration.ItemRegistration;
+import infinituum.labellingcontainers.registration.component_types.LabelProperties;
 import infinituum.labellingcontainers.screens.LabelPrinterScreenFactory;
-import infinituum.labellingcontainers.utils.ActionBarTextHelper;
-import infinituum.labellingcontainers.utils.BlockEntityHelper;
-import infinituum.labellingcontainers.utils.InventoryHelper;
-import infinituum.labellingcontainers.utils.Taggable;
+import infinituum.labellingcontainers.utils.*;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
@@ -35,11 +34,9 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-import static infinituum.labellingcontainers.LabellingContainersConfig.TAGGABLE_BLOCKS_CONFIG;
 import static net.minecraft.world.item.Items.AIR;
 
 public class LabelPrinterItem extends Item {
@@ -49,49 +46,29 @@ public class LabelPrinterItem extends Item {
     }
 
     public static String getLabel(ItemStack itemStack) {
-        CompoundTag labelTag = itemStack.getOrCreateTagElement("Label");
-
-        if (!labelTag.contains("text")) {
-            labelTag.putString("text", "");
-        }
-
-        return labelTag.getString("text");
+        return DataComponentTypeHelper.getLabelProperties(itemStack).text();
     }
 
     public static void setLabel(ItemStack itemStack, String text) {
-        CompoundTag tag = itemStack.getOrCreateTagElement("Label");
+        LabelProperties oldProperties = DataComponentTypeHelper.getLabelProperties(itemStack);
+        LabelProperties properties = new LabelProperties(text, oldProperties.displayItem(), oldProperties.mode());
 
-        tag.putString("text", text);
-
-        itemStack.addTagElement("Label", tag);
+        itemStack.set(DataComponentRegistration.LABEL_COMPONENT_TYPE.get(), properties);
     }
 
     public static Item getDisplayItem(ItemStack itemStack) {
-        CompoundTag labelTag = itemStack.getOrCreateTagElement("Label");
-
-        if (!labelTag.contains("displayItem")) {
-            labelTag.put("displayItem", ItemStack.EMPTY.save(new CompoundTag()));
-        }
-
-        return ItemStack.of(labelTag.getCompound("displayItem")).getItem();
+        return DataComponentTypeHelper.getLabelProperties(itemStack).displayItem().getItem();
     }
 
     public static void setDisplayItem(ItemStack itemStack, ItemStack itemToDisplay) {
-        CompoundTag tag = itemStack.getOrCreateTagElement("Label");
+        LabelProperties oldProperties = DataComponentTypeHelper.getLabelProperties(itemStack);
+        LabelProperties properties = new LabelProperties(oldProperties.text(), itemToDisplay, oldProperties.mode());
 
-        tag.put("displayItem", itemToDisplay.save(new CompoundTag()));
-
-        itemStack.addTagElement("Label", tag);
+        itemStack.set(DataComponentRegistration.LABEL_COMPONENT_TYPE.get(), properties);
     }
 
     public static int getModeIndex(ItemStack itemStack) {
-        CompoundTag labelTag = itemStack.getOrCreateTagElement("Label");
-
-        if (!labelTag.contains("modeIndex")) {
-            labelTag.putInt("modeIndex", 0);
-        }
-
-        return labelTag.getInt("modeIndex");
+        return DataComponentTypeHelper.getLabelProperties(itemStack).mode();
     }
 
     public static LabelPrinterMode getMode(ItemStack itemStack) {
@@ -101,11 +78,10 @@ public class LabelPrinterItem extends Item {
     }
 
     public static void setModeIndex(ItemStack itemStack, int modeIndex) {
-        CompoundTag tag = itemStack.getOrCreateTagElement("Label");
+        LabelProperties oldProperties = DataComponentTypeHelper.getLabelProperties(itemStack);
+        LabelProperties properties = new LabelProperties(oldProperties.text(), oldProperties.displayItem(), modeIndex);
 
-        tag.putInt("modeIndex", modeIndex);
-
-        itemStack.addTagElement("Label", tag);
+        itemStack.set(DataComponentRegistration.LABEL_COMPONENT_TYPE.get(), properties);
     }
 
     public static void setMode(ItemStack itemStack, LabelPrinterMode mode) {
@@ -191,10 +167,10 @@ public class LabelPrinterItem extends Item {
         Component blockLabel = taggable.labellingcontainers$getLabel();
         Item blockDisplayItem = taggable.labellingcontainers$getDisplayItem();
 
-        CompatibleContainers config = TAGGABLE_BLOCKS_CONFIG.getConfig();
+        CompatibleContainers config = FastConfigs.get(CompatibleContainers.class);
 
         final boolean dataIsEqual = blockLabel.equals(printerLabel) && blockDisplayItem.equals(printerDisplayItem);
-        
+
         switch (getMode(itemInHand)) {
             case CREATE -> {
                 if (config.isLimited() && !(config.has(registryName.toString()) || config.hasAnyTag(blockState.getTags()))) {
@@ -255,14 +231,15 @@ public class LabelPrinterItem extends Item {
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag context) {
+    public void appendHoverText(ItemStack stack, TooltipContext tooltipContext, List<Component> tooltip, TooltipFlag tooltipFlag) {
         String currentLabel = getLabel(stack);
         Item currentDisplayItem = getDisplayItem(stack);
         int currentModeIndex = getModeIndex(stack);
 
+
         MutableComponent descriptionText = Component.literal("ⓘ ").withStyle(ChatFormatting.BLUE);
 
-        if (level != null && level.isClientSide() && Screen.hasShiftDown()) {
+        if (Screen.hasShiftDown()) {
             descriptionText.append(Component.translatable(this.getDescriptionId() + ".tooltip.description").withStyle(ChatFormatting.GREEN));
         } else {
             descriptionText.append(Component.translatable(this.getDescriptionId() + ".tooltip.hidden").withStyle(ChatFormatting.GRAY));
@@ -300,7 +277,7 @@ public class LabelPrinterItem extends Item {
 
         tooltip.add(modeText);
 
-        super.appendHoverText(stack, level, tooltip, context);
+        super.appendHoverText(stack, tooltipContext, tooltip, tooltipFlag);
     }
 
     private void swapMode(ItemStack currentItemStack) {

@@ -2,16 +2,20 @@ package infinituum.labellingcontainers.fabric.providers.language;
 
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
+import net.minecraft.core.HolderLookup;
+
+import java.util.concurrent.CompletableFuture;
 
 import static infinituum.labellingcontainers.registration.ItemRegistration.LABEL_PRINTER;
 
 public final class ItalianLangProvider extends FabricLanguageProvider {
-    public ItalianLangProvider(FabricDataOutput dataOutput) {
-        super(dataOutput, "it_it");
+
+    public ItalianLangProvider(FabricDataOutput dataOutput, CompletableFuture<HolderLookup.Provider> registryLookup) {
+        super(dataOutput, "it_it", registryLookup);
     }
 
     @Override
-    public void generateTranslations(TranslationBuilder translationBuilder) {
+    public void generateTranslations(HolderLookup.Provider registryLookup, TranslationBuilder translationBuilder) {
         translationBuilder.add(LABEL_PRINTER.get(), "Stampante di etichette");
 
         String labelPrinterKey = LABEL_PRINTER.get().getDescriptionId();

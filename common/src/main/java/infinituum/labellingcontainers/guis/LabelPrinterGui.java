@@ -3,26 +3,24 @@ package infinituum.labellingcontainers.guis;
 import com.mojang.blaze3d.systems.RenderSystem;
 import dev.architectury.networking.NetworkManager;
 import infinituum.labellingcontainers.items.LabelPrinterItem;
-import infinituum.labellingcontainers.network.Packets;
+import infinituum.labellingcontainers.network.packets.c2s.LabelPrinterSavePacket;
 import infinituum.labellingcontainers.screens.LabelPrinterScreenHandler;
-import io.netty.buffer.Unpooled;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.GameRenderer;
-import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 
-import static infinituum.labellingcontainers.LabellingContainers.MOD_ID;
+import static infinituum.labellingcontainers.utils.CommonHelper.id;
 
 
 public class LabelPrinterGui extends AbstractContainerScreen<LabelPrinterScreenHandler> {
-    private static final ResourceLocation BACKGROUND = new ResourceLocation(MOD_ID, "textures/gui/label_printer_gui.png");
+    private static final ResourceLocation BACKGROUND = id("textures/gui/label_printer_gui.png");
     private final Player player;
     private EditBox labelField;
 
@@ -81,11 +79,7 @@ public class LabelPrinterGui extends AbstractContainerScreen<LabelPrinterScreenH
 
     @Override
     public void onClose() {
-        FriendlyByteBuf buffer = new FriendlyByteBuf(Unpooled.buffer());
-
-        buffer.writeUtf(this.labelField.getValue());
-
-        NetworkManager.sendToServer(Packets.C2S_LABEL_PRINTER_SAVE, buffer);
+        NetworkManager.sendToServer(new LabelPrinterSavePacket(this.labelField.getValue()));
 
         super.onClose();
     }
@@ -118,7 +112,7 @@ public class LabelPrinterGui extends AbstractContainerScreen<LabelPrinterScreenH
             setup();
         }
         renderBackground(context, mouseX, mouseY, delta);
-        
+
         super.render(context, mouseX, mouseY, delta);
         renderForeground(context, mouseX, mouseY, delta);
         renderTooltip(context, mouseX, mouseY);

@@ -3,6 +3,7 @@ package infinituum.labellingcontainers.mixin.minecraft;
 import infinituum.labellingcontainers.utils.BlockEntityHelper;
 import infinituum.labellingcontainers.utils.Taggable;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -26,6 +27,8 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+import java.util.Optional;
+
 @Mixin(BlockEntity.class)
 public abstract class BlockEntityMixin implements Taggable {
     @Shadow
@@ -44,12 +47,6 @@ public abstract class BlockEntityMixin implements Taggable {
 
     @Shadow
     public abstract void setChanged();
-
-    @Shadow
-    protected abstract void saveAdditional(CompoundTag compoundTag);
-
-    @Shadow
-    public abstract CompoundTag getUpdateTag();
 
     @Unique
     private void labellingcontainers$notifyClients(BlockState oldState) {
@@ -112,39 +109,45 @@ public abstract class BlockEntityMixin implements Taggable {
         }
 
         if (cir.getReturnValue() instanceof ClientboundBlockEntityDataPacket packet) {
-            if (packet.getTag() == null || packet.getTag().isEmpty()) {
+            if (packet.getTag().isEmpty()) {
                 cir.setReturnValue(ClientboundBlockEntityDataPacket.create((BlockEntity) (Object) this));
             }
         }
     }
 
+
+    @Shadow
+    protected abstract void saveAdditional(CompoundTag tag, HolderLookup.Provider registries);
+
     @Inject(method = "getUpdateTag", at = @At("RETURN"), cancellable = true)
-    public void getUpdateTag(CallbackInfoReturnable<CompoundTag> cir) {
+    public void getUpdateTag(HolderLookup.Provider registries, CallbackInfoReturnable<CompoundTag> cir) {
         CompoundTag tag = cir.getReturnValue();
 
-        this.saveAdditional(tag);
+        this.saveAdditional(tag, registries);
 
         cir.setReturnValue(tag);
     }
 
     @Inject(method = "saveAdditional", at = @At("TAIL"))
-    public void saveAdditional(CompoundTag tag, CallbackInfo ci) {
+    public void saveAdditional(CompoundTag tag, HolderLookup.Provider registries, CallbackInfo ci) {
         tag.putString("label", labellingcontainers$label.getString());
         CompoundTag displayItemNbt = new CompoundTag();
 
-        new ItemStack(labellingcontainers$displayItem).save(displayItemNbt);
+        new ItemStack(labellingcontainers$displayItem).save(registries, displayItemNbt);
 
         if (labellingcontainers$displayItem != null) {
             tag.put("displayItem", displayItemNbt);
         }
     }
 
-    @Inject(method = "load", at = @At("TAIL"))
-    public void load(CompoundTag tag, CallbackInfo ci) {
+    @Inject(method = "loadAdditional", at = @At("TAIL"))
+    public void loadAdditional(CompoundTag tag, HolderLookup.Provider registries, CallbackInfo ci) {
         this.labellingcontainers$label = Component.nullToEmpty(tag.getString("label")).copy();
 
         if (tag.contains("displayItem")) {
-            this.labellingcontainers$displayItem = ItemStack.of(tag.getCompound("displayItem")).getItem();
+            Optional<ItemStack> displayItem = ItemStack.parse(registries, tag.getCompound("displayItem"));
+
+            displayItem.ifPresent(itemStack -> this.labellingcontainers$displayItem = itemStack.getItem());
         }
     }
 }

@@ -114,10 +114,11 @@ dependencies {
 
 processResources {
     var rep_properties = [
-            "version"              : rootProject.mod_version,
-            "minecraft_version"    : rootProject.minecraft_version,
-            "arch_version"         : rootProject.architectury_api_version,
-            "fastconfigapi_version": rootProject.fastconfigapi_version
+            "version"                 : rootProject.mod_version,
+            "minecraft_version"       : rootProject.minecraft_version,
+            "arch_version"            : rootProject.architectury_api_version,
+            "fastconfigapi_version"   : rootProject.fastconfigapi_version,
+            "architectury_api_version": rootProject.architectury_api_version
     ]
 
     inputs.properties rep_properties

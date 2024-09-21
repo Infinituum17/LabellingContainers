@@ -8,9 +8,10 @@ import infinituum.labellingcontainers.fabric.providers.language.SpanishLangProvi
 import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
+import net.minecraft.core.HolderLookup;
 
 import java.util.List;
-import java.util.function.Consumer;
+import java.util.concurrent.CompletableFuture;
 
 public final class LabellingContainersDataGeneration implements DataGeneratorEntrypoint {
     @Override
@@ -29,7 +30,9 @@ public final class LabellingContainersDataGeneration implements DataGeneratorEnt
 
         // Spanish translation by Krb (https://github.com/Krb0)
         List<String> languageCodes = List.of("es_mx", "es_ve", "es_es", "es_ar", "es_ec", "es_cl", "es_uy");
-        Consumer<String> addProvider = (languageCode) -> pack.addProvider((FabricDataOutput dataOutput) -> new SpanishLangProvider(dataOutput, languageCode));
-        languageCodes.forEach(addProvider);
+        languageCodes.forEach(
+                (languageCode) -> pack.addProvider(
+                        (FabricDataOutput dataOutput, CompletableFuture<HolderLookup.Provider> registriesFuture) ->
+                                new SpanishLangProvider(dataOutput, languageCode, registriesFuture)));
     }
 }

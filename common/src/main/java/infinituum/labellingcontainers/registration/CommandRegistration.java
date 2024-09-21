@@ -3,16 +3,17 @@ package infinituum.labellingcontainers.registration;
 import com.mojang.brigadier.context.CommandContext;
 import dev.architectury.event.events.common.CommandRegistrationEvent;
 import dev.architectury.networking.NetworkManager;
+import infinituum.fastconfigapi.FastConfigs;
+import infinituum.fastconfigapi.api.FastConfigFile;
+import infinituum.labellingcontainers.config.CompatibleContainers;
 import infinituum.labellingcontainers.huds.utils.HudPositions;
-import infinituum.labellingcontainers.network.Packets;
+import infinituum.labellingcontainers.network.packets.s2c.*;
 import infinituum.labellingcontainers.utils.Taggable;
-import io.netty.buffer.Unpooled;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.arguments.MessageArgument;
 import net.minecraft.commands.arguments.coordinates.Vec3Argument;
 import net.minecraft.commands.arguments.item.ItemArgument;
 import net.minecraft.core.BlockPos;
-import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
@@ -22,7 +23,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 
-import static infinituum.labellingcontainers.LabellingContainersConfig.TAGGABLE_BLOCKS_CONFIG;
 import static net.minecraft.commands.Commands.argument;
 import static net.minecraft.commands.Commands.literal;
 
@@ -258,11 +258,7 @@ public final class CommandRegistration {
             return 0;
         }
 
-        FriendlyByteBuf buffer = new FriendlyByteBuf(Unpooled.buffer());
-
-        buffer.writeUtf(HudPositions.toReadable(position));
-
-        NetworkManager.sendToPlayer(player, Packets.S2C_PREFERENCES_CONFIG_UPDATE, buffer);
+        NetworkManager.sendToPlayer(player, new UpdatePreferencesConfigPacket(HudPositions.toReadable(position)));
 
         return 1;
     }
@@ -275,22 +271,21 @@ public final class CommandRegistration {
         }
 
         ServerPlayer player = commandContext.getPlayer();
+        FastConfigFile<CompatibleContainers> configFile = FastConfigs.getFile(CompatibleContainers.class);
+        CompatibleContainers config = configFile.getInstance();
 
         if (player == null || resourceLocation == null) {
             return 0;
         }
-        if (TAGGABLE_BLOCKS_CONFIG.getConfig().has(resourceLocation.toString())) {
+
+        if (config.has(resourceLocation.toString())) {
             return 0;
         }
 
-        TAGGABLE_BLOCKS_CONFIG.getConfig().addId(resourceLocation.toString());
-        TAGGABLE_BLOCKS_CONFIG.saveCurrent();
+        config.addId(resourceLocation.toString());
+        configFile.save();
 
-        FriendlyByteBuf buffer = new FriendlyByteBuf(Unpooled.buffer());
-
-        buffer.writeUtf(resourceLocation.toString());
-
-        NetworkManager.sendToPlayer(player, Packets.S2C_ADD_ID_TAGGABLE_BLOCKS_CONFIG, buffer);
+        NetworkManager.sendToPlayer(player, new AddIdConfigPacket(resourceLocation.toString()));
 
         player.sendSystemMessage(Component.translatable("command.labelconfig.addition.success", resourceLocation.toString()));
 
@@ -305,22 +300,21 @@ public final class CommandRegistration {
         }
 
         ServerPlayer player = commandContext.getPlayer();
+        FastConfigFile<CompatibleContainers> configFile = FastConfigs.getFile(CompatibleContainers.class);
+        CompatibleContainers config = configFile.getInstance();
 
         if (player == null || resourceLocation == null) {
             return 0;
         }
-        if (!TAGGABLE_BLOCKS_CONFIG.getConfig().has(resourceLocation.toString())) {
+
+        if (!config.has(resourceLocation.toString())) {
             return 0;
         }
 
-        TAGGABLE_BLOCKS_CONFIG.getConfig().removeId(resourceLocation.toString());
-        TAGGABLE_BLOCKS_CONFIG.saveCurrent();
+        config.removeId(resourceLocation.toString());
+        configFile.save();
 
-        FriendlyByteBuf buffer = new FriendlyByteBuf(Unpooled.buffer());
-
-        buffer.writeUtf(resourceLocation.toString());
-
-        NetworkManager.sendToPlayer(player, Packets.S2C_REMOVE_ID_TAGGABLE_BLOCKS_CONFIG, buffer);
+        NetworkManager.sendToPlayer(player, new RemoveIdConfigPacket(resourceLocation.toString()));
 
         player.sendSystemMessage(Component.translatable("command.labelconfig.removal.success", resourceLocation.toString()));
 
@@ -335,22 +329,21 @@ public final class CommandRegistration {
         }
 
         ServerPlayer player = commandContext.getPlayer();
+        FastConfigFile<CompatibleContainers> configFile = FastConfigs.getFile(CompatibleContainers.class);
+        CompatibleContainers config = configFile.getInstance();
 
         if (player == null || tag == null) {
             return 0;
         }
-        if (TAGGABLE_BLOCKS_CONFIG.getConfig().has(tag)) {
+
+        if (config.has(tag)) {
             return 0;
         }
 
-        TAGGABLE_BLOCKS_CONFIG.getConfig().addTag(tag);
-        TAGGABLE_BLOCKS_CONFIG.saveCurrent();
+        config.addTag(tag);
+        configFile.save();
 
-        FriendlyByteBuf buffer = new FriendlyByteBuf(Unpooled.buffer());
-
-        buffer.writeUtf(tag);
-
-        NetworkManager.sendToPlayer(player, Packets.S2C_ADD_TAG_TAGGABLE_BLOCKS_CONFIG, buffer);
+        NetworkManager.sendToPlayer(player, new AddTagConfigPacket(tag));
 
         player.sendSystemMessage(Component.translatable("command.labelconfig.addition.success", tag));
 
@@ -365,22 +358,21 @@ public final class CommandRegistration {
         }
 
         ServerPlayer player = commandContext.getPlayer();
+        FastConfigFile<CompatibleContainers> configFile = FastConfigs.getFile(CompatibleContainers.class);
+        CompatibleContainers config = configFile.getInstance();
 
         if (player == null || tag == null) {
             return 0;
         }
-        if (!TAGGABLE_BLOCKS_CONFIG.getConfig().has(tag)) {
+
+        if (!config.has(tag)) {
             return 0;
         }
 
-        TAGGABLE_BLOCKS_CONFIG.getConfig().removeTag(tag);
-        TAGGABLE_BLOCKS_CONFIG.saveCurrent();
+        config.removeTag(tag);
+        configFile.save();
 
-        FriendlyByteBuf buffer = new FriendlyByteBuf(Unpooled.buffer());
-
-        buffer.writeUtf(tag);
-
-        NetworkManager.sendToPlayer(player, Packets.S2C_REMOVE_TAG_TAGGABLE_BLOCKS_CONFIG, buffer);
+        NetworkManager.sendToPlayer(player, new RemoveTagConfigPacket(tag));
 
         player.sendSystemMessage(Component.translatable("command.labelconfig.removal.success", tag));
 

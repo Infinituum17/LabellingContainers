@@ -1,9 +1,7 @@
 package infinituum.labellingcontainers;
 
-import infinituum.labellingcontainers.registration.CommandRegistration;
-import infinituum.labellingcontainers.registration.ContainerResourcesRegistration;
-import infinituum.labellingcontainers.registration.ItemRegistration;
-import infinituum.labellingcontainers.registration.ScreenRegistration;
+import infinituum.labellingcontainers.network.Packets;
+import infinituum.labellingcontainers.registration.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -15,13 +13,12 @@ public final class LabellingContainers {
         LOGGER.info("Initializing mod...");
 
         ContainerResourcesRegistration.init();
+        DataComponentRegistration.init();
         CommandRegistration.init();
         ItemRegistration.init();
         ScreenRegistration.init();
 
-        LabellingContainersSetup.initServer();
+        Packets.init();
         LabellingContainersSetup.initClient();
-
-        LabellingContainersConfig.commonInit();
     }
 }

@@ -2,6 +2,7 @@ package infinituum.labellingcontainers.neoforge.mixin.sophisticatedstorage;
 
 import infinituum.labellingcontainers.utils.Taggable;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -13,12 +14,13 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.p3pp3rf1y.sophisticatedstorage.block.StorageBlockEntity;
-import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
+import java.util.Optional;
 
 /**
  * Mixin necessary due to a different method used by Sophisticated Storage to save Tags.
@@ -38,8 +40,8 @@ public class StorageBlockEntityMixin extends BlockEntity implements Taggable {
     }
 
     @Override
-    public @NotNull CompoundTag getUpdateTag() {
-        return this.saveWithoutMetadata();
+    public CompoundTag getUpdateTag(HolderLookup.Provider registries) {
+        return this.saveWithoutMetadata(registries);
     }
 
     @Unique
@@ -83,7 +85,9 @@ public class StorageBlockEntityMixin extends BlockEntity implements Taggable {
         nbt.putString("label", labellingcontainers$label.getString());
         CompoundTag displayItemNbt = new CompoundTag();
 
-        new ItemStack(labellingcontainers$displayItem).save(displayItemNbt);
+        if (this.level != null) {
+            nbt.put("label", new ItemStack(labellingcontainers$displayItem).save(this.level.registryAccess()));
+        }
 
         if (labellingcontainers$displayItem != null) {
             nbt.put("displayItem", displayItemNbt);
@@ -91,10 +95,12 @@ public class StorageBlockEntityMixin extends BlockEntity implements Taggable {
     }
 
     @Inject(method = "loadSynchronizedData", at = @At("TAIL"), remap = false)
-    public void readNbtMixin(CompoundTag nbt, CallbackInfo ci) {
-        this.labellingcontainers$label = Component.nullToEmpty(nbt.getString("label")).copy();
-        if (nbt.contains("displayItem")) {
-            this.labellingcontainers$displayItem = ItemStack.of(nbt.getCompound("displayItem")).getItem();
+    public void readNbtMixin(CompoundTag tag, HolderLookup.Provider registries, CallbackInfo ci) {
+        this.labellingcontainers$label = Component.nullToEmpty(tag.getString("label")).copy();
+        if (tag.contains("displayItem")) {
+            Optional<ItemStack> displayItem = ItemStack.parse(registries, tag.getCompound("displayItem"));
+
+            displayItem.ifPresent(itemStack -> this.labellingcontainers$displayItem = itemStack.getItem());
         }
     }
 }

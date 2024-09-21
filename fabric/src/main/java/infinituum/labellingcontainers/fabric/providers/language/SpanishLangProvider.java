@@ -2,16 +2,19 @@ package infinituum.labellingcontainers.fabric.providers.language;
 
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
+import net.minecraft.core.HolderLookup;
+
+import java.util.concurrent.CompletableFuture;
 
 import static infinituum.labellingcontainers.registration.ItemRegistration.LABEL_PRINTER;
 
 public final class SpanishLangProvider extends FabricLanguageProvider {
-    public SpanishLangProvider(FabricDataOutput dataOutput, String languageCode) {
-        super(dataOutput, languageCode);
+    public SpanishLangProvider(FabricDataOutput dataOutput, String languageCode, CompletableFuture<HolderLookup.Provider> registryLookup) {
+        super(dataOutput, languageCode, registryLookup);
     }
 
     @Override
-    public void generateTranslations(TranslationBuilder translationBuilder) {
+    public void generateTranslations(HolderLookup.Provider registryLookup, TranslationBuilder translationBuilder) {
         translationBuilder.add(LABEL_PRINTER.get(), "Etiquetador");
 
         String labelPrinterKey = LABEL_PRINTER.get().getDescriptionId();

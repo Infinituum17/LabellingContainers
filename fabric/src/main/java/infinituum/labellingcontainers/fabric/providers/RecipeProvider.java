@@ -3,24 +3,25 @@ package infinituum.labellingcontainers.fabric.providers;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
 import net.minecraft.advancements.critereon.InventoryChangeTrigger;
-import net.minecraft.data.recipes.FinishedRecipe;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.data.recipes.RecipeCategory;
+import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Items;
 
-import java.util.function.Consumer;
+import java.util.concurrent.CompletableFuture;
 
 import static infinituum.labellingcontainers.registration.ItemRegistration.LABEL_PRINTER;
 
 public final class RecipeProvider extends FabricRecipeProvider {
 
-    public RecipeProvider(FabricDataOutput output) {
-        super(output);
+    public RecipeProvider(FabricDataOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
+        super(output, registriesFuture);
     }
 
     @Override
-    public void buildRecipes(Consumer<FinishedRecipe> exporter) {
+    public void buildRecipes(RecipeOutput exporter) {
         ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, LABEL_PRINTER.get())
                 .pattern("CIC")
                 .pattern("RSR")
@@ -30,6 +31,6 @@ public final class RecipeProvider extends FabricRecipeProvider {
                 .define('S', Items.INK_SAC)
                 .define('I', Items.IRON_INGOT)
                 .unlockedBy("has_items", InventoryChangeTrigger.TriggerInstance.hasItems(Items.INK_SAC, Items.COPPER_INGOT, Items.IRON_INGOT, Items.REDSTONE))
-                .save(exporter, new ResourceLocation(output.getModId(), "label_printer_recipe"));
+                .save(exporter, ResourceLocation.fromNamespaceAndPath(output.getModId(), "label_printer_recipe"));
     }
 }

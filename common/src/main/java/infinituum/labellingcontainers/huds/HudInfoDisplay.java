@@ -1,9 +1,11 @@
 package infinituum.labellingcontainers.huds;
 
 import dev.architectury.event.events.client.ClientGuiEvent.RenderHud;
-import infinituum.labellingcontainers.huds.utils.HudPositions;
+import infinituum.fastconfigapi.FastConfigs;
+import infinituum.labellingcontainers.config.PlayerPreferences;
 import infinituum.labellingcontainers.utils.BlockEntityHelper;
 import infinituum.labellingcontainers.utils.Taggable;
+import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.core.BlockPos;
@@ -11,11 +13,10 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 
-import static infinituum.labellingcontainers.LabellingContainersConfig.PLAYER_PREFERENCES_CONFIG;
 
 public class HudInfoDisplay implements RenderHud {
     @Override
-    public void renderHud(GuiGraphics graphics, float tickDelta) {
+    public void renderHud(GuiGraphics graphics, DeltaTracker tickDelta) {
         Minecraft client = Minecraft.getInstance();
         if (client.screen != null) {
             return;
@@ -35,9 +36,9 @@ public class HudInfoDisplay implements RenderHud {
         BlockEntity blockEntity = BlockEntityHelper.locateTargetBlockEntity(client.level, blockPos, client.level.getBlockState(blockPos));
 
         if (blockEntity instanceof Taggable taggable) {
-            HudPositions position = PLAYER_PREFERENCES_CONFIG.getConfig().getHUDPosition();
-
-            position.render(client, graphics, taggable);
+            FastConfigs.get(PlayerPreferences.class)
+                    .getHUDPosition()
+                    .render(client, graphics, taggable);
         }
     }
 }

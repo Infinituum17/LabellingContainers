@@ -67,6 +67,10 @@ subprojects {
                 includeGroup "com.jamieswhiteshirt"
             }
         }
+        maven {
+            name = 'ParchmentMC'
+            url = 'https://maven.parchmentmc.org'
+        }
     }
 
     loom {
@@ -75,7 +79,10 @@ subprojects {
 
     dependencies {
         minecraft "com.mojang:minecraft:${rootProject.minecraft_version}"
-        mappings loom.officialMojangMappings()
+        mappings loom.layered() {
+            officialMojangMappings()
+            parchment "org.parchmentmc.data:parchment-1.21:2024.07.28@zip"
+        }
     }
 
     java {
