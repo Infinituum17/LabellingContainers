@@ -4,8 +4,6 @@ import dev.architectury.networking.NetworkManager;
 import infinituum.labellingcontainers.items.LabelPrinterItem;
 import infinituum.labellingcontainers.registration.ItemRegistration;
 import io.netty.buffer.ByteBuf;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
@@ -32,7 +30,6 @@ public record LabelPrinterSavePacket(String label) implements CustomPacketPayloa
         NetworkManager.registerReceiver(NetworkManager.c2s(), PACKET_TYPE, CODEC, LabelPrinterSavePacket::handler);
     }
 
-    @Environment(EnvType.SERVER)
     private void handler(NetworkManager.PacketContext packetContext) {
         ItemStack itemInHand = packetContext.getPlayer().getMainHandItem();
 

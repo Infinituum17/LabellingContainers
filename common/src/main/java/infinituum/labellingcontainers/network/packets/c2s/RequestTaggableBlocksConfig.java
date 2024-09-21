@@ -5,8 +5,6 @@ import infinituum.fastconfigapi.FastConfigs;
 import infinituum.labellingcontainers.config.CompatibleContainers;
 import infinituum.labellingcontainers.network.packets.s2c.SyncConfigPacket;
 import io.netty.buffer.ByteBuf;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.server.level.ServerPlayer;
@@ -29,7 +27,6 @@ public record RequestTaggableBlocksConfig() implements CustomPacketPayload {
         NetworkManager.registerReceiver(NetworkManager.c2s(), PACKET_TYPE, CODEC, RequestTaggableBlocksConfig::handler);
     }
 
-    @Environment(EnvType.SERVER)
     private void handler(NetworkManager.PacketContext packetContext) {
         CompatibleContainers config = FastConfigs.get(CompatibleContainers.class);
         NetworkManager.sendToPlayer((ServerPlayer) packetContext.getPlayer(), new SyncConfigPacket(config.getIds(), config.getTags()));
