@@ -46,7 +46,7 @@ public final class RemoveTagConfigPacket implements CustomPacketPayload {
 
     @Environment(EnvType.CLIENT)
     private void handler(NetworkManager.PacketContext packetContext) {
-        FastConfigs.editAndSave(CompatibleContainers.class, config -> config.removeTag(tag));
+        FastConfigs.get(CompatibleContainers.class).removeTag(tag);
     }
 
     @Override

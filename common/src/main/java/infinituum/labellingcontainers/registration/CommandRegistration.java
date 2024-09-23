@@ -271,12 +271,13 @@ public final class CommandRegistration {
         }
 
         ServerPlayer player = commandContext.getPlayer();
-        FastConfigFile<CompatibleContainers> configFile = FastConfigs.getFile(CompatibleContainers.class);
-        CompatibleContainers config = configFile.getInstance();
 
         if (player == null || resourceLocation == null) {
             return 0;
         }
+
+        FastConfigFile<CompatibleContainers> configFile = FastConfigs.getFile(CompatibleContainers.class);
+        CompatibleContainers config = configFile.getInstance();
 
         if (config.has(resourceLocation.toString())) {
             return 0;

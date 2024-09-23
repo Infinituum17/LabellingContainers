@@ -1,5 +1,8 @@
 package infinituum.labellingcontainers.config;
 
+import infinituum.fastconfigapi.api.annotations.FastConfig;
+import infinituum.fastconfigapi.api.annotations.Loader;
+import infinituum.fastconfigapi.api.serializers.JSONSerializer;
 import infinituum.labellingcontainers.registration.registries.ContainerResourceRegistry;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.block.Block;
@@ -7,7 +10,17 @@ import net.minecraft.world.level.block.Block;
 import java.util.Set;
 import java.util.stream.Stream;
 
+import static infinituum.labellingcontainers.LabellingContainers.MOD_ID;
 
+@FastConfig(
+        subdirectory = MOD_ID,
+        side = FastConfig.Side.SERVER,
+        loader = @Loader(
+                type = Loader.Type.URL,
+                target = "https://raw.githubusercontent.com/Infinituum17/LabellingContainers/refs/heads/main/defaults/config/compatible-containers.json",
+                deserializer = JSONSerializer.class
+        )
+)
 public final class CompatibleContainers {
     /**
      * '{@code true}' if only certain blocks can be tagged, '{@code false}' otherwise<br/>

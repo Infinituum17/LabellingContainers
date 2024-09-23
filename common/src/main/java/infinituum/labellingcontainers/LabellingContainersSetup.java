@@ -8,7 +8,7 @@ import dev.architectury.networking.NetworkManager;
 import dev.architectury.platform.Platform;
 import dev.architectury.registry.menu.MenuRegistry;
 import infinituum.labellingcontainers.events.TooltipEventHandler;
-import infinituum.labellingcontainers.guis.LabelPrinterGui;
+import infinituum.labellingcontainers.guis.LabelPrinterScreen;
 import infinituum.labellingcontainers.huds.HudInfoDisplay;
 import infinituum.labellingcontainers.huds.LabelPrinterHudInfoDisplay;
 import infinituum.labellingcontainers.network.packets.c2s.RequestTaggableBlocksConfig;
@@ -16,7 +16,7 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 
 import static infinituum.labellingcontainers.LabellingContainers.LOGGER;
-import static infinituum.labellingcontainers.registration.ScreenRegistration.LABEL_PRINTER_SCREEN_HANDLER;
+import static infinituum.labellingcontainers.registration.ScreenRegistration.LABEL_PRINTER_SCREEN;
 
 public final class LabellingContainersSetup {
     public static void initClient() {
@@ -32,7 +32,7 @@ public final class LabellingContainersSetup {
 
     @Environment(EnvType.CLIENT)
     public static void clientRegisterScreens() {
-        MenuRegistry.registerScreenFactory(LABEL_PRINTER_SCREEN_HANDLER.get(), LabelPrinterGui::new);
+        MenuRegistry.registerScreenFactory(LABEL_PRINTER_SCREEN.get(), LabelPrinterScreen::new);
     }
 
     @Environment(EnvType.CLIENT)

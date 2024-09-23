@@ -46,7 +46,7 @@ public final class RemoveIdConfigPacket implements CustomPacketPayload {
 
     @Environment(EnvType.CLIENT)
     private void handler(NetworkManager.PacketContext packetContext) {
-        FastConfigs.editAndSave(CompatibleContainers.class, config -> config.removeId(id));
+        FastConfigs.get(CompatibleContainers.class).removeId(id);
     }
 
     @Override

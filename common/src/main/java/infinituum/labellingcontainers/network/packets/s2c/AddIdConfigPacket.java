@@ -46,7 +46,7 @@ public final class AddIdConfigPacket implements CustomPacketPayload {
 
     @Environment(EnvType.CLIENT)
     private void handler(NetworkManager.PacketContext packetContext) {
-        FastConfigs.editAndSave(CompatibleContainers.class, config -> config.addId(id));
+        FastConfigs.get(CompatibleContainers.class).addId(id);
     }
 
     @Override

@@ -17,6 +17,6 @@ public final class LabelPrinterScreenFactory implements MenuProvider {
 
     @Override
     public AbstractContainerMenu createMenu(int syncId, Inventory playerInventory, Player player) {
-        return new LabelPrinterScreenHandler(syncId, playerInventory);
+        return new LabelPrinterMenu(syncId, playerInventory);
     }
 }

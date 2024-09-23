@@ -10,7 +10,7 @@ import java.util.function.UnaryOperator;
 
 import static infinituum.labellingcontainers.LabellingContainers.MOD_ID;
 
-public class DataComponentRegistration {
+public final class DataComponentRegistration {
     public static final DeferredRegister<DataComponentType<?>> DATA_COMPONENT_TYPES = DeferredRegister.create(MOD_ID, Registries.DATA_COMPONENT_TYPE);
     public static final RegistrySupplier<DataComponentType<LabelProperties>> LABEL_COMPONENT_TYPE = register(
             "label",
