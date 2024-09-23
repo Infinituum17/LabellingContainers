@@ -67,10 +67,9 @@ public final class SyncConfigPacket implements CustomPacketPayload {
 
     @Environment(EnvType.CLIENT)
     private void handler(NetworkManager.PacketContext packetContext) {
-        FastConfigs.editAndSave(CompatibleContainers.class, config -> {
-            config.setIds(ids);
-            config.setTags(tags);
-        });
+        CompatibleContainers config = FastConfigs.get(CompatibleContainers.class);
+        config.setIds(ids);
+        config.setTags(tags);
     }
 
     @Override

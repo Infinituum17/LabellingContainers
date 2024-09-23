@@ -4,7 +4,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import dev.architectury.networking.NetworkManager;
 import infinituum.labellingcontainers.items.LabelPrinterItem;
 import infinituum.labellingcontainers.network.packets.c2s.LabelPrinterSavePacket;
-import infinituum.labellingcontainers.screens.LabelPrinterScreenHandler;
+import infinituum.labellingcontainers.screens.LabelPrinterMenu;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.EditBox;
@@ -19,12 +19,12 @@ import net.minecraft.world.item.ItemStack;
 import static infinituum.labellingcontainers.utils.CommonHelper.id;
 
 
-public class LabelPrinterGui extends AbstractContainerScreen<LabelPrinterScreenHandler> {
+public class LabelPrinterScreen extends AbstractContainerScreen<LabelPrinterMenu> {
     private static final ResourceLocation BACKGROUND = id("textures/gui/label_printer_gui.png");
     private final Player player;
     private EditBox labelField;
 
-    public LabelPrinterGui(LabelPrinterScreenHandler handler, Inventory inventory, Component title) {
+    public LabelPrinterScreen(LabelPrinterMenu handler, Inventory inventory, Component title) {
         super(handler, inventory, title);
         this.player = inventory.player;
     }

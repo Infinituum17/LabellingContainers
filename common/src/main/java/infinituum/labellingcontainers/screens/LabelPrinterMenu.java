@@ -13,15 +13,15 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
-public final class LabelPrinterScreenHandler extends AbstractContainerMenu {
+public final class LabelPrinterMenu extends AbstractContainerMenu {
     private final Container inventory;
 
-    public LabelPrinterScreenHandler(int syncId, Inventory playerInventory) {
+    public LabelPrinterMenu(int syncId, Inventory playerInventory) {
         this(syncId, playerInventory, new SimpleContainer(1));
     }
 
-    public LabelPrinterScreenHandler(int syncId, Inventory playerInventory, Container inventory) {
-        super(ScreenRegistration.LABEL_PRINTER_SCREEN_HANDLER.get(), syncId);
+    public LabelPrinterMenu(int syncId, Inventory playerInventory, Container inventory) {
+        super(ScreenRegistration.LABEL_PRINTER_SCREEN.get(), syncId);
 
         checkContainerSize(inventory, 1);
 

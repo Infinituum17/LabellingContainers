@@ -46,7 +46,7 @@ public final class AddTagConfigPacket implements CustomPacketPayload {
 
     @Environment(EnvType.CLIENT)
     private void handler(NetworkManager.PacketContext packetContext) {
-        FastConfigs.editAndSave(CompatibleContainers.class, config -> config.addTag(tag));
+        FastConfigs.get(CompatibleContainers.class).addTag(tag);
     }
 
     @Override
