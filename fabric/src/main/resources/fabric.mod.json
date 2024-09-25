@@ -10,7 +10,7 @@
     "contact": {
         "sources": "https://github.com/Infinituum17/LabellingContainers"
     },
-    "license": "MIT",
+    "license": "Infinituum License",
     "icon": "assets/labellingcontainers/icon.png",
     "environment": "*",
     "entrypoints": {
