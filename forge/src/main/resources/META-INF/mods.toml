@@ -1,7 +1,7 @@
 modLoader = "javafml"
 loaderVersion = "[${forge_maj_version},)"
 issueTrackerURL = "https://github.com/Infinituum17/LabellingContainers/issues"
-license = "MIT"
+license = "Infinituum License"
 
 [[mods]]
 modId = "${modid}"

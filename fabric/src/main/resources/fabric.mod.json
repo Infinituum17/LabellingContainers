@@ -1,34 +1,34 @@
 {
-  "schemaVersion": 1,
-  "id": "${modid}",
-  "version": "${version}",
-  "name": "Labelling Containers",
-  "description": "This mod helps you organize the content of your chests and other containers by assigning them a name, and without using annoying signs",
-  "authors": [
-    "Infinituum"
-  ],
-  "contact": {
-    "sources": "https://github.com/Infinituum17/LabellingContainers"
-  },
-  "license": "MIT",
-  "icon": "assets/${modid}/icon.png",
-  "environment": "*",
-  "entrypoints": {
-    "main": [
-      "infinituum.${modid}.fabric.LabellingContainersFabric"
+    "schemaVersion": 1,
+    "id": "${modid}",
+    "version": "${version}",
+    "name": "Labelling Containers",
+    "description": "This mod helps you organize the content of your chests and other containers by assigning them a name, and without using annoying signs",
+    "authors": [
+        "Infinituum"
     ],
-    "fabric-datagen": [
-      "infinituum.${modid}.fabric.LabellingContainersDataGeneration"
-    ]
-  },
-  "mixins": [
-    "external.mixins.json",
-    "${modid}-common.mixins.json"
-  ],
-  "depends": {
-    "fabric": "*",
-    "minecraft": ">=${mc_version}",
-    "architectury": ">=${arch_version}",
-    "fastconfigapi": ">=${fastconfigapi_version}"
-  }
+    "contact": {
+        "sources": "https://github.com/Infinituum17/LabellingContainers"
+    },
+    "license": "Infinituum License",
+    "icon": "assets/${modid}/icon.png",
+    "environment": "*",
+    "entrypoints": {
+        "main": [
+            "infinituum.${modid}.fabric.LabellingContainersFabric"
+        ],
+        "fabric-datagen": [
+            "infinituum.${modid}.fabric.LabellingContainersDataGeneration"
+        ]
+    },
+    "mixins": [
+        "external.mixins.json",
+        "${modid}-common.mixins.json"
+    ],
+    "depends": {
+        "fabric": "*",
+        "minecraft": ">=${mc_version}",
+        "architectury": ">=${arch_version}",
+        "fastconfigapi": ">=${fastconfigapi_version}"
+    }
 }
