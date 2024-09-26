@@ -14,7 +14,6 @@ import static infinituum.labellingcontainers.LabellingContainers.MOD_ID;
 
 @FastConfig(
         subdirectory = MOD_ID,
-        side = FastConfig.Side.SERVER,
         loader = @Loader(
                 type = Loader.Type.URL,
                 target = "https://raw.githubusercontent.com/Infinituum17/LabellingContainers/refs/heads/main/defaults/config/compatible-containers.json",
