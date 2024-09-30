@@ -100,7 +100,7 @@ subprojects {
 
     tasks.register("checkIntegrity") {
         if (project.name == "common") {
-            if (rootProject.getProperties().getOrDefault("has_generation", true)) {
+            if (!rootProject.hasProperty("has_generation") || rootProject.has_generation.toBoolean()) {
                 URI uri = Paths.get(projectDir.toString(), "src", "main", "generated").toUri()
                 File generatedDirFile = new File(uri)
 
@@ -109,7 +109,7 @@ subprojects {
                 }
             }
 
-            if (rootProject.getProperties().getOrDefault("has_assets", true)) {
+            if (!rootProject.hasProperty("has_assets") || rootProject.has_assets.toBoolean()) {
                 URI uri = Paths.get(projectDir.toString(), "src", "main", "resources", "assets").toUri()
                 File assetsDir = new File(uri)
 
