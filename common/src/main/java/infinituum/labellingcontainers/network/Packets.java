@@ -5,6 +5,11 @@ import infinituum.labellingcontainers.network.packets.c2s.RequestTaggableBlocksC
 import infinituum.labellingcontainers.network.packets.s2c.*;
 
 public final class Packets {
+    public static void init() {
+        registerS2C();
+        registerC2S();
+    }
+
     public static void registerS2C() {
         UpdatePreferencesConfigPacket.register();
         SyncConfigPacket.register();
@@ -17,10 +22,5 @@ public final class Packets {
     public static void registerC2S() {
         LabelPrinterSavePacket.register();
         RequestTaggableBlocksConfig.register();
-    }
-
-    public static void init() {
-        registerS2C();
-        registerC2S();
     }
 }

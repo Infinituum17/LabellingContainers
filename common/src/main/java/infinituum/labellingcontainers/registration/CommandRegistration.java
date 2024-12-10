@@ -251,22 +251,6 @@ public final class CommandRegistration {
         });
     }
 
-    private static int setLabelPosition(CommandContext<CommandSourceStack> context, HudPositions position) {
-        CommandSourceStack source = context.getSource();
-
-        if (!source.isPlayer() || source.getPlayer() == null) {
-            source.sendSystemMessage(Component.translatable("commands.labelposition.set.player.invalid"));
-            return 0;
-        }
-
-        ServerPlayer player = source.getPlayer();
-
-        NetworkManager.sendToPlayer(player, new UpdatePreferencesConfigPacket(HudPositions.toReadable(position)));
-        source.sendSystemMessage(Component.translatable("commands.labelposition.set.success", HudPositions.toReadable(position)));
-
-        return 1;
-    }
-
     private static int addId(CommandContext<CommandSourceStack> context, ResourceLocation resourceLocation) {
         CommandSourceStack source = context.getSource();
         FastConfigFile<CompatibleContainers> configFile = FastConfigs.getFile(CompatibleContainers.class);
@@ -282,6 +266,8 @@ public final class CommandRegistration {
 
         if (source.isPlayer() && source.getPlayer() != null) {
             NetworkManager.sendToPlayer(source.getPlayer(), new AddIdConfigPacket(resourceLocation.toString()));
+        } else {
+            NetworkManager.sendToPlayers(source.getServer().getPlayerList().getPlayers(), new AddIdConfigPacket(resourceLocation.toString()));
         }
 
         source.sendSystemMessage(Component.translatable("commands.labelconfig.add.id.success", resourceLocation.toString()));
@@ -304,6 +290,8 @@ public final class CommandRegistration {
 
         if (source.isPlayer() && source.getPlayer() != null) {
             NetworkManager.sendToPlayer(source.getPlayer(), new RemoveIdConfigPacket(resourceLocation.toString()));
+        } else {
+            NetworkManager.sendToPlayers(source.getServer().getPlayerList().getPlayers(), new RemoveIdConfigPacket(resourceLocation.toString()));
         }
 
         source.sendSystemMessage(Component.translatable("commands.labelconfig.remove.id.success", resourceLocation.toString()));
@@ -326,6 +314,8 @@ public final class CommandRegistration {
 
         if (source.isPlayer() && source.getPlayer() != null) {
             NetworkManager.sendToPlayer(source.getPlayer(), new AddTagConfigPacket(tag));
+        } else {
+            NetworkManager.sendToPlayers(source.getServer().getPlayerList().getPlayers(), new AddTagConfigPacket(tag));
         }
 
         source.sendSystemMessage(Component.translatable("commands.labelconfig.add.tag.success", tag));
@@ -348,9 +338,27 @@ public final class CommandRegistration {
 
         if (source.isPlayer() && source.getPlayer() != null) {
             NetworkManager.sendToPlayer(source.getPlayer(), new RemoveTagConfigPacket(tag));
+        } else {
+            NetworkManager.sendToPlayers(source.getServer().getPlayerList().getPlayers(), new RemoveTagConfigPacket(tag));
         }
 
         source.sendSystemMessage(Component.translatable("commands.labelconfig.remove.tag.success", tag));
+
+        return 1;
+    }
+
+    private static int setLabelPosition(CommandContext<CommandSourceStack> context, HudPositions position) {
+        CommandSourceStack source = context.getSource();
+
+        if (!source.isPlayer() || source.getPlayer() == null) {
+            source.sendSystemMessage(Component.translatable("commands.labelposition.set.player.invalid"));
+            return 0;
+        }
+
+        ServerPlayer player = source.getPlayer();
+
+        NetworkManager.sendToPlayer(player, new UpdatePreferencesConfigPacket(HudPositions.toReadable(position)));
+        source.sendSystemMessage(Component.translatable("commands.labelposition.set.success", HudPositions.toReadable(position)));
 
         return 1;
     }

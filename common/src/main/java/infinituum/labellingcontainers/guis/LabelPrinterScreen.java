@@ -29,6 +29,55 @@ public class LabelPrinterScreen extends AbstractContainerScreen<LabelPrinterMenu
         this.player = inventory.player;
     }
 
+    @Override
+    public void resize(Minecraft client, int width, int height) {
+        String string = this.labelField.getValue();
+        this.init(client, width, height);
+        this.setup();
+        this.labelField.setValue(string);
+    }
+
+    @Override
+    public void render(GuiGraphics context, int mouseX, int mouseY, float delta) {
+        if (this.labelField == null) {
+            setup();
+        }
+        renderBackground(context, mouseX, mouseY, delta);
+
+        super.render(context, mouseX, mouseY, delta);
+        renderForeground(context, mouseX, mouseY, delta);
+        renderTooltip(context, mouseX, mouseY);
+    }
+
+    @Override
+    protected void renderBg(GuiGraphics context, float delta, int mouseX, int mouseY) {
+        RenderSystem.setShader(GameRenderer::getPositionTexShader);
+        RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
+        RenderSystem.setShaderTexture(0, BACKGROUND);
+        int x = (width - imageWidth) / 2;
+        int y = (height - imageHeight) / 2;
+        context.blit(BACKGROUND, x, y, 0, 0, imageWidth, imageHeight);
+    }
+
+    @Override
+    public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+        if (keyCode == 256 && this.minecraft != null && this.minecraft.player != null) {
+            this.onClose();
+        }
+
+        return this.labelField.keyPressed(keyCode, scanCode, modifiers) ||
+                this.labelField.canConsumeInput() ||
+                super.keyPressed(keyCode, scanCode, modifiers);
+    }
+
+    @Override
+    protected void containerTick() {
+        super.containerTick();
+        if (this.labelField == null) {
+            setup();
+        }
+    }
+
     private void setup() {
         int paddingLeft = 25;
         int paddingTop = 7;
@@ -59,62 +108,13 @@ public class LabelPrinterScreen extends AbstractContainerScreen<LabelPrinterMenu
     }
 
     @Override
-    protected void containerTick() {
-        super.containerTick();
-        if (this.labelField == null) {
-            setup();
-        }
-    }
-
-    @Override
-    public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
-        if (keyCode == 256 && this.minecraft != null && this.minecraft.player != null) {
-            this.onClose();
-        }
-
-        return this.labelField.keyPressed(keyCode, scanCode, modifiers) ||
-                this.labelField.canConsumeInput() ||
-                super.keyPressed(keyCode, scanCode, modifiers);
-    }
-
-    @Override
     public void onClose() {
         NetworkManager.sendToServer(new LabelPrinterSavePacket(this.labelField.getValue()));
 
         super.onClose();
     }
 
-    @Override
-    public void resize(Minecraft client, int width, int height) {
-        String string = this.labelField.getValue();
-        this.init(client, width, height);
-        this.setup();
-        this.labelField.setValue(string);
-    }
-
-    @Override
-    protected void renderBg(GuiGraphics context, float delta, int mouseX, int mouseY) {
-        RenderSystem.setShader(GameRenderer::getPositionTexShader);
-        RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
-        RenderSystem.setShaderTexture(0, BACKGROUND);
-        int x = (width - imageWidth) / 2;
-        int y = (height - imageHeight) / 2;
-        context.blit(BACKGROUND, x, y, 0, 0, imageWidth, imageHeight);
-    }
-
     protected void renderForeground(GuiGraphics context, int mouseX, int mouseY, float delta) {
         this.labelField.render(context, mouseX, mouseY, delta);
-    }
-
-    @Override
-    public void render(GuiGraphics context, int mouseX, int mouseY, float delta) {
-        if (this.labelField == null) {
-            setup();
-        }
-        renderBackground(context, mouseX, mouseY, delta);
-
-        super.render(context, mouseX, mouseY, delta);
-        renderForeground(context, mouseX, mouseY, delta);
-        renderTooltip(context, mouseX, mouseY);
     }
 }

@@ -32,18 +32,18 @@ public record UpdatePreferencesConfigPacket(String position) implements CustomPa
         }
     }
 
-    public static void encode(ByteBuf byteBuf, UpdatePreferencesConfigPacket packet) {
-        FriendlyByteBuf buf = new FriendlyByteBuf(byteBuf);
-
-        buf.writeUtf(packet.position());
-    }
-
     @Environment(EnvType.CLIENT)
     private void handler(NetworkManager.PacketContext packetContext) {
         FastConfigs.editAndSave(
                 PlayerPreferences.class,
                 config -> config.setHudPosition(HudPositions.fromReadable(position))
         );
+    }
+
+    public static void encode(ByteBuf byteBuf, UpdatePreferencesConfigPacket packet) {
+        FriendlyByteBuf buf = new FriendlyByteBuf(byteBuf);
+
+        buf.writeUtf(packet.position());
     }
 
     @Override
