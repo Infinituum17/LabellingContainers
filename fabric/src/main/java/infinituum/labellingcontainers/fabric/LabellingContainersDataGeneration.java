@@ -1,7 +1,7 @@
 package infinituum.labellingcontainers.fabric;
 
+import infinituum.labellingcontainers.fabric.providers.ModRecipeProvider;
 import infinituum.labellingcontainers.fabric.providers.ModelProvider;
-import infinituum.labellingcontainers.fabric.providers.RecipeProvider;
 import infinituum.labellingcontainers.fabric.providers.language.EnglishLangProvider;
 import infinituum.labellingcontainers.fabric.providers.language.ItalianLangProvider;
 import infinituum.labellingcontainers.fabric.providers.language.SpanishLangProvider;
@@ -18,7 +18,7 @@ public final class LabellingContainersDataGeneration implements DataGeneratorEnt
     public void onInitializeDataGenerator(FabricDataGenerator fabricDataGenerator) {
         FabricDataGenerator.Pack pack = fabricDataGenerator.createPack();
 
-        pack.addProvider(RecipeProvider::new);
+        pack.addProvider(ModRecipeProvider::new);
         pack.addProvider(ModelProvider::new);
 
         registerLanguages(pack);

@@ -11,6 +11,7 @@ import infinituum.labellingcontainers.utils.*;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -21,7 +22,6 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -45,10 +45,6 @@ public class LabelPrinterItem extends Item {
         super(settings);
     }
 
-    public static String getLabel(ItemStack itemStack) {
-        return DataComponentTypeHelper.getLabelProperties(itemStack).text();
-    }
-
     public static void setLabel(ItemStack itemStack, String text) {
         LabelProperties oldProperties = DataComponentTypeHelper.getLabelProperties(itemStack);
         LabelProperties properties = new LabelProperties(text, oldProperties.displayItem(), oldProperties.mode());
@@ -56,38 +52,11 @@ public class LabelPrinterItem extends Item {
         itemStack.set(DataComponentRegistration.LABEL_COMPONENT_TYPE.get(), properties);
     }
 
-    public static Item getDisplayItem(ItemStack itemStack) {
-        return DataComponentTypeHelper.getLabelProperties(itemStack).displayItem().getItem();
-    }
-
     public static void setDisplayItem(ItemStack itemStack, ItemStack itemToDisplay) {
         LabelProperties oldProperties = DataComponentTypeHelper.getLabelProperties(itemStack);
         LabelProperties properties = new LabelProperties(oldProperties.text(), itemToDisplay, oldProperties.mode());
 
         itemStack.set(DataComponentRegistration.LABEL_COMPONENT_TYPE.get(), properties);
-    }
-
-    public static int getModeIndex(ItemStack itemStack) {
-        return DataComponentTypeHelper.getLabelProperties(itemStack).mode();
-    }
-
-    public static LabelPrinterMode getMode(ItemStack itemStack) {
-        int i = getModeIndex(itemStack);
-
-        return LabelPrinterMode.fromIndex(i);
-    }
-
-    public static void setModeIndex(ItemStack itemStack, int modeIndex) {
-        LabelProperties oldProperties = DataComponentTypeHelper.getLabelProperties(itemStack);
-        LabelProperties properties = new LabelProperties(oldProperties.text(), oldProperties.displayItem(), modeIndex);
-
-        itemStack.set(DataComponentRegistration.LABEL_COMPONENT_TYPE.get(), properties);
-    }
-
-    public static void setMode(ItemStack itemStack, LabelPrinterMode mode) {
-        int i = mode.ordinal();
-
-        setModeIndex(itemStack, i);
     }
 
     private InteractionResult interactionFail(Level level, Vec3 hitPos, BlockPos pos) {
@@ -214,7 +183,7 @@ public class LabelPrinterItem extends Item {
     }
 
     @Override
-    public @NotNull InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
+    public @NotNull InteractionResult use(Level level, Player player, InteractionHand hand) {
         if (level.isClientSide()) {
             return super.use(level, player, hand);
         }
@@ -235,7 +204,6 @@ public class LabelPrinterItem extends Item {
         String currentLabel = getLabel(stack);
         Item currentDisplayItem = getDisplayItem(stack);
         int currentModeIndex = getModeIndex(stack);
-
 
         MutableComponent descriptionText = Component.literal("ⓘ ").withStyle(ChatFormatting.BLUE);
 
@@ -265,7 +233,12 @@ public class LabelPrinterItem extends Item {
         if (currentDisplayItem.equals(AIR)) {
             displayItemText.append(Component.translatable(this.getDescriptionId() + ".tooltip.none").withStyle(ChatFormatting.DARK_RED));
         } else {
-            displayItemText.append(currentDisplayItem.getDescription().copy().withStyle(ChatFormatting.AQUA));
+            Component itemName = currentDisplayItem.components().getOrDefault(
+                    DataComponents.ITEM_NAME,
+                    Component.translatable(this.getDescriptionId() + ".tooltip.none")
+                            .withStyle(ChatFormatting.DARK_RED));
+
+            displayItemText.append(itemName.copy().withStyle(ChatFormatting.AQUA));
         }
 
         tooltip.add(displayItemText);
@@ -280,10 +253,41 @@ public class LabelPrinterItem extends Item {
         super.appendHoverText(stack, tooltipContext, tooltip, tooltipFlag);
     }
 
+    public static String getLabel(ItemStack itemStack) {
+        return DataComponentTypeHelper.getLabelProperties(itemStack).text();
+    }
+
+    public static Item getDisplayItem(ItemStack itemStack) {
+        return DataComponentTypeHelper.getLabelProperties(itemStack).displayItem().getItem();
+    }
+
     private void swapMode(ItemStack currentItemStack) {
         LabelPrinterMode mode = getMode(currentItemStack);
 
         setMode(currentItemStack, mode.swap());
+    }
+
+    public static LabelPrinterMode getMode(ItemStack itemStack) {
+        int i = getModeIndex(itemStack);
+
+        return LabelPrinterMode.fromIndex(i);
+    }
+
+    public static void setMode(ItemStack itemStack, LabelPrinterMode mode) {
+        int i = mode.ordinal();
+
+        setModeIndex(itemStack, i);
+    }
+
+    public static int getModeIndex(ItemStack itemStack) {
+        return DataComponentTypeHelper.getLabelProperties(itemStack).mode();
+    }
+
+    public static void setModeIndex(ItemStack itemStack, int modeIndex) {
+        LabelProperties oldProperties = DataComponentTypeHelper.getLabelProperties(itemStack);
+        LabelProperties properties = new LabelProperties(oldProperties.text(), oldProperties.displayItem(), modeIndex);
+
+        itemStack.set(DataComponentRegistration.LABEL_COMPONENT_TYPE.get(), properties);
     }
 
     public enum LabelPrinterMode {
