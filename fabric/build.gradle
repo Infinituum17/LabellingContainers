@@ -25,6 +25,7 @@ configurations {
 fabricApi {
     configureDataGeneration {
         client = true
+        setOutputDirectory(project(":common").file("src/main/generated"))
     }
 }
 

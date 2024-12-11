@@ -115,7 +115,9 @@ subprojects {
                     throw new RuntimeException("\"generated\" directory doesn't exist. If this project doesn't support generation, set \'has_generation\' to \'false\' in your gradle.properties to avoid this error")
                 }
             }
+        }
 
+        if(project.name == "common") {
             if (!rootProject.hasProperty("has_assets") || rootProject.has_assets.toBoolean()) {
                 URI uri = Paths.get(projectDir.toString(), "src", "main", "resources", "assets").toUri()
                 File assetsDir = new File(uri)
