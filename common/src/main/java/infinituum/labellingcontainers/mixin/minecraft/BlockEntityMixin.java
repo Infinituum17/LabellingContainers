@@ -140,10 +140,10 @@ public abstract class BlockEntityMixin implements Taggable {
 
     @Inject(method = "loadAdditional", at = @At("TAIL"))
     public void loadAdditional(CompoundTag tag, HolderLookup.Provider registries, CallbackInfo ci) {
-        this.labellingcontainers$label = Component.nullToEmpty(tag.getString("label")).copy();
+        this.labellingcontainers$label = Component.nullToEmpty(tag.getString("label").orElse("")).copy();
 
         if (tag.contains("displayItem")) {
-            Optional<ItemStack> displayItem = ItemStack.parse(registries, tag.getCompound("displayItem"));
+            Optional<ItemStack> displayItem = ItemStack.parse(registries, tag.getCompound("displayItem").orElse(new CompoundTag()));
 
             displayItem.ifPresent(itemStack -> this.labellingcontainers$displayItem = itemStack.getItem());
         }

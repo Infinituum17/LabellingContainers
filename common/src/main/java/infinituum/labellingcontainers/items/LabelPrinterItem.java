@@ -28,6 +28,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -35,7 +36,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.List;
+import java.util.function.Consumer;
 
 import static net.minecraft.world.item.Items.AIR;
 
@@ -200,7 +201,7 @@ public class LabelPrinterItem extends Item {
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, TooltipContext tooltipContext, List<Component> tooltip, TooltipFlag tooltipFlag) {
+    public void appendHoverText(ItemStack stack, TooltipContext tooltipContext, TooltipDisplay tooltipDisplay, Consumer<Component> tooltip, TooltipFlag tooltipFlag) {
         String currentLabel = getLabel(stack);
         Item currentDisplayItem = getDisplayItem(stack);
         int currentModeIndex = getModeIndex(stack);
@@ -213,8 +214,8 @@ public class LabelPrinterItem extends Item {
             descriptionText.append(Component.translatable(this.getDescriptionId() + ".tooltip.hidden").withStyle(ChatFormatting.GRAY));
         }
 
-        tooltip.add(descriptionText);
-        tooltip.add(Component.literal(""));
+        tooltip.accept(descriptionText);
+        tooltip.accept(Component.literal(""));
 
         MutableComponent labelText = Component.literal("● ").withStyle(ChatFormatting.GRAY);
         labelText.append(Component.translatable(this.getDescriptionId() + ".tooltip.label").withStyle(ChatFormatting.GRAY));
@@ -225,7 +226,7 @@ public class LabelPrinterItem extends Item {
             labelText.append(Component.literal("\"" + currentLabel + "\"").withStyle(ChatFormatting.GOLD));
         }
 
-        tooltip.add(labelText);
+        tooltip.accept(labelText);
 
         MutableComponent displayItemText = Component.literal("● ").withStyle(ChatFormatting.GRAY);
         displayItemText.append(Component.translatable(this.getDescriptionId() + ".tooltip.display_item").withStyle(ChatFormatting.GRAY));
@@ -241,16 +242,16 @@ public class LabelPrinterItem extends Item {
             displayItemText.append(itemName.copy().withStyle(ChatFormatting.AQUA));
         }
 
-        tooltip.add(displayItemText);
+        tooltip.accept(displayItemText);
 
         MutableComponent modeText = Component.literal("● ").withStyle(ChatFormatting.GRAY);
         modeText.append(Component.translatable(this.getDescriptionId() + ".tooltip.mode").withStyle(ChatFormatting.GRAY));
 
         modeText.append(LabelPrinterMode.fromIndex(currentModeIndex).getDisplayable());
 
-        tooltip.add(modeText);
+        tooltip.accept(modeText);
 
-        super.appendHoverText(stack, tooltipContext, tooltip, tooltipFlag);
+        super.appendHoverText(stack, tooltipContext, tooltipDisplay, tooltip, tooltipFlag);
     }
 
     public static String getLabel(ItemStack itemStack) {

@@ -25,7 +25,7 @@ public final class LabelPrinterMenu extends AbstractContainerMenu {
 
         checkContainerSize(inventory, 1);
 
-        Item displayItem = LabelPrinterItem.getDisplayItem(playerInventory.getSelected());
+        Item displayItem = LabelPrinterItem.getDisplayItem(playerInventory.getSelectedItem());
 
         inventory.setItem(0, displayItem.getDefaultInstance());
 

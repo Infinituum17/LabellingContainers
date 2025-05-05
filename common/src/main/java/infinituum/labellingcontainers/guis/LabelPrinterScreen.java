@@ -1,6 +1,5 @@
 package infinituum.labellingcontainers.guis;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import dev.architectury.networking.NetworkManager;
 import infinituum.labellingcontainers.items.LabelPrinterItem;
 import infinituum.labellingcontainers.network.packets.c2s.LabelPrinterSavePacket;
@@ -9,7 +8,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
-import net.minecraft.client.renderer.CoreShaders;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -54,7 +52,7 @@ public class LabelPrinterScreen extends AbstractContainerScreen<LabelPrinterMenu
         String label = null;
 
         if (player != null) {
-            ItemStack item = this.player.getInventory().getSelected();
+            ItemStack item = this.player.getInventory().getSelectedItem();
 
             if (item.getItem() instanceof LabelPrinterItem) {
                 label = LabelPrinterItem.getLabel(item);
@@ -81,9 +79,6 @@ public class LabelPrinterScreen extends AbstractContainerScreen<LabelPrinterMenu
 
     @Override
     protected void renderBg(GuiGraphics context, float delta, int mouseX, int mouseY) {
-        RenderSystem.setShader(CoreShaders.POSITION_TEX);
-        RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
-        RenderSystem.setShaderTexture(0, BACKGROUND);
         int x = (width - imageWidth) / 2;
         int y = (height - imageHeight) / 2;
         context.blit(RenderType::guiTextured, BACKGROUND, x, y, 0f, 0f, imageWidth, imageHeight, 256, 256);
