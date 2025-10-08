@@ -76,18 +76,18 @@ public final class CommandRegistration {
 
                                         if (be instanceof Taggable labelable) {
                                             labelable.labellingcontainers$setDisplayItem(item, true);
-                                            source.sendSystemMessage(Component.translatable("commands.setlabel.displayitem.success", item, pos.getX(), pos.getY(), pos.getZ()));
+                                            source.sendSystemMessage(Component.translatable("commands.setlabel.displayitem.success", item.toString(), pos.getX(), pos.getY(), pos.getZ()));
                                             return 1;
                                         }
 
                                         BlockState state = level.getBlockState(pos);
 
                                         if (state.getBlock().equals(Blocks.AIR)) {
-                                            source.sendSystemMessage(Component.translatable("commands.setlabel.displayitem.invalid", item, pos.getX(), pos.getY(), pos.getZ()));
+                                            source.sendSystemMessage(Component.translatable("commands.setlabel.displayitem.invalid", item.toString(), pos.getX(), pos.getY(), pos.getZ()));
                                             return 1;
                                         }
 
-                                        source.sendSystemMessage(Component.translatable("commands.setlabel.displayitem.failed", item, pos.getX(), pos.getY(), pos.getZ(), item));
+                                        source.sendSystemMessage(Component.translatable("commands.setlabel.displayitem.failed", item.toString(), pos.getX(), pos.getY(), pos.getZ(), item));
                                         return 0;
                                     }))
                             )
@@ -113,7 +113,7 @@ public final class CommandRegistration {
                                     ResourceLocation resourceLocation = item.arch$registryName();
 
                                     if (resourceLocation == null) {
-                                        source.sendSystemMessage(Component.translatable("commands.labelconfig.addhand.resource.invalid", item));
+                                        source.sendSystemMessage(Component.translatable("commands.labelconfig.addhand.resource.invalid", item.toString()));
                                         return 0;
                                     }
 
@@ -145,7 +145,7 @@ public final class CommandRegistration {
                                     ResourceLocation resourceLocation = item.arch$registryName();
 
                                     if (resourceLocation == null) {
-                                        source.sendSystemMessage(Component.translatable("commands.labelconfig.removehand.resource.invalid", item));
+                                        source.sendSystemMessage(Component.translatable("commands.labelconfig.removehand.resource.invalid", item.toString()));
                                         return 0;
                                     }
 
@@ -168,7 +168,7 @@ public final class CommandRegistration {
                                         ResourceLocation resourceLocation = item.arch$registryName();
 
                                         if (resourceLocation == null) {
-                                            source.sendSystemMessage(Component.translatable("commands.labelconfig.additem.resource.invalid", item));
+                                            source.sendSystemMessage(Component.translatable("commands.labelconfig.additem.resource.invalid", item.toString()));
                                             return 0;
                                         }
 
@@ -188,7 +188,7 @@ public final class CommandRegistration {
                                         ResourceLocation resourceLocation = item.arch$registryName();
 
                                         if (resourceLocation == null) {
-                                            source.sendSystemMessage(Component.translatable("commands.labelconfig.removeitem.resource.invalid", item));
+                                            source.sendSystemMessage(Component.translatable("commands.labelconfig.removeitem.resource.invalid", item.toString()));
                                             return 0;
                                         }
 

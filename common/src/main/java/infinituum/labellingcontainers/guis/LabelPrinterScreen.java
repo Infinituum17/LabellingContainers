@@ -8,6 +8,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -81,7 +82,7 @@ public class LabelPrinterScreen extends AbstractContainerScreen<LabelPrinterMenu
     protected void renderBg(GuiGraphics context, float delta, int mouseX, int mouseY) {
         int x = (width - imageWidth) / 2;
         int y = (height - imageHeight) / 2;
-        context.blit(RenderType::guiTextured, BACKGROUND, x, y, 0f, 0f, imageWidth, imageHeight, 256, 256);
+        context.blit(RenderPipelines.GUI_TEXTURED, BACKGROUND, x, y, 0f, 0f, imageWidth, imageHeight, 256, 256);
     }
 
     @Override

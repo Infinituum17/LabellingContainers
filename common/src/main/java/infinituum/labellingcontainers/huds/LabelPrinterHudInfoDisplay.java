@@ -28,11 +28,11 @@ public class LabelPrinterHudInfoDisplay implements RenderHud {
                     .translatable("item.labellingcontainers.label_printer.tooltip.mode")
                     .append(LabelPrinterItem.getMode(itemInHand).getDisplayable());
 
-            graphics.pose().pushPose();
+            graphics.pose().pushMatrix();
 
             graphics.drawString(client.font, mode, padding, height - fontHeight - padding, 0xFFFFFFFF);
 
-            graphics.pose().popPose();
+            graphics.pose().popMatrix();
         }
     }
 }

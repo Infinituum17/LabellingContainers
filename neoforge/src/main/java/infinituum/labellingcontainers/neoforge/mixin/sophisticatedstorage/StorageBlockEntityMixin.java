@@ -81,28 +81,28 @@ public class StorageBlockEntityMixin extends BlockEntity implements Taggable {
         labellingcontainers$notifyClients(oldState);
     }
 
-    @Inject(method = "saveSynchronizedData", at = @At("TAIL"), remap = false)
-    public void writeNbtMixin(CompoundTag nbt, CallbackInfo ci) {
-        nbt.putString("label", labellingcontainers$label.getString());
-        CompoundTag displayItemNbt = new CompoundTag();
+//    @Inject(method = "saveSynchronizedData", at = @At("TAIL"), remap = false)
+//    public void writeNbtMixin(CompoundTag nbt, CallbackInfo ci) {
+//        nbt.putString("label", labellingcontainers$label.getString());
+//        CompoundTag displayItemNbt = new CompoundTag();
+//
+//        if (this.level != null) {
+//            nbt.put("label", new ItemStack(labellingcontainers$displayItem).save(this.level.registryAccess()));
+//        }
+//
+//        if (labellingcontainers$displayItem != null) {
+//            nbt.put("displayItem", displayItemNbt);
+//        }
+//    }
 
-        if (this.level != null) {
-            nbt.put("label", new ItemStack(labellingcontainers$displayItem).save(this.level.registryAccess()));
-        }
-
-        if (labellingcontainers$displayItem != null) {
-            nbt.put("displayItem", displayItemNbt);
-        }
-    }
-
-    @Inject(method = "loadSynchronizedData", at = @At("TAIL"), remap = false)
-    public void readNbtMixin(CompoundTag tag, HolderLookup.Provider registries, CallbackInfo ci) {
-        this.labellingcontainers$label = Component.nullToEmpty(tag.getString("label").orElse("")).copy();
-        if (tag.contains("displayItem")) {
-            Optional<ItemStack> displayItem = ItemStack.parse(registries, tag.getCompound("displayItem").orElse(new CompoundTag()));
-
-            displayItem.ifPresent(itemStack -> this.labellingcontainers$displayItem = itemStack.getItem());
-        }
-    }
+//    @Inject(method = "loadSynchronizedData", at = @At("TAIL"), remap = false)
+//    public void readNbtMixin(CompoundTag tag, HolderLookup.Provider registries, CallbackInfo ci) {
+//        this.labellingcontainers$label = Component.nullToEmpty(tag.getString("label").orElse("")).copy();
+//        if (tag.contains("displayItem")) {
+//            Optional<ItemStack> displayItem = ItemStack.parse(registries, tag.getCompound("displayItem").orElse(new CompoundTag()));
+//
+//            displayItem.ifPresent(itemStack -> this.labellingcontainers$displayItem = itemStack.getItem());
+//        }
+//    }
 }
 

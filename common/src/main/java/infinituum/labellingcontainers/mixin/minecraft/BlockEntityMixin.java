@@ -10,6 +10,7 @@ import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.util.ProblemReporter;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -17,6 +18,9 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.TagValueOutput;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -28,6 +32,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.Optional;
+
+import static com.mojang.text2speech.Narrator.LOGGER;
 
 @Mixin(BlockEntity.class)
 public abstract class BlockEntityMixin implements Taggable {
@@ -47,6 +53,10 @@ public abstract class BlockEntityMixin implements Taggable {
 
     @Shadow
     public abstract void setChanged();
+
+    @Shadow protected abstract void saveAdditional(ValueOutput valueOutput);
+
+    @Shadow public abstract ProblemReporter.PathElement problemPath();
 
     @Unique
     private void labellingcontainers$notifyClients(BlockState oldState) {
@@ -115,37 +125,37 @@ public abstract class BlockEntityMixin implements Taggable {
         }
     }
 
-
-    @Shadow
-    protected abstract void saveAdditional(CompoundTag tag, HolderLookup.Provider registries);
-
     @Inject(method = "getUpdateTag", at = @At("RETURN"), cancellable = true)
     public void getUpdateTag(HolderLookup.Provider registries, CallbackInfoReturnable<CompoundTag> cir) {
         CompoundTag tag = cir.getReturnValue();
 
-        this.saveAdditional(tag, registries);
+        try (ProblemReporter.ScopedCollector scopedCollector = new ProblemReporter.ScopedCollector(this.problemPath(), LOGGER)) {
+            TagValueOutput output = TagValueOutput.createWithContext(scopedCollector, registries);
 
-        cir.setReturnValue(tag);
+            this.saveAdditional(output);
+
+            CompoundTag result = output.buildResult();
+
+            cir.setReturnValue(result.merge(tag));
+        }
     }
 
     @Inject(method = "saveAdditional", at = @At("TAIL"))
-    public void saveAdditional(CompoundTag tag, HolderLookup.Provider registries, CallbackInfo ci) {
-        tag.putString("label", labellingcontainers$label.getString());
+    public void saveAdditional(ValueOutput output, CallbackInfo ci) {
+        output.putString("label", labellingcontainers$label.getString());
         ItemStack itemStack = new ItemStack(labellingcontainers$displayItem);
 
         if (labellingcontainers$displayItem != null && !itemStack.isEmpty()) {
-            tag.put("displayItem", itemStack.save(registries, new CompoundTag()));
+            output.store("displayItem", ItemStack.SIMPLE_ITEM_CODEC, itemStack);
         }
     }
 
     @Inject(method = "loadAdditional", at = @At("TAIL"))
-    public void loadAdditional(CompoundTag tag, HolderLookup.Provider registries, CallbackInfo ci) {
-        this.labellingcontainers$label = Component.nullToEmpty(tag.getString("label").orElse("")).copy();
+    public void loadAdditional(ValueInput input, CallbackInfo ci) {
+        this.labellingcontainers$label = Component.nullToEmpty(input.getString("label").orElse("")).copy();
 
-        if (tag.contains("displayItem")) {
-            Optional<ItemStack> displayItem = ItemStack.parse(registries, tag.getCompound("displayItem").orElse(new CompoundTag()));
+        Optional<ItemStack> item = input.read("displayItem", ItemStack.SIMPLE_ITEM_CODEC);
 
-            displayItem.ifPresent(itemStack -> this.labellingcontainers$displayItem = itemStack.getItem());
-        }
+        item.ifPresent(itemStack -> this.labellingcontainers$displayItem = itemStack.getItem());
     }
 }

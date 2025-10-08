@@ -90,12 +90,12 @@ public enum HudPositions {
         Pair<Integer, Integer> itemCoords = this.computeItemCoords(width, height, client.font.lineHeight, label, labelWidth);
         Pair<Integer, Integer> labelCoords = this.computeLabelCoords(width, height, client.font.lineHeight, label, labelWidth);
 
-        graphics.pose().pushPose();
+        graphics.pose().pushMatrix();
 
         graphics.renderItem(new ItemStack(displayItem), itemCoords.getA(), itemCoords.getB());
         graphics.drawString(client.font, label, labelCoords.getA(), labelCoords.getB(), 0xFFFFFFFF);
 
-        graphics.pose().popPose();
+        graphics.pose().popMatrix();
     }
 
     public interface ScreenCoordsFunc {
