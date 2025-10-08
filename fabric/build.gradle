@@ -1,5 +1,5 @@
 plugins {
-    id "com.github.johnrengelman.shadow"
+    id 'com.gradleup.shadow'
 }
 
 architectury {
@@ -31,8 +31,8 @@ fabricApi {
 
 dependencies {
     modImplementation "net.fabricmc:fabric-loader:${rootProject.fabric_loader_version}"
-    modApi "net.fabricmc.fabric-api:fabric-api:${rootProject.fabric_api_version}"
-    modApi "dev.architectury:architectury-fabric:${rootProject.architectury_api_version}"
+    modImplementation "net.fabricmc.fabric-api:fabric-api:${rootProject.fabric_api_version}"
+    modImplementation "dev.architectury:architectury-fabric:${rootProject.architectury_api_version}"
 
     common(project(path: ':common', configuration: 'namedElements')) { transitive false }
     shadowBundle project(path: ':common', configuration: 'transformProductionFabric')
@@ -104,9 +104,8 @@ dependencies {
 
 processResources {
     var rep_properties = [
-            "version"                 : rootProject.mod_version,
+            "version"                 : rootProject.version,
             "minecraft_version"       : rootProject.minecraft_version,
-            "arch_version"            : rootProject.architectury_api_version,
             "fastconfigapi_version"   : rootProject.fastconfigapi_version,
             "architectury_api_version": rootProject.architectury_api_version
     ]
@@ -124,7 +123,7 @@ shadowJar {
 }
 
 remapJar {
-    input.set shadowJar.archiveFile
+    inputFile.set shadowJar.archiveFile
 }
 
 publishing {
