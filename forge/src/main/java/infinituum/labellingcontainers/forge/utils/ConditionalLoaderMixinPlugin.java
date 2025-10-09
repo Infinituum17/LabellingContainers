@@ -15,6 +15,7 @@ public final class ConditionalLoaderMixinPlugin implements IMixinConfigPlugin {
     private static final Map<String, String> MIXIN_MODIDS = ImmutableMap.<String, String>builder()
             .put(MIXINS_FOLDER + "sophisticatedstorage.StorageBlockEntityMixin", "sophisticatedstorage")
             .put(MIXINS_FOLDER + "fantasyfurniture.BaseBlockEntityMixin", "fantasyfurniture")
+            .put(MIXINS_FOLDER + "storagedrawers.BaseBlockEntityMixin", "storagedrawers")
             .build();
 
     @Override

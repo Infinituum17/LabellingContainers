@@ -9,19 +9,32 @@ import org.spongepowered.asm.mixin.extensibility.IMixinInfo;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.function.Supplier;
 
 public final class ConditionalLoaderMixinPlugin implements IMixinConfigPlugin {
     private static final String MIXINS_FOLDER = "infinituum.labellingcontainers.fabric.mixin.";
-    private static final Map<String, Supplier<Boolean>> CONDITIONS = ImmutableMap.<String, Supplier<Boolean>>builder().build();
+    private static final Map<String, String> MIXIN_MODIDS = ImmutableMap.<String, String>builder()
+            .put(MIXINS_FOLDER + "storagedelight.BookshelfDoorBlockEntityMixin", "storagedelight")
+            .put(MIXINS_FOLDER + "storagedelight.CabinetVariantMixin", "storagedelight")
+            .put(MIXINS_FOLDER + "storagedelight.DrawerBlockEntityMixin", "storagedelight")
+            .put(MIXINS_FOLDER + "storagedelight.DrawerBooksBlockEntityMixin", "storagedelight")
+            .put(MIXINS_FOLDER + "storagedelight.DrawerDoorBlockEntityMixin", "storagedelight")
+            .put(MIXINS_FOLDER + "storagedelight.GlassCabinetBlockEntityMixin", "storagedelight")
+            .put(MIXINS_FOLDER + "storagedelight.SmallDrawersBlockEntityMixin", "storagedelight")
+            .build();
 
-    private static Supplier<Boolean> isModLoaded(String modid) {
-        return () -> FabricLoader.getInstance().isModLoaded(modid);
+    private static boolean isModLoaded(String modid) {
+        return FabricLoader.getInstance().isModLoaded(modid);
     }
 
     @Override
     public boolean shouldApplyMixin(String targetClassName, String mixinClassName) {
-        return CONDITIONS.getOrDefault(mixinClassName, () -> true).get();
+        final String MODID = MIXIN_MODIDS.get(mixinClassName);
+
+        if (MODID == null) {
+            return true;
+        }
+
+        return isModLoaded(MODID);
     }
 
     @Override

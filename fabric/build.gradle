@@ -104,6 +104,9 @@ dependencies {
 
     // Reinforced Chests
     modCompileOnly "curse.maven:reinforced-chests-529873:4594775"
+
+    // Storage Delight
+    modCompileOnly "maven.modrinth:storage-delight:25.06.26-1.20-fabric"
 }
 
 processResources {

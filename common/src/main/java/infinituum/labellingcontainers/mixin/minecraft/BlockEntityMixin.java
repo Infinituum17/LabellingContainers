@@ -48,9 +48,6 @@ public abstract class BlockEntityMixin implements Taggable {
     @Shadow
     protected abstract void saveAdditional(CompoundTag compoundTag);
 
-    @Shadow
-    public abstract CompoundTag getUpdateTag();
-
     @Unique
     private void labellingcontainers$notifyClients(BlockState oldState) {
         this.setChanged();

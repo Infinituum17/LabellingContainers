@@ -6,7 +6,8 @@
     "minVersion": "0.8",
     "mixins": [
         "fantasyfurniture.BaseBlockEntityMixin",
-        "sophisticatedstorage.StorageBlockEntityMixin"
+        "sophisticatedstorage.StorageBlockEntityMixin",
+        "storagedrawers.BaseBlockEntityMixin"
     ],
     "injectors": {
         "defaultRequire": 1
