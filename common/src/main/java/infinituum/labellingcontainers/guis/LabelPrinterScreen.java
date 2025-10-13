@@ -9,7 +9,6 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.RenderPipelines;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
@@ -71,11 +70,9 @@ public class LabelPrinterScreen extends AbstractContainerScreen<LabelPrinterMenu
         if (this.labelField == null) {
             setup();
         }
-        renderBackground(context, mouseX, mouseY, delta);
 
         super.render(context, mouseX, mouseY, delta);
         renderForeground(context, mouseX, mouseY, delta);
-        renderTooltip(context, mouseX, mouseY);
     }
 
     @Override

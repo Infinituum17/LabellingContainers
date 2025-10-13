@@ -57,10 +57,10 @@ subprojects {
             name = "Infinituum Mod Resources"
             url = "https://raw.githubusercontent.com/Infinituum17/ModResources/main/maven/"
         }
-        maven {
-            name = "Greenhouse Maven"
-            url = 'https://maven.greenhouseteam.lgbt/releases/'
-        }
+//        maven {
+//            name = "Greenhouse Maven"
+//            url = 'https://maven.greenhouseteam.lgbt/releases/'
+//        }
         maven { url = "https://mvn.devos.one/releases/" } // Porting Lib
         maven {
             url "https://maven.jamieswhiteshirt.com/libs-release" // Reach Entity Attributes (Required by Porting Lib)
@@ -82,7 +82,7 @@ subprojects {
         minecraft "net.minecraft:minecraft:$rootProject.minecraft_version"
         mappings loom.layered() {
             officialMojangMappings()
-            parchment "org.parchmentmc.data:parchment-1.21:2024.07.28@zip"
+            parchment "org.parchmentmc.data:parchment-1.21.8:2025.09.14@zip"
         }
     }
 
