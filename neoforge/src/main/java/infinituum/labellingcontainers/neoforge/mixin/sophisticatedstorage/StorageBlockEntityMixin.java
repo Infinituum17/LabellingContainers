@@ -14,6 +14,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.p3pp3rf1y.sophisticatedstorage.block.StorageBlockEntity;
+import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -40,7 +41,7 @@ public class StorageBlockEntityMixin extends BlockEntity implements Taggable {
     }
 
     @Override
-    public CompoundTag getUpdateTag(HolderLookup.Provider registries) {
+    public @NotNull CompoundTag getUpdateTag(HolderLookup.@NotNull Provider registries) {
         return this.saveWithoutMetadata(registries);
     }
 
@@ -81,22 +82,19 @@ public class StorageBlockEntityMixin extends BlockEntity implements Taggable {
     }
 
     @Inject(method = "saveSynchronizedData", at = @At("TAIL"), remap = false)
-    public void writeNbtMixin(CompoundTag nbt, CallbackInfo ci) {
-        nbt.putString("label", labellingcontainers$label.getString());
-        CompoundTag displayItemNbt = new CompoundTag();
+    public void writeNbtMixin(CompoundTag tag, CallbackInfo ci) {
+        tag.putString("label", labellingcontainers$label.getString());
+        ItemStack itemStack = new ItemStack(labellingcontainers$displayItem);
 
-        if (this.level != null) {
-            nbt.put("label", new ItemStack(labellingcontainers$displayItem).save(this.level.registryAccess()));
-        }
-
-        if (labellingcontainers$displayItem != null) {
-            nbt.put("displayItem", displayItemNbt);
+        if (labellingcontainers$displayItem != null && !itemStack.isEmpty() && this.level != null) {
+            tag.put("displayItem", itemStack.save(this.level.registryAccess()));
         }
     }
 
     @Inject(method = "loadSynchronizedData", at = @At("TAIL"), remap = false)
     public void readNbtMixin(CompoundTag tag, HolderLookup.Provider registries, CallbackInfo ci) {
         this.labellingcontainers$label = Component.nullToEmpty(tag.getString("label")).copy();
+
         if (tag.contains("displayItem")) {
             Optional<ItemStack> displayItem = ItemStack.parse(registries, tag.getCompound("displayItem"));
 

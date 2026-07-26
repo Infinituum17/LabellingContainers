@@ -1,5 +1,5 @@
 plugins {
-    id "com.github.johnrengelman.shadow"
+    id 'com.gradleup.shadow'
 }
 
 architectury {
@@ -49,7 +49,8 @@ dependencies {
     // modCompileOnly "curse.maven:new-nether-chest-857971:5627776"
 
     // Sophisticated Storage
-    modCompileOnly "curse.maven:sophisticated-storage-619320:5741329"
+    modImplementation "curse.maven:sophisticated-core-618298:8503041"
+    modImplementation "curse.maven:sophisticated-storage-619320:8503122"
 
     // Colossal Chests
     modCompileOnly "curse.maven:cyclops-core-232758:5583764"

@@ -4,7 +4,7 @@
     "plugin": "infinituum.labellingcontainers.neoforge.utils.ConditionalLoaderMixinPlugin",
     "compatibilityLevel": "JAVA_21",
     "minVersion": "0.8",
-    "mixins": [],
+    "mixins": ["sophisticatedstorage.StorageBlockEntityMixin"],
     "injectors": {
         "defaultRequire": 1
     }
